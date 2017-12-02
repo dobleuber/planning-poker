@@ -1,0 +1,10 @@
+{
+  "altLogo": "App Scrum Poker",
+  "description": "Descripción",
+  "name": "Nombre",
+  "newProject": "Nuevo Projecto",
+  "projectList": "Lista de Projectos",
+  "projectsYouHave": "Tiene solo un proyecto",
+  "projectsYouHave_plural": "Tienes {{count}} proyectos",
+  "welcome": "Bienvenido al Scrum Poker"
+}

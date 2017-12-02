@@ -1,0 +1,9 @@
+.project-item {
+  display: flex;
+  padding: 0.5em;
+}
+
+.project-item .column {
+  flex-basis: 30%;
+  text-align: left;
+}

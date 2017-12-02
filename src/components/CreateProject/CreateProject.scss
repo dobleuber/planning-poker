@@ -1,0 +1,33 @@
+.create-project {
+  padding: 1em;
+  font-size: 1.5em;
+
+  .field {
+    align-items: baseline;
+    display: flex;
+    justify-content: flex-start;
+    padding: 0.5em 0;
+
+    span {
+      display: flex;
+      flex-basis: 30%;
+    }
+
+    input, textarea {
+      font-size: 1.2em;
+      width: 100%;
+    }
+  }
+
+  button.button {
+    background-color: #77bbee;
+    color: #7fffd4;
+    font-size: 1em;
+    padding: 0.2em 1.0em;
+    border-radius: 0.2em;
+
+    &:hover {
+      background-color: #77bbee;
+    }
+  }  
+}

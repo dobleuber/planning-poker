@@ -1,0 +1,30 @@
+.header {
+  display: flex;
+  align-items: center;
+  background-color: white;
+
+  .title {
+    font-size: 1.5em;
+    margin: 0 1em;
+  }
+
+  .link {
+    display: flex;
+
+    a {
+      background-color: #77bbee;
+      color: #7fffd4;
+      padding: 0.8em;
+      text-decoration: none;
+
+      &:hover {
+        background-color: #77bbee;
+      }
+
+      &.active { 
+        background-color: #f5ffcc;
+        color: #0a8a4b;
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+.project-list__header {
+  margin-top: 1.2em;
+  margin-left: 1em;
+  text-align: left;
+}
+
+.project-list__table {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  margin: 1em;
+}
+
+.project-list .row {
+  display: flex;
+  padding: 1em 0.5em;
+}
+
+.project-list .row.header {
+  color: #7fffd4;
+}
+
+.project-list .row .column{
+  flex-basis: 30%;
+  text-align: left
+}
+
+.project-list .row.header {
+  background-color: #77bbee;
+}

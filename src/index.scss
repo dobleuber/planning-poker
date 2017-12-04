@@ -1,0 +1,9 @@
+@import 'variables';
+
+body {
+  color: $font_color_primary;
+  background-color: $bg_main_primary;
+  font-family: roboto;
+  margin: 0;
+  padding: 0;
+}

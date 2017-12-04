@@ -4,8 +4,9 @@ import { I18n } from 'react-i18next';
 import logo from '../../logo.svg';
 import './App.css';
 import {
-  Header,
   CreateProject,
+  Header,
+  Login,
   ProjectPage,
 } from '../';
 
@@ -26,6 +27,7 @@ function App() {
       <div className="container">
         <Switch>
           <Route exact path="/" component={ProjectPage} />
+          <Route exact path="/login" component={Login} />
           <Route exact path="/create" component={CreateProject} />
         </Switch>
       </div>

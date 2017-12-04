@@ -1,10 +1,19 @@
 {
+  "already-user": "Already have an ccount",
   "altLogo": "Scrum Poker App",
+  "create": "Crear",
+  "create-account": "Create an Account",
   "description": "Description",
+  "login": "Login",
   "name": "Name",
+  "need-account": "Need an Account",
   "newProject": "New Project",
   "projectList": "Project List",
   "projectsYouHave": "You have one project",
   "projectsYouHave_plural": "You have {{count}} projects",
+  "sign-up": "Sign Up",
+  "your-email": "Your email",
+  "your-name":"Your User Name",
+  "your-password": "Your Password",
   "welcome": "Welcome to the Scrum Poker"
 }

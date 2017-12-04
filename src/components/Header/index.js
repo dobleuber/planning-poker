@@ -19,6 +19,9 @@ const Header = () => (
           <div className="link">
             <NavLink exact to="/create">{t('newProject')}</NavLink>
           </div>
+          <div className="link login">
+            <NavLink exact to="/login">{t('login')}</NavLink>
+          </div>
         </div>
       )
     }

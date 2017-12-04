@@ -1,7 +1,9 @@
+@import 'variables';
+
 .header {
   display: flex;
   align-items: center;
-  background-color: white;
+  background-color: $bg_secondary;
 
   .title {
     font-size: 1.5em;
@@ -12,19 +14,23 @@
     display: flex;
 
     a {
-      background-color: #77bbee;
-      color: #7fffd4;
+      background-color: $bg_secondary;
+      color: $font_color_primary;
       padding: 0.8em;
       text-decoration: none;
 
       &:hover {
-        background-color: #77bbee;
+        background-color: transparentize($color: $bg_main_primary, $amount: 0.5);
       }
 
       &.active { 
-        background-color: #f5ffcc;
-        color: #0a8a4b;
+        background-color: $bg_main_primary;
       }
+    }
+
+    &.login {
+      margin-left: auto;
+      margin-right: 1em;
     }
   }
 }

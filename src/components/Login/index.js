@@ -3,7 +3,10 @@ import { I18n } from 'react-i18next';
 
 import './Login.css';
 
-// import Security from '../../utils/security';
+import AuthenticateUserMutation from '../../mutations/AuthenticateUserMutation';
+import CreateUserMutation from '../../mutations/CreateUserMutation';
+
+import Security from '../../utils/security';
 
 class Login extends Component {
   static saveUserData(id, token) {
@@ -17,7 +20,7 @@ class Login extends Component {
       login: true,
       email: '',
       password: '',
-      name: '',
+      username: '',
     };
 
     this.handleValueChange = this.handleValueChange.bind(this);
@@ -35,12 +38,21 @@ class Login extends Component {
 
   submitForm(event) {
     event.preventDefault();
+    const { username, email, password } = this.state;
     if (this.state.login) {
-      if (this.state.email && this.login.password) {
-        // log ig
-      } else if (this.state.email && this.state.password && this.state.name) {
-        // sign up
+      if (email && password) {
+        AuthenticateUserMutation(email, password, (id, token) => {
+          Security.setCredentials(id, token);
+          this.props.history.push('/');
+          this.props.onLogin();
+        });
       }
+    } else if (email && password && username) {
+      CreateUserMutation(email, password, username, (id, token) => {
+        Security.setCredentials(id, token);
+        this.props.history.push('/');
+        this.props.onLogin();
+      });
     }
   }
 
@@ -57,7 +69,7 @@ class Login extends Component {
                 { !this.state.login &&
                   <input
                     type="text"
-                    name="name"
+                    name="username"
                     onChange={this.handleValueChange}
                     required
                     placeholder={t('your-name')}

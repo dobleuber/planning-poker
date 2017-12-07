@@ -1,19 +1,17 @@
-import { userInfo } from "os";
-
 const UserID = 'user-id';
 const AuthToken = 'auth-token';
 const UserName = 'user-name';
 
 class Security {
-  static getIserId() {
+  static get userId() {
     return localStorage.getItem(UserID);
   }
 
-  static getAuthToken() {
+  static get authToken() {
     return localStorage.getItem(AuthToken);
   }
 
-  static getIserName() {
+  static get userName() {
     return localStorage.getItem(UserName);
   }
 
@@ -22,7 +20,7 @@ class Security {
     localStorage.setItem(AuthToken, token);
   }
 
-  static setUserName(userName) {
+  static set userName(userName) {
     localStorage.setItem(UserName, userName);
   }
 

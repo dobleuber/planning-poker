@@ -1,3 +1,4 @@
 targets:
-  dev: local/cjahyy6ne02qr0147iwxiyzjy
+  dev: shared-us-west-2/cjau9r6in15k80101rlm6gdwd
+  local: local/cjahyy6ne02qr0147iwxiyzjy
   default: dev

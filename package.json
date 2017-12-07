@@ -51,7 +51,7 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
     "relay": "relay-compiler --src ./src --schema ./server/schema.graphql",
-    "relay-schema": "get-graphql-schema http://localhost:60000/relay/v1/cjahyy6ne02qr0147iwxiyzjy > ./server/schema.graphql"
+    "relay-schema": "get-graphql-schema https://api.graph.cool/relay/v1/cjau9r6in15k80101rlm6gdwd > ./server/schema.graphql"
   },
   "devDependencies": {
     "babel-plugin-relay": "^1.4.1",

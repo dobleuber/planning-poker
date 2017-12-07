@@ -5,13 +5,15 @@ import {
   Store,
 } from 'relay-runtime';
 
+const server = 'https://api.graph.cool/relay/v1/cjau9r6in15k80101rlm6gdwd';
+// const server = 'http://localhost:60000/relay/v1/cjahyy6ne02qr0147iwxiyzjy';
 
 const source = new RecordSource();
 const store = new Store(source);
 const network = Network.create((
   operation,
   variables,
-) => fetch('http://localhost:60000/relay/v1/cjahyy6ne02qr0147iwxiyzjy', {
+) => fetch(server, {
   method: 'POST',
   headers: {
     Accept: 'application/json',

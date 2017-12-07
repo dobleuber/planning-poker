@@ -1,3 +1,9 @@
+# AuthenticateUserPayload
+type AuthenticateUserPayload {
+  id: ID!
+  token: String!
+}
+
 input CreateProject {
   description: String
   name: String!
@@ -17,8 +23,9 @@ type CreateProjectPayload {
 }
 
 input CreateUser {
-  dateOfBirth: DateTime
-  name: String
+  email: String!
+  password: String!
+  username: String!
 }
 
 # If authentication was successful the payload contains the user and a token. If unsuccessful this payload is null.
@@ -56,9 +63,9 @@ type DeleteUserPayload {
   deletedId: ID
 }
 
-# HelloPayload
-type HelloPayload {
-  message: String!
+# LoggedInUserPayload
+type LoggedInUserPayload {
+  id: ID!
 }
 
 type Mutation {
@@ -70,6 +77,12 @@ type Mutation {
   deleteProject(input: DeleteProjectInput!): DeleteProjectPayload
   deleteUser(input: DeleteUserInput!): DeleteUserPayload
   createUser(input: SignupUserInput!): CreateUserPayload!
+
+  # authenticate
+  authenticateUser(email: String!, password: String!): AuthenticateUserPayload
+
+  # signup
+  signupUser(email: String!, password: String!, username: String!): SignupUserPayload
 }
 
 # An object with an ID
@@ -268,9 +281,16 @@ type Query {
 }
 
 input SignupUserInput {
-  dateOfBirth: DateTime
-  name: String
+  email: String!
+  password: String!
+  username: String!
   clientMutationId: String!
+}
+
+# SignupUserPayload
+type SignupUserPayload {
+  id: ID!
+  token: String!
 }
 
 input UpdateOrCreateProjectInput {
@@ -320,15 +340,17 @@ type UpdateProjectPayload {
 }
 
 input UpdateUser {
-  dateOfBirth: DateTime
+  email: String
   id: ID!
-  name: String
+  password: String
+  username: String
 }
 
 input UpdateUserInput {
-  dateOfBirth: DateTime
+  email: String
   id: ID!
-  name: String
+  password: String
+  username: String
   clientMutationId: String!
 }
 
@@ -340,9 +362,12 @@ type UpdateUserPayload {
 }
 
 type User implements Node {
-  dateOfBirth: DateTime
+  createdAt: DateTime!
+  email: String!
   id: ID!
-  name: String
+  password: String!
+  updatedAt: DateTime!
+  username: String!
 }
 
 # A connection to a list of items.
@@ -372,28 +397,68 @@ input UserFilter {
 
   # Logical OR on all given filters.
   OR: [UserFilter!]
-  dateOfBirth: DateTime
+  createdAt: DateTime
 
   # All values that are not equal to given value.
-  dateOfBirth_not: DateTime
+  createdAt_not: DateTime
 
   # All values that are contained in given list.
-  dateOfBirth_in: [DateTime!]
+  createdAt_in: [DateTime!]
 
   # All values that are not contained in given list.
-  dateOfBirth_not_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
 
   # All values less than the given value.
-  dateOfBirth_lt: DateTime
+  createdAt_lt: DateTime
 
   # All values less than or equal the given value.
-  dateOfBirth_lte: DateTime
+  createdAt_lte: DateTime
 
   # All values greater than the given value.
-  dateOfBirth_gt: DateTime
+  createdAt_gt: DateTime
 
   # All values greater than or equal the given value.
-  dateOfBirth_gte: DateTime
+  createdAt_gte: DateTime
+  email: String
+
+  # All values that are not equal to given value.
+  email_not: String
+
+  # All values that are contained in given list.
+  email_in: [String!]
+
+  # All values that are not contained in given list.
+  email_not_in: [String!]
+
+  # All values less than the given value.
+  email_lt: String
+
+  # All values less than or equal the given value.
+  email_lte: String
+
+  # All values greater than the given value.
+  email_gt: String
+
+  # All values greater than or equal the given value.
+  email_gte: String
+
+  # All values containing the given string.
+  email_contains: String
+
+  # All values not containing the given string.
+  email_not_contains: String
+
+  # All values starting with the given string.
+  email_starts_with: String
+
+  # All values not starting with the given string.
+  email_not_starts_with: String
+
+  # All values ending with the given string.
+  email_ends_with: String
+
+  # All values not ending with the given string.
+  email_not_ends_with: String
   id: ID
 
   # All values that are not equal to given value.
@@ -434,55 +499,123 @@ input UserFilter {
 
   # All values not ending with the given string.
   id_not_ends_with: ID
-  name: String
+  password: String
 
   # All values that are not equal to given value.
-  name_not: String
+  password_not: String
 
   # All values that are contained in given list.
-  name_in: [String!]
+  password_in: [String!]
 
   # All values that are not contained in given list.
-  name_not_in: [String!]
+  password_not_in: [String!]
 
   # All values less than the given value.
-  name_lt: String
+  password_lt: String
 
   # All values less than or equal the given value.
-  name_lte: String
+  password_lte: String
 
   # All values greater than the given value.
-  name_gt: String
+  password_gt: String
 
   # All values greater than or equal the given value.
-  name_gte: String
+  password_gte: String
 
   # All values containing the given string.
-  name_contains: String
+  password_contains: String
 
   # All values not containing the given string.
-  name_not_contains: String
+  password_not_contains: String
 
   # All values starting with the given string.
-  name_starts_with: String
+  password_starts_with: String
 
   # All values not starting with the given string.
-  name_not_starts_with: String
+  password_not_starts_with: String
 
   # All values ending with the given string.
-  name_ends_with: String
+  password_ends_with: String
 
   # All values not ending with the given string.
-  name_not_ends_with: String
+  password_not_ends_with: String
+  updatedAt: DateTime
+
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  username: String
+
+  # All values that are not equal to given value.
+  username_not: String
+
+  # All values that are contained in given list.
+  username_in: [String!]
+
+  # All values that are not contained in given list.
+  username_not_in: [String!]
+
+  # All values less than the given value.
+  username_lt: String
+
+  # All values less than or equal the given value.
+  username_lte: String
+
+  # All values greater than the given value.
+  username_gt: String
+
+  # All values greater than or equal the given value.
+  username_gte: String
+
+  # All values containing the given string.
+  username_contains: String
+
+  # All values not containing the given string.
+  username_not_contains: String
+
+  # All values starting with the given string.
+  username_starts_with: String
+
+  # All values not starting with the given string.
+  username_not_starts_with: String
+
+  # All values ending with the given string.
+  username_ends_with: String
+
+  # All values not ending with the given string.
+  username_not_ends_with: String
 }
 
 enum UserOrderBy {
-  dateOfBirth_ASC
-  dateOfBirth_DESC
+  createdAt_ASC
+  createdAt_DESC
+  email_ASC
+  email_DESC
   id_ASC
   id_DESC
-  name_ASC
-  name_DESC
+  password_ASC
+  password_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  username_ASC
+  username_DESC
 }
 
 # This is the famous Relay viewer object
@@ -491,10 +624,10 @@ type Viewer {
   allUsers(filter: UserFilter, orderBy: UserOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   user: User
   Project(id: ID): Project
-  User(id: ID): User
+  User(email: String, id: ID, username: String): User
 
-  # hello
-  hello(name: String): HelloPayload
+  # loggedInUser
+  loggedInUser: LoggedInUserPayload
   id: ID!
 }
 

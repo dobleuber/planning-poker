@@ -5,6 +5,7 @@
   "create-account": "Create an Account",
   "description": "Description",
   "login": "Login",
+  "logout": "Logout",
   "name": "Name",
   "need-account": "Need an Account",
   "newProject": "New Project",

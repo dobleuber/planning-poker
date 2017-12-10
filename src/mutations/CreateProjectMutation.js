@@ -16,11 +16,12 @@ const mutation = graphql`
   }
 `;
 
-export default (name, description, callback) => {
+export default (name, description, userCreatorId, callback) => {
   const variables = {
     input: {
       name,
       description,
+      userCreatorId,
       clientMutationId: '',
     },
   };

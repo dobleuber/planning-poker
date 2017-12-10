@@ -1,8 +1,4 @@
-type Project @model {
-  id: ID! @isUnique
-  name: String!
-  description: String
-}
+
 # added by email-password template: (please uncomment)
 type User @model {
   # Required system field:
@@ -17,4 +13,39 @@ type User @model {
 
   #custom fields
   username: String! @isUnique
+  createdProjects: [Project!]! @relation(name: "UserProjects")
+}
+
+type Project @model {
+  id: ID! @isUnique
+  name: String!
+  description: String
+  userCreator: User! @relation(name: "UserProjects")
+  project: [Story!]! @relation(name: "ProjectStory")
+  deckType: DeckType @relation(name: "DeckTypeProjects")
+}
+
+type Story @model {
+  id: ID! @isUnique
+  name: String!
+  url: String
+  estimation: Int
+
+  project: Project! @relation(name: "ProjectStory")
+}
+
+type DeckType @model {
+  id: ID! @isUnique
+  name: String!
+  description: String
+
+  projects: [Project!]! @relation(name: "DeckTypeProjects")
+  cards: [Card!]! @relation(name: "DeckCards")
+}
+
+type Card @model {
+  id: ID! @isUnique
+  label: String!
+  value: Float!
+  deckType: DeckType @relation(name: "DeckCards")
 }

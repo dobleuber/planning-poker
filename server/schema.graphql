@@ -1,17 +1,295 @@
+input AddToDeckCardsDeckTypeInput {
+  cardsCardId: ID!
+  deckTypeDeckTypeId: ID!
+  clientMutationId: String!
+}
+
+type AddToDeckCardsPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  deckTypeDeckType: DeckType
+  cardsCard: Card
+  deckTypeDeckTypeEdge: DeckTypeEdge
+  cardsCardEdge: CardEdge
+}
+
+type AddToDeckTypeProjectsPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  projectsProject: Project
+  deckTypeDeckType: DeckType
+  projectsProjectEdge: ProjectEdge
+  deckTypeDeckTypeEdge: DeckTypeEdge
+}
+
+input AddToDeckTypeProjectsProjectInput {
+  deckTypeDeckTypeId: ID!
+  projectsProjectId: ID!
+  clientMutationId: String!
+}
+
+type AddToProjectStoryPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  projectProject: Project
+  projectStory: Story
+  projectProjectEdge: ProjectEdge
+  projectStoryEdge: StoryEdge
+}
+
+input AddToProjectStoryProjectInput {
+  projectStoryId: ID!
+  projectProjectId: ID!
+  clientMutationId: String!
+}
+
+type AddToUserProjectsPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  createdProjectsProject: Project
+  userCreatorUser: User
+  createdProjectsProjectEdge: ProjectEdge
+  userCreatorUserEdge: UserEdge
+}
+
+input AddToUserProjectsProjectInput {
+  userCreatorUserId: ID!
+  createdProjectsProjectId: ID!
+  clientMutationId: String!
+}
+
 # AuthenticateUserPayload
 type AuthenticateUserPayload {
   id: ID!
   token: String!
 }
 
+type Card implements Node {
+  deckType(filter: DeckTypeFilter): DeckType
+  id: ID!
+  label: String!
+  value: Float!
+}
+
+# A connection to a list of items.
+type CardConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [CardEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+input CarddeckTypeDeckType {
+  description: String
+  name: String!
+  cardsIds: [ID!]
+  cards: [DeckTypecardsCard!]
+  projectsIds: [ID!]
+  projects: [DeckTypeprojectsProject!]
+}
+
+# An edge in a connection.
+type CardEdge {
+  # The item at the end of the edge.
+  node: Card!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input CardFilter {
+  # Logical AND on all given filters.
+  AND: [CardFilter!]
+
+  # Logical OR on all given filters.
+  OR: [CardFilter!]
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  label: String
+
+  # All values that are not equal to given value.
+  label_not: String
+
+  # All values that are contained in given list.
+  label_in: [String!]
+
+  # All values that are not contained in given list.
+  label_not_in: [String!]
+
+  # All values less than the given value.
+  label_lt: String
+
+  # All values less than or equal the given value.
+  label_lte: String
+
+  # All values greater than the given value.
+  label_gt: String
+
+  # All values greater than or equal the given value.
+  label_gte: String
+
+  # All values containing the given string.
+  label_contains: String
+
+  # All values not containing the given string.
+  label_not_contains: String
+
+  # All values starting with the given string.
+  label_starts_with: String
+
+  # All values not starting with the given string.
+  label_not_starts_with: String
+
+  # All values ending with the given string.
+  label_ends_with: String
+
+  # All values not ending with the given string.
+  label_not_ends_with: String
+  value: Float
+
+  # All values that are not equal to given value.
+  value_not: Float
+
+  # All values that are contained in given list.
+  value_in: [Float!]
+
+  # All values that are not contained in given list.
+  value_not_in: [Float!]
+
+  # All values less than the given value.
+  value_lt: Float
+
+  # All values less than or equal the given value.
+  value_lte: Float
+
+  # All values greater than the given value.
+  value_gt: Float
+
+  # All values greater than or equal the given value.
+  value_gte: Float
+  deckType: DeckTypeFilter
+}
+
+enum CardOrderBy {
+  id_ASC
+  id_DESC
+  label_ASC
+  label_DESC
+  value_ASC
+  value_DESC
+}
+
+input CreateCard {
+  label: String!
+  value: Float!
+  deckTypeId: ID
+  deckType: CarddeckTypeDeckType
+}
+
+input CreateCardInput {
+  label: String!
+  value: Float!
+  deckTypeId: ID
+  deckType: CarddeckTypeDeckType
+  clientMutationId: String!
+}
+
+type CreateCardPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  card: Card
+  edge: CardEdge
+  deckType: DeckType
+}
+
+input CreateDeckType {
+  description: String
+  name: String!
+  cardsIds: [ID!]
+  cards: [DeckTypecardsCard!]
+  projectsIds: [ID!]
+  projects: [DeckTypeprojectsProject!]
+}
+
+input CreateDeckTypeInput {
+  description: String
+  name: String!
+  cardsIds: [ID!]
+  cards: [DeckTypecardsCard!]
+  projectsIds: [ID!]
+  projects: [DeckTypeprojectsProject!]
+  clientMutationId: String!
+}
+
+type CreateDeckTypePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  deckType: DeckType
+  edge: DeckTypeEdge
+}
+
 input CreateProject {
   description: String
   name: String!
+  deckTypeId: ID
+  deckType: ProjectdeckTypeDeckType
+  userCreatorId: ID
+  userCreator: ProjectuserCreatorUser
+  projectIds: [ID!]
+  project: [ProjectprojectStory!]
 }
 
 input CreateProjectInput {
   description: String
   name: String!
+  deckTypeId: ID
+  deckType: ProjectdeckTypeDeckType
+  userCreatorId: ID
+  userCreator: ProjectuserCreatorUser
+  projectIds: [ID!]
+  project: [ProjectprojectStory!]
   clientMutationId: String!
 }
 
@@ -20,12 +298,41 @@ type CreateProjectPayload {
   clientMutationId: String!
   project: Project
   edge: ProjectEdge
+  deckType: DeckType
+  userCreator: User
+}
+
+input CreateStory {
+  estimation: Int
+  name: String!
+  url: String
+  projectId: ID
+  project: StoryprojectProject
+}
+
+input CreateStoryInput {
+  estimation: Int
+  name: String!
+  url: String
+  projectId: ID
+  project: StoryprojectProject
+  clientMutationId: String!
+}
+
+type CreateStoryPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  story: Story
+  edge: StoryEdge
+  project: Project
 }
 
 input CreateUser {
   email: String!
   password: String!
   username: String!
+  createdProjectsIds: [ID!]
+  createdProjects: [UsercreatedProjectsProject!]
 }
 
 # If authentication was successful the payload contains the user and a token. If unsuccessful this payload is null.
@@ -37,6 +344,219 @@ type CreateUserPayload {
 
 scalar DateTime
 
+type DeckType implements Node {
+  cards(filter: CardFilter, orderBy: CardOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): CardConnection
+  description: String
+  id: ID!
+  name: String!
+  projects(filter: ProjectFilter, orderBy: ProjectOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): ProjectConnection
+}
+
+input DeckTypecardsCard {
+  label: String!
+  value: Float!
+}
+
+# A connection to a list of items.
+type DeckTypeConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [DeckTypeEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+# An edge in a connection.
+type DeckTypeEdge {
+  # The item at the end of the edge.
+  node: DeckType!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input DeckTypeFilter {
+  # Logical AND on all given filters.
+  AND: [DeckTypeFilter!]
+
+  # Logical OR on all given filters.
+  OR: [DeckTypeFilter!]
+  description: String
+
+  # All values that are not equal to given value.
+  description_not: String
+
+  # All values that are contained in given list.
+  description_in: [String!]
+
+  # All values that are not contained in given list.
+  description_not_in: [String!]
+
+  # All values less than the given value.
+  description_lt: String
+
+  # All values less than or equal the given value.
+  description_lte: String
+
+  # All values greater than the given value.
+  description_gt: String
+
+  # All values greater than or equal the given value.
+  description_gte: String
+
+  # All values containing the given string.
+  description_contains: String
+
+  # All values not containing the given string.
+  description_not_contains: String
+
+  # All values starting with the given string.
+  description_starts_with: String
+
+  # All values not starting with the given string.
+  description_not_starts_with: String
+
+  # All values ending with the given string.
+  description_ends_with: String
+
+  # All values not ending with the given string.
+  description_not_ends_with: String
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  name: String
+
+  # All values that are not equal to given value.
+  name_not: String
+
+  # All values that are contained in given list.
+  name_in: [String!]
+
+  # All values that are not contained in given list.
+  name_not_in: [String!]
+
+  # All values less than the given value.
+  name_lt: String
+
+  # All values less than or equal the given value.
+  name_lte: String
+
+  # All values greater than the given value.
+  name_gt: String
+
+  # All values greater than or equal the given value.
+  name_gte: String
+
+  # All values containing the given string.
+  name_contains: String
+
+  # All values not containing the given string.
+  name_not_contains: String
+
+  # All values starting with the given string.
+  name_starts_with: String
+
+  # All values not starting with the given string.
+  name_not_starts_with: String
+
+  # All values ending with the given string.
+  name_ends_with: String
+
+  # All values not ending with the given string.
+  name_not_ends_with: String
+  cards_every: CardFilter
+  cards_some: CardFilter
+  cards_none: CardFilter
+  projects_every: ProjectFilter
+  projects_some: ProjectFilter
+  projects_none: ProjectFilter
+}
+
+enum DeckTypeOrderBy {
+  description_ASC
+  description_DESC
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+}
+
+input DeckTypeprojectsProject {
+  description: String
+  name: String!
+  userCreatorId: ID
+  userCreator: ProjectuserCreatorUser
+  projectIds: [ID!]
+  project: [ProjectprojectStory!]
+}
+
+input DeleteCardInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteCardPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  card: Card
+  edge: CardEdge
+  deckType: DeckType
+  deletedId: ID
+}
+
+input DeleteDeckTypeInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteDeckTypePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  deckType: DeckType
+  edge: DeckTypeEdge
+  deletedId: ID
+}
+
 input DeleteProjectInput {
   id: ID!
   clientMutationId: String!
@@ -47,6 +567,22 @@ type DeleteProjectPayload {
   clientMutationId: String!
   project: Project
   edge: ProjectEdge
+  deckType: DeckType
+  userCreator: User
+  deletedId: ID
+}
+
+input DeleteStoryInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteStoryPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  story: Story
+  edge: StoryEdge
+  project: Project
   deletedId: ID
 }
 
@@ -69,13 +605,31 @@ type LoggedInUserPayload {
 }
 
 type Mutation {
+  createCard(input: CreateCardInput!): CreateCardPayload
+  createDeckType(input: CreateDeckTypeInput!): CreateDeckTypePayload
   createProject(input: CreateProjectInput!): CreateProjectPayload
+  createStory(input: CreateStoryInput!): CreateStoryPayload
+  updateCard(input: UpdateCardInput!): UpdateCardPayload
+  updateDeckType(input: UpdateDeckTypeInput!): UpdateDeckTypePayload
   updateProject(input: UpdateProjectInput!): UpdateProjectPayload
+  updateStory(input: UpdateStoryInput!): UpdateStoryPayload
   updateUser(input: UpdateUserInput!): UpdateUserPayload
+  updateOrCreateCard(input: UpdateOrCreateCardInput!): UpdateOrCreateCardPayload
+  updateOrCreateDeckType(input: UpdateOrCreateDeckTypeInput!): UpdateOrCreateDeckTypePayload
   updateOrCreateProject(input: UpdateOrCreateProjectInput!): UpdateOrCreateProjectPayload
+  updateOrCreateStory(input: UpdateOrCreateStoryInput!): UpdateOrCreateStoryPayload
   updateOrCreateUser(input: UpdateOrCreateUserInput!): UpdateOrCreateUserPayload
+  deleteCard(input: DeleteCardInput!): DeleteCardPayload
+  deleteDeckType(input: DeleteDeckTypeInput!): DeleteDeckTypePayload
   deleteProject(input: DeleteProjectInput!): DeleteProjectPayload
+  deleteStory(input: DeleteStoryInput!): DeleteStoryPayload
   deleteUser(input: DeleteUserInput!): DeleteUserPayload
+  addToDeckCards(input: AddToDeckCardsDeckTypeInput!): AddToDeckCardsPayload
+  addToDeckTypeProjects(input: AddToDeckTypeProjectsProjectInput!): AddToDeckTypeProjectsPayload
+  addToProjectStory(input: AddToProjectStoryProjectInput!): AddToProjectStoryPayload
+  addToUserProjects(input: AddToUserProjectsProjectInput!): AddToUserProjectsPayload
+  removeFromDeckCards(input: RemoveFromDeckCardsDeckTypeInput!): RemoveFromDeckCardsPayload
+  removeFromDeckTypeProjects(input: RemoveFromDeckTypeProjectsProjectInput!): RemoveFromDeckTypeProjectsPayload
   createUser(input: SignupUserInput!): CreateUserPayload!
 
   # authenticate
@@ -107,9 +661,12 @@ type PageInfo {
 }
 
 type Project implements Node {
+  deckType(filter: DeckTypeFilter): DeckType
   description: String
   id: ID!
   name: String!
+  project(filter: StoryFilter, orderBy: StoryOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): StoryConnection
+  userCreator(filter: UserFilter): User!
 }
 
 # A connection to a list of items.
@@ -122,6 +679,15 @@ type ProjectConnection {
 
   # Count of filtered result set without considering pagination arguments
   count: Int!
+}
+
+input ProjectdeckTypeDeckType {
+  description: String
+  name: String!
+  cardsIds: [ID!]
+  cards: [DeckTypecardsCard!]
+  projectsIds: [ID!]
+  projects: [DeckTypeprojectsProject!]
 }
 
 # An edge in a connection.
@@ -259,6 +825,11 @@ input ProjectFilter {
 
   # All values not ending with the given string.
   name_not_ends_with: String
+  deckType: DeckTypeFilter
+  project_every: StoryFilter
+  project_some: StoryFilter
+  project_none: StoryFilter
+  userCreator: UserFilter
 }
 
 enum ProjectOrderBy {
@@ -268,6 +839,20 @@ enum ProjectOrderBy {
   id_DESC
   name_ASC
   name_DESC
+}
+
+input ProjectprojectStory {
+  estimation: Int
+  name: String!
+  url: String
+}
+
+input ProjectuserCreatorUser {
+  email: String!
+  password: String!
+  username: String!
+  createdProjectsIds: [ID!]
+  createdProjects: [UsercreatedProjectsProject!]
 }
 
 type Query {
@@ -280,10 +865,42 @@ type Query {
   ): Node
 }
 
+input RemoveFromDeckCardsDeckTypeInput {
+  cardsCardId: ID!
+  deckTypeDeckTypeId: ID!
+  clientMutationId: String!
+}
+
+type RemoveFromDeckCardsPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  deckTypeDeckType: DeckType
+  cardsCard: Card
+  deckTypeDeckTypeEdge: DeckTypeEdge
+  cardsCardEdge: CardEdge
+}
+
+type RemoveFromDeckTypeProjectsPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  projectsProject: Project
+  deckTypeDeckType: DeckType
+  projectsProjectEdge: ProjectEdge
+  deckTypeDeckTypeEdge: DeckTypeEdge
+}
+
+input RemoveFromDeckTypeProjectsProjectInput {
+  deckTypeDeckTypeId: ID!
+  projectsProjectId: ID!
+  clientMutationId: String!
+}
+
 input SignupUserInput {
   email: String!
   password: String!
   username: String!
+  createdProjectsIds: [ID!]
+  createdProjects: [UsercreatedProjectsProject!]
   clientMutationId: String!
 }
 
@@ -291,6 +908,288 @@ input SignupUserInput {
 type SignupUserPayload {
   id: ID!
   token: String!
+}
+
+type Story implements Node {
+  estimation: Int
+  id: ID!
+  name: String!
+  project(filter: ProjectFilter): Project!
+  url: String
+}
+
+# A connection to a list of items.
+type StoryConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [StoryEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+# An edge in a connection.
+type StoryEdge {
+  # The item at the end of the edge.
+  node: Story!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input StoryFilter {
+  # Logical AND on all given filters.
+  AND: [StoryFilter!]
+
+  # Logical OR on all given filters.
+  OR: [StoryFilter!]
+  estimation: Int
+
+  # All values that are not equal to given value.
+  estimation_not: Int
+
+  # All values that are contained in given list.
+  estimation_in: [Int!]
+
+  # All values that are not contained in given list.
+  estimation_not_in: [Int!]
+
+  # All values less than the given value.
+  estimation_lt: Int
+
+  # All values less than or equal the given value.
+  estimation_lte: Int
+
+  # All values greater than the given value.
+  estimation_gt: Int
+
+  # All values greater than or equal the given value.
+  estimation_gte: Int
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  name: String
+
+  # All values that are not equal to given value.
+  name_not: String
+
+  # All values that are contained in given list.
+  name_in: [String!]
+
+  # All values that are not contained in given list.
+  name_not_in: [String!]
+
+  # All values less than the given value.
+  name_lt: String
+
+  # All values less than or equal the given value.
+  name_lte: String
+
+  # All values greater than the given value.
+  name_gt: String
+
+  # All values greater than or equal the given value.
+  name_gte: String
+
+  # All values containing the given string.
+  name_contains: String
+
+  # All values not containing the given string.
+  name_not_contains: String
+
+  # All values starting with the given string.
+  name_starts_with: String
+
+  # All values not starting with the given string.
+  name_not_starts_with: String
+
+  # All values ending with the given string.
+  name_ends_with: String
+
+  # All values not ending with the given string.
+  name_not_ends_with: String
+  url: String
+
+  # All values that are not equal to given value.
+  url_not: String
+
+  # All values that are contained in given list.
+  url_in: [String!]
+
+  # All values that are not contained in given list.
+  url_not_in: [String!]
+
+  # All values less than the given value.
+  url_lt: String
+
+  # All values less than or equal the given value.
+  url_lte: String
+
+  # All values greater than the given value.
+  url_gt: String
+
+  # All values greater than or equal the given value.
+  url_gte: String
+
+  # All values containing the given string.
+  url_contains: String
+
+  # All values not containing the given string.
+  url_not_contains: String
+
+  # All values starting with the given string.
+  url_starts_with: String
+
+  # All values not starting with the given string.
+  url_not_starts_with: String
+
+  # All values ending with the given string.
+  url_ends_with: String
+
+  # All values not ending with the given string.
+  url_not_ends_with: String
+  project: ProjectFilter
+}
+
+enum StoryOrderBy {
+  estimation_ASC
+  estimation_DESC
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  url_ASC
+  url_DESC
+}
+
+input StoryprojectProject {
+  description: String
+  name: String!
+  deckTypeId: ID
+  deckType: ProjectdeckTypeDeckType
+  userCreatorId: ID
+  userCreator: ProjectuserCreatorUser
+  projectIds: [ID!]
+  project: [ProjectprojectStory!]
+}
+
+input UpdateCard {
+  id: ID!
+  label: String
+  value: Float
+  deckTypeId: ID
+  deckType: CarddeckTypeDeckType
+}
+
+input UpdateCardInput {
+  id: ID!
+  label: String
+  value: Float
+  deckTypeId: ID
+  deckType: CarddeckTypeDeckType
+  clientMutationId: String!
+}
+
+type UpdateCardPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  card: Card
+  edge: CardEdge
+  deckType: DeckType
+}
+
+input UpdateDeckType {
+  description: String
+  id: ID!
+  name: String
+  cardsIds: [ID!]
+  cards: [DeckTypecardsCard!]
+  projectsIds: [ID!]
+  projects: [DeckTypeprojectsProject!]
+}
+
+input UpdateDeckTypeInput {
+  description: String
+  id: ID!
+  name: String
+  cardsIds: [ID!]
+  cards: [DeckTypecardsCard!]
+  projectsIds: [ID!]
+  projects: [DeckTypeprojectsProject!]
+  clientMutationId: String!
+}
+
+type UpdateDeckTypePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  deckType: DeckType
+  edge: DeckTypeEdge
+}
+
+input UpdateOrCreateCardInput {
+  update: UpdateCard!
+  create: CreateCard!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateCardPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  card: Card
+  edge: CardEdge
+  deckType: DeckType
+}
+
+input UpdateOrCreateDeckTypeInput {
+  update: UpdateDeckType!
+  create: CreateDeckType!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateDeckTypePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  deckType: DeckType
+  edge: DeckTypeEdge
 }
 
 input UpdateOrCreateProjectInput {
@@ -304,6 +1203,22 @@ type UpdateOrCreateProjectPayload {
   clientMutationId: String!
   project: Project
   edge: ProjectEdge
+  deckType: DeckType
+  userCreator: User
+}
+
+input UpdateOrCreateStoryInput {
+  update: UpdateStory!
+  create: CreateStory!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateStoryPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  story: Story
+  edge: StoryEdge
+  project: Project
 }
 
 input UpdateOrCreateUserInput {
@@ -323,12 +1238,24 @@ input UpdateProject {
   description: String
   id: ID!
   name: String
+  deckTypeId: ID
+  deckType: ProjectdeckTypeDeckType
+  userCreatorId: ID
+  userCreator: ProjectuserCreatorUser
+  projectIds: [ID!]
+  project: [ProjectprojectStory!]
 }
 
 input UpdateProjectInput {
   description: String
   id: ID!
   name: String
+  deckTypeId: ID
+  deckType: ProjectdeckTypeDeckType
+  userCreatorId: ID
+  userCreator: ProjectuserCreatorUser
+  projectIds: [ID!]
+  project: [ProjectprojectStory!]
   clientMutationId: String!
 }
 
@@ -337,6 +1264,35 @@ type UpdateProjectPayload {
   clientMutationId: String!
   project: Project
   edge: ProjectEdge
+  deckType: DeckType
+  userCreator: User
+}
+
+input UpdateStory {
+  estimation: Int
+  id: ID!
+  name: String
+  url: String
+  projectId: ID
+  project: StoryprojectProject
+}
+
+input UpdateStoryInput {
+  estimation: Int
+  id: ID!
+  name: String
+  url: String
+  projectId: ID
+  project: StoryprojectProject
+  clientMutationId: String!
+}
+
+type UpdateStoryPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  story: Story
+  edge: StoryEdge
+  project: Project
 }
 
 input UpdateUser {
@@ -344,6 +1300,8 @@ input UpdateUser {
   id: ID!
   password: String
   username: String
+  createdProjectsIds: [ID!]
+  createdProjects: [UsercreatedProjectsProject!]
 }
 
 input UpdateUserInput {
@@ -351,6 +1309,8 @@ input UpdateUserInput {
   id: ID!
   password: String
   username: String
+  createdProjectsIds: [ID!]
+  createdProjects: [UsercreatedProjectsProject!]
   clientMutationId: String!
 }
 
@@ -363,6 +1323,7 @@ type UpdateUserPayload {
 
 type User implements Node {
   createdAt: DateTime!
+  createdProjects(filter: ProjectFilter, orderBy: ProjectOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): ProjectConnection
   email: String!
   id: ID!
   password: String!
@@ -380,6 +1341,15 @@ type UserConnection {
 
   # Count of filtered result set without considering pagination arguments
   count: Int!
+}
+
+input UsercreatedProjectsProject {
+  description: String
+  name: String!
+  deckTypeId: ID
+  deckType: ProjectdeckTypeDeckType
+  projectIds: [ID!]
+  project: [ProjectprojectStory!]
 }
 
 # An edge in a connection.
@@ -601,6 +1571,9 @@ input UserFilter {
 
   # All values not ending with the given string.
   username_not_ends_with: String
+  createdProjects_every: ProjectFilter
+  createdProjects_some: ProjectFilter
+  createdProjects_none: ProjectFilter
 }
 
 enum UserOrderBy {
@@ -620,10 +1593,16 @@ enum UserOrderBy {
 
 # This is the famous Relay viewer object
 type Viewer {
+  allCards(filter: CardFilter, orderBy: CardOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): CardConnection!
+  allDeckTypes(filter: DeckTypeFilter, orderBy: DeckTypeOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): DeckTypeConnection!
   allProjects(filter: ProjectFilter, orderBy: ProjectOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): ProjectConnection!
+  allStories(filter: StoryFilter, orderBy: StoryOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): StoryConnection!
   allUsers(filter: UserFilter, orderBy: UserOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   user: User
+  Card(id: ID): Card
+  DeckType(id: ID): DeckType
   Project(id: ID): Project
+  Story(id: ID): Story
   User(email: String, id: ID, username: String): User
 
   # loggedInUser

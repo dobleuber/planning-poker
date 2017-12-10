@@ -20,7 +20,7 @@ const Header = ({ userId, logout }) => (
             {userId && <NavLink exact to="/create">{t('newProject')}</NavLink>}
           </div>
           <div className="link login">
-            {userId ? <button onClick={logout} >logout</button> : <NavLink exact to="/login">{t('login')}</NavLink>}
+            {userId ? <button onClick={logout} >{t('logout')}</button> : <NavLink exact to="/login">{t('login')}</NavLink>}
           </div>
         </div>
       )

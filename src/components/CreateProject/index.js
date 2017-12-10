@@ -4,6 +4,8 @@ import './CreateProject.css';
 
 import CreateProjectMutation from '../../mutations/CreateProjectMutation';
 
+import Security from '../../utils/security';
+
 class CreateProject extends Component {
   constructor() {
     super();
@@ -20,7 +22,7 @@ class CreateProject extends Component {
     event.preventDefault();
     const { name, description } = this.state;
     if (name) {
-      CreateProjectMutation(name, description, () => this.props.history.push('/'));
+      CreateProjectMutation(name, description, Security.userId, () => this.props.history.push('/'));
     }
   }
 

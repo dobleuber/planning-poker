@@ -630,6 +630,8 @@ type Mutation {
   addToUserProjects(input: AddToUserProjectsProjectInput!): AddToUserProjectsPayload
   removeFromDeckCards(input: RemoveFromDeckCardsDeckTypeInput!): RemoveFromDeckCardsPayload
   removeFromDeckTypeProjects(input: RemoveFromDeckTypeProjectsProjectInput!): RemoveFromDeckTypeProjectsPayload
+  removeFromProjectStory(input: RemoveFromProjectStoryProjectInput!): RemoveFromProjectStoryPayload
+  removeFromUserProjects(input: RemoveFromUserProjectsProjectInput!): RemoveFromUserProjectsPayload
   createUser(input: SignupUserInput!): CreateUserPayload!
 
   # authenticate
@@ -666,7 +668,7 @@ type Project implements Node {
   id: ID!
   name: String!
   project(filter: StoryFilter, orderBy: StoryOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): StoryConnection
-  userCreator(filter: UserFilter): User!
+  userCreator(filter: UserFilter): User
 }
 
 # A connection to a list of items.
@@ -895,6 +897,36 @@ input RemoveFromDeckTypeProjectsProjectInput {
   clientMutationId: String!
 }
 
+type RemoveFromProjectStoryPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  projectProject: Project
+  projectStory: Story
+  projectProjectEdge: ProjectEdge
+  projectStoryEdge: StoryEdge
+}
+
+input RemoveFromProjectStoryProjectInput {
+  projectStoryId: ID!
+  projectProjectId: ID!
+  clientMutationId: String!
+}
+
+type RemoveFromUserProjectsPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  createdProjectsProject: Project
+  userCreatorUser: User
+  createdProjectsProjectEdge: ProjectEdge
+  userCreatorUserEdge: UserEdge
+}
+
+input RemoveFromUserProjectsProjectInput {
+  userCreatorUserId: ID!
+  createdProjectsProjectId: ID!
+  clientMutationId: String!
+}
+
 input SignupUserInput {
   email: String!
   password: String!
@@ -914,7 +946,7 @@ type Story implements Node {
   estimation: Int
   id: ID!
   name: String!
-  project(filter: ProjectFilter): Project!
+  project(filter: ProjectFilter): Project
   url: String
 }
 
@@ -1347,7 +1379,7 @@ input UsercreatedProjectsProject {
   description: String
   name: String!
   deckTypeId: ID
-  deckType: ProjectdeckTypeDeckType
+  # deckType: ProjectdeckTypeDeckType
   projectIds: [ID!]
   project: [ProjectprojectStory!]
 }
@@ -1608,5 +1640,32 @@ type Viewer {
   # loggedInUser
   loggedInUser: LoggedInUserPayload
   id: ID!
+}
+
+type Subscription {
+  Story(filter: StorySubscriptionFilter): StorySubscriptionPayload
+}
+
+input StorySubscriptionFilter {
+  mutation_in: [_ModelMutationType!]
+}
+
+type StorySubscriptionPayload {
+  mutation: _ModelMutationType!
+  node: Story
+  updatedFields: [String!]
+  previousValues: StoryPreviousValues
+}
+
+enum _ModelMutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+type StoryPreviousValues {
+  createdAt: DateTime!
+  id: ID!
+  updatedAt: DateTime!
 }
 

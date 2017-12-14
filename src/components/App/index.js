@@ -7,7 +7,8 @@ import {
   CreateProject,
   Header,
   Login,
-  ProjectPage,
+  ProjectListPage,
+  StoryPage,
 } from '../';
 
 import Security from '../../utils/security';
@@ -45,8 +46,10 @@ class App extends Component {
           {
             t => (
               <header className="App-header">
-                <img src={logo} className="App-logo" alt={t('alt-logo')} />
-                <h1 className="App-title">{t('welcome')}</h1>
+                <h1 className="App-title">
+                  {t('welcome')}
+                  <img src={logo} className="App-logo" alt={t('alt-logo')} />
+                </h1>
               </header>
             )
           }
@@ -54,13 +57,14 @@ class App extends Component {
         <Header userId={userId} logout={this.logout} />
         <div className="container">
           <Switch>
-            <Route exact path="/" component={ProjectPage} />
+            <Route exact path="/" component={ProjectListPage} />
             <Route
               exact
               path="/login"
               component={props => (<Login onLogin={this.onLogin} {...props} />)}
             />
             <Route exact path="/create" component={CreateProject} />
+            <Route exact path="/project/:projectId/story/:storyId" component={StoryPage} />
           </Switch>
         </div>
       </div>

@@ -20,8 +20,8 @@ type Project @model {
   id: ID! @isUnique
   name: String!
   description: String
-  userCreator: User! @relation(name: "UserProjects")
-  project: [Story!]! @relation(name: "ProjectStory")
+  userCreator: User @relation(name: "UserProjects")
+  story: [Story!]! @relation(name: "ProjectStory")
   deckType: DeckType @relation(name: "DeckTypeProjects")
 }
 
@@ -31,7 +31,7 @@ type Story @model {
   url: String
   estimation: Int
 
-  project: Project! @relation(name: "ProjectStory")
+  project: Project @relation(name: "ProjectStory")
 }
 
 type DeckType @model {

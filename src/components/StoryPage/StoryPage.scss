@@ -1,0 +1,72 @@
+@import 'variables';
+
+.estimation-page {
+  display: flex;
+  flex-direction: column;
+  .estimation-form {
+    .row {
+      .column {
+        margin: auto;
+        &.column-80p {
+          width: 80%;
+        }
+      }
+    }
+
+    .field {
+      align-items: baseline;
+      display: flex;
+      justify-content: flex-start;
+      padding: 0.5em 0;
+  
+      label {
+        align-items: baseline;
+        display: flex;
+        font-size: 1.5em;
+        justify-content: flex-start;
+        width: 100%;
+        span {
+          flex: 20%;
+          flex-grow: 0;
+        }
+      }
+  
+      input, textarea {
+        font-size: 1.2em;
+        width: 80%;
+
+        &[name=estimation] {
+          flex-basis: 10%;
+        }
+      }
+    }
+
+    button.button {
+      background-color: $bg_button_primary;
+      border-radius: 0.2em;
+      color: $color_button_primary;
+      font-size: 1em;
+      padding: 0.2em 1.0em;
+  
+      &:hover {
+        background-color: transparentize($color: $bg_button_primary, $amount: 0.3);
+      }
+
+      &.secondary {
+        background-color: $bg_button_secondary;
+        color: $color_button_secondary;
+
+        &:hover {
+          background-color: transparentize($color: $bg_button_secondary, $amount: 0.3);
+        }
+      }
+    }
+  }
+
+  .help {
+    bottom: 2em;
+    font-style: italic;
+    position: absolute;
+    right: 2em;
+  }
+}

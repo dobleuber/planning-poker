@@ -42,30 +42,33 @@ class CreateProject extends Component {
           t => (
             <form className="create-project" onSubmit={this.createProject}>
               <div className="row">
-                <div className="column">
+                <div className="column column-80p">
                   <div className="field">
-                    <span>{t('name')}: *</span>
-                    <input
-                      name="name"
-                      type="text"
-                      value={this.state.name}
-                      required
-                      onChange={this.handleChangeValue}
-                    />
+                    <label htmlFor="name">{t('name')}: *
+                      <input
+                        name="name"
+                        type="text"
+                        value={this.state.name}
+                        required
+                        onChange={this.handleChangeValue}
+                      />
+                    </label>
                   </div>
                 </div>
               </div>
               <div className="row">
-                <div className="column">
+                <div className="column column-80p">
                   <div className="field">
-                    <span>{t('description')}:</span>
-                    <textarea
-                      name="description"
-                      type="text"
-                      value={this.state.description}
-                      onChange={this.handleChangeValue}
-                      rows="7"
-                    />
+                    <label htmlFor="description">
+                      {t('description')}:
+                      <textarea
+                        name="description"
+                        type="text"
+                        value={this.state.description}
+                        onChange={this.handleChangeValue}
+                        rows="7"
+                      />
+                    </label>
                   </div>
                 </div>
               </div>

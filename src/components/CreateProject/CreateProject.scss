@@ -4,20 +4,30 @@
   padding: 1em;
   font-size: 1.5em;
 
+  .row {
+    .column {
+      margin: auto;
+      &.column-80p {
+        width: 80%;
+      }
+    }
+  }
+
   .field {
     align-items: baseline;
     display: flex;
     justify-content: flex-start;
     padding: 0.5em 0;
 
-    span {
+    label {
+      width: 100%;
       display: flex;
-      flex-basis: 30%;
+      justify-content: space-between;
     }
 
     input, textarea {
       font-size: 1.2em;
-      width: 100%;
+      width: 80%;
     }
   }
 

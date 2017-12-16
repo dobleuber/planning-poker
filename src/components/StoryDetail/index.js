@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-i18next';
+import {
+  createFragmentContainer,
+  graphql,
+} from 'react-relay';
 
 import './StoryDetail.css';
 
@@ -8,10 +12,12 @@ import { CreateStoryMutation, UpdateStoryMutation } from '../../mutations';
 class StoryDetail extends Component {
   constructor(props) {
     super(props);
+    const { story } = props;
+    const { name, url, estimation } = story || {};
     this.state = {
-      name: '',
-      url: '',
-      estimation: '',
+      name,
+      url,
+      estimation: estimation || '',
     };
 
     this.handleChangeValue = this.handleChangeValue.bind(this);
@@ -30,7 +36,7 @@ class StoryDetail extends Component {
   createStory(event) {
     event.preventDefault();
     const { name, url, estimation } = this.state;
-    const { projectId, storyId } = this.props.match.params;
+    const { projectId, storyId } = this.props;
     if (name) {
       if (storyId && storyId !== 'new') {
         UpdateStoryMutation(storyId, name, url, estimation, projectId);
@@ -42,13 +48,14 @@ class StoryDetail extends Component {
   }
 
   render() {
+    console.log(this.props);
     const { goBack } = this.props.history;
     return (
       <I18n>
         {
           t => (
             <div className="estimation-page">
-              <h3>{t('estimate-story')}</h3>
+              <h3>{t('story-details')}</h3>
               <form className="estimation-form">
                 <div className="row">
                   <div className="column column-80p">
@@ -126,4 +133,11 @@ class StoryDetail extends Component {
   }
 }
 
-export default StoryDetail;
+export default createFragmentContainer(StoryDetail, graphql`
+  fragment StoryDetail_story on Story {
+    id
+    name
+    estimation
+    url
+  }
+`);

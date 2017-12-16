@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { I18n } from 'react-i18next';
 import {
   createFragmentContainer,
   graphql,
@@ -12,19 +13,25 @@ const StoryItem = ({ projectId, story }) => {
     id, name, url, estimation,
   } = story;
   return (
-    <div className="row story-item">
-      <div className="column description">
-        <Link to={`/project/${projectId}/story/${id}`}>
-          {name}
-        </Link>
-      </div>
-      <div className="column url">
-        {url}
-      </div>
-      <div className="column estimate">
-        {estimation}
-      </div>
-    </div>
+    <I18n>
+      {
+        t => (
+          <div className="row story-item">
+            <div className="column name">
+              <Link to={`/project/${projectId}/story/${id}`}>
+                {name}
+              </Link>
+            </div>
+            <div className="column url">
+              {url && <a href={url} target="story_details">{url}</a>}
+            </div>
+            <div className="column estimate">
+              { estimation || <Link to={`/project/${projectId}/estimate/${id}`} >{t('estimate-story')}</Link> }
+            </div>
+          </div>
+        )
+      }
+    </I18n>
   );
 };
 

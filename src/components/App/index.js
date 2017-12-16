@@ -9,7 +9,7 @@ import {
   Login,
   ProjectListPage,
   ProjectPage,
-  StoryDetail,
+  StoryPage,
 } from '../';
 
 import Security from '../../utils/security';
@@ -66,7 +66,7 @@ class App extends Component {
             />
             <Route exact path="/create" component={CreateProject} />
             <Route exact path="/project/:projectId" component={ProjectPage} />
-            <Route exact path="/project/:projectId/story/:storyId" component={StoryDetail} />
+            <Route exact path="/project/:projectId/story/:storyId" component={StoryPage} />
           </Switch>
         </div>
       </div>

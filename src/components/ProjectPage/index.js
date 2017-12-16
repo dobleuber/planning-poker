@@ -14,8 +14,8 @@ const query = graphql`
   }
 `;
 
-const ProjectPage = (properties) => {
-  const { projectId } = properties.match.params;
+const ProjectPage = ({ match }) => {
+  const { projectId } = match.params;
   return (
     <QueryRenderer
       environment={environment}

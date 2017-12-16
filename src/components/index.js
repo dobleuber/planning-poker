@@ -10,6 +10,7 @@ import ProjectPage from './ProjectPage';
 import StoryItem from './StoryItem';
 import StoryDetail from './StoryDetail';
 import StoryList from './StoryList';
+import StoryPage from './StoryPage';
 
 export {
   App,
@@ -24,4 +25,5 @@ export {
   StoryItem,
   StoryList,
   StoryDetail,
+  StoryPage,
 };

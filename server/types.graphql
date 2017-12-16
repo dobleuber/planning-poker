@@ -21,7 +21,7 @@ type Project @model {
   name: String!
   description: String
   userCreator: User @relation(name: "UserProjects")
-  story: [Story!]! @relation(name: "ProjectStory")
+  stories: [Story!]! @relation(name: "ProjectStory")
   deckType: DeckType @relation(name: "DeckTypeProjects")
 }
 

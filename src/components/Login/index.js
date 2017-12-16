@@ -3,8 +3,7 @@ import { I18n } from 'react-i18next';
 
 import './Login.css';
 
-import AuthenticateUserMutation from '../../mutations/AuthenticateUserMutation';
-import CreateUserMutation from '../../mutations/CreateUserMutation';
+import { AuthenticateUserMutation, CreateUserMutation } from '../../mutations';
 
 import Security from '../../utils/security';
 

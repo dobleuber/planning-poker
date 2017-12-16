@@ -1379,7 +1379,7 @@ input UsercreatedProjectsProject {
   description: String
   name: String!
   deckTypeId: ID
-  # deckType: ProjectdeckTypeDeckType
+  # deckType: ProjectdeckTypeDeckType # remove this for 'Maximum call stack size exceeded'
   projectIds: [ID!]
   project: [ProjectprojectStory!]
 }
@@ -1668,4 +1668,3 @@ type StoryPreviousValues {
   id: ID!
   updatedAt: DateTime!
 }
-

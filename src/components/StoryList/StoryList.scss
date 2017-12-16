@@ -1,0 +1,36 @@
+.story-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  &__table {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+
+    .row {
+      display: flex;
+      padding: 1em 0.5em;
+      margin: 0;
+
+      &.header {
+        color: #7fffd4;
+        background-color: #77bbee;
+      }
+
+      .column{
+        text-align: left;
+
+        &.name {
+          flex-basis: 45%;
+        }
+        &.url {
+          flex-basis: 40%;
+        }
+        &.estimate {
+          flex-basis: 15%;
+        }
+      }
+    }
+  }
+}

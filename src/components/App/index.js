@@ -8,7 +8,8 @@ import {
   Header,
   Login,
   ProjectListPage,
-  StoryPage,
+  ProjectPage,
+  StoryDetail,
 } from '../';
 
 import Security from '../../utils/security';
@@ -64,7 +65,8 @@ class App extends Component {
               component={props => (<Login onLogin={this.onLogin} {...props} />)}
             />
             <Route exact path="/create" component={CreateProject} />
-            <Route exact path="/project/:projectId/story/:storyId" component={StoryPage} />
+            <Route exact path="/project/:projectId" component={ProjectPage} />
+            <Route exact path="/project/:projectId/story/:storyId" component={StoryDetail} />
           </Switch>
         </div>
       </div>

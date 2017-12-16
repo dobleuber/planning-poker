@@ -1,0 +1,21 @@
+@import 'variables';
+
+.project {
+  .row {
+    display: flex;
+    flex-direction: row;
+    margin: 0.5em auto;
+
+    .label {
+      display: flex;
+      flex-basis: 10%;
+      justify-content: flex-start;
+    }
+
+    .field {
+      display: flex;
+      flex-basis: 90%;
+      justify-content: flex-start;
+    }
+  }
+}

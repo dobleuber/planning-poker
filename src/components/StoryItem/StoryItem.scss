@@ -1,0 +1,14 @@
+.story-item.row {
+  display: flex;
+  .column {
+    &.name {
+      flex-basis: 45%;
+    }
+    &.url {
+      flex-basis: 40%;
+    }
+    &.estimate {
+      flex-basis: 15%;
+    }
+  }
+}

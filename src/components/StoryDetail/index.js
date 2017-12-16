@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-i18next';
 
-import './StoryPage.css';
+import './StoryDetail.css';
 
 import { CreateStoryMutation, UpdateStoryMutation } from '../../mutations';
 
-class StoryPage extends Component {
+class StoryDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -126,4 +126,4 @@ class StoryPage extends Component {
   }
 }
 
-export default StoryPage;
+export default StoryDetail;

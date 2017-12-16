@@ -1,0 +1,8 @@
+@import 'variables';
+.project-page {
+  color: $font_color_primary;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.2em;
+  padding: 1em;
+}

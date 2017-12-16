@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { I18n } from 'react-i18next';
 import './CreateProject.css';
 
-import CreateProjectMutation from '../../mutations/CreateProjectMutation';
+import { CreateProjectMutation } from '../../mutations';
 
 import Security from '../../utils/security';
 

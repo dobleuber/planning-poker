@@ -9,7 +9,7 @@ import './ProjectListPage.css';
 
 const query = graphql`
   query ProjectListPageQuery {
-    viewer {      
+    viewer {
       ...ProjectList_viewer
     }
   }

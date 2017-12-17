@@ -1,0 +1,31 @@
+@import 'variables';
+
+.card {
+  background-color: $bg_main_primary;
+  border: 1px solid $border_color_secondary;
+  border-radius: 5px;
+  color: $color_button_secondary;
+  display: flex;
+  font-family: 'Bubblegum Sans', cursive;
+  font-size: 2.5em;
+  height: 2.5em;
+  margin: 0.5em;
+  width: 2em;
+
+  transition: background-color 0.5s, color 0.5s, margin-top 0.5s;
+
+  &__label {
+    display: inline-block;
+    margin: auto;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.selected {
+    background-color: $bg_button_primary;
+    color: $color_button_primary;
+    margin-top: -0.25em;
+  }
+}

@@ -5,6 +5,7 @@ import logo from '../../logo.svg';
 import './App.css';
 import {
   CreateProject,
+  EstimatePage,
   Header,
   Login,
   ProjectListPage,
@@ -67,6 +68,11 @@ class App extends Component {
             <Route exact path="/create" component={CreateProject} />
             <Route exact path="/project/:projectId" component={ProjectPage} />
             <Route exact path="/project/:projectId/story/:storyId" component={StoryPage} />
+            <Route
+              exact
+              path="/project/:projectId/story/:storyId/estimate"
+              component={EstimatePage}
+            />
           </Switch>
         </div>
       </div>

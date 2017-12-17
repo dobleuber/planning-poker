@@ -1,0 +1,32 @@
+@import 'variables';
+.estimate {
+  margin: auto;
+  width: 80%;
+  .row {
+    display: flex;
+    flex-direction: row;
+    margin: 0.5em auto;
+    
+    .label {
+      display: flex;
+      flex-basis: 10%;
+      justify-content: flex-start;
+    }
+    
+    .field {
+      display: flex;
+      flex-basis: 90%;
+      justify-content: flex-start;
+    }
+    
+    .card-container {
+      background-color: $bg_secondary;
+      border-radius: 0.5em;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 0 auto;
+      padding: 2em;
+    }
+  }
+}

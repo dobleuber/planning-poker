@@ -26,7 +26,7 @@ const StoryItem = ({ projectId, story }) => {
               {url && <a href={url} target="story_details">{url}</a>}
             </div>
             <div className="column estimate">
-              { estimation || <Link to={`/project/${projectId}/estimate/${id}`} >{t('estimate-story')}</Link> }
+              { estimation || <Link to={`/project/${projectId}/story/${id}/estimate`} >{t('estimate-story')}</Link> }
             </div>
           </div>
         )

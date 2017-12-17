@@ -6,7 +6,7 @@ import {
 
 import environment from '../../createRelayEnvironment';
 
-import { StoryDetail } from '../index';
+import { StoryDetail } from '../';
 
 const query = graphql`
   query StoryPageQuery($storyId: ID!) {

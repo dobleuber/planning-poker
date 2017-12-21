@@ -31,7 +31,9 @@ class ProjectListPage extends Component {
             } else if (props) {
               return (
                 <div className="project-list-page">
-                  <ProjectList viewer={props.viewer} />
+                  <ProjectList
+                    viewer={props.viewer}
+                  />
                 </div>
             );
           }

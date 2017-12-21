@@ -70,7 +70,7 @@ class App extends Component {
             <Route exact path="/project/:projectId/story/:storyId" component={StoryPage} />
             <Route
               exact
-              path="/project/:projectId/story/:storyId/estimate"
+              path="/project/:projectId/story/:storyId/estimate/:estimateId"
               component={EstimatePage}
             />
           </Switch>

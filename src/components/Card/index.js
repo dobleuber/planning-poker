@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   createFragmentContainer,
   graphql,
@@ -6,37 +6,36 @@ import {
 
 import './Card.css';
 
-class Card extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selected: false,
+const Card = ({
+  card,
+  estimationId,
+  onSelectCard,
+  selected,
+}) => {
+  const selectCard = () => {
+    if (selected) {
+      return;
+    }
+
+    const params = {
+      id: estimationId,
+      cardId: card.id,
     };
+    onSelectCard(params);
+  };
 
-    this.selectCard = this.selectCard.bind(this);
-  }
+  const { label } = card;
+  const cardClass = selected ? 'card selected' : 'card';
+  return (
+    <button className={cardClass} onClick={selectCard}>
+      <div className="card__label">{label}</div>
+    </button>
+  );
+};
 
-  selectCard() {
-    this.setState({
-      selected: !this.state.selected,
-    });
-  }
-
-  render() {
-    const { card } = this.props;
-    const { label } = card;
-    const { selected } = this.state;
-    const cardClass = selected ? 'card selected' : 'card';
-    return (
-      <button className={cardClass} onClick={this.selectCard}>
-        <div className="card__label">{label}</div>
-      </button>
-    );
-  }
-}
 
 export default createFragmentContainer(Card, graphql`
-  fragment Card_card on Card {
+  fragment Card_card on Card{
     id
     label
     value

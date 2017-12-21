@@ -9,7 +9,7 @@ import './StoryList.css';
 
 import StoryItem from '../StoryItem';
 
-const StoryList = ({ projectId, stories }) => (
+const StoryList = ({ projectId, stories, estimateStory }) => (
   <I18n>
     {
       t => (
@@ -24,8 +24,14 @@ const StoryList = ({ projectId, stories }) => (
               <div className="column estimate">{t('estimate')}</div>
             </div>
             {
-              stories && stories.edges.map(({ node }) =>
-                <StoryItem key={node.__id} projectId={projectId} story={node} />)
+              stories && stories.edges.map(({ node }) => (
+                <StoryItem
+                  key={node.__id}
+                  projectId={projectId}
+                  story={node}
+                  estimateStory={estimateStory}
+                />
+              ))
             }
           </div>
         </div>

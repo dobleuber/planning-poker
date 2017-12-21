@@ -9,6 +9,13 @@
     }
     &.estimate {
       flex-basis: 15%;
+
+      button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 1em;
+      }
     }
   }
 }

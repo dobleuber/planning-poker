@@ -8,7 +8,7 @@ import './Project.css';
 
 import StoryList from '../StoryList';
 
-const Project = ({ project }) => {
+const Project = ({ project, estimateStory }) => {
   const { id, name, description } = project;
   return (
     <div className="project">
@@ -25,7 +25,7 @@ const Project = ({ project }) => {
         <div className="field">{description}</div>
       </div>
       <div className="row">
-        <StoryList projectId={id} stories={project.project} />
+        <StoryList projectId={id} stories={project.project} estimateStory={estimateStory} />
       </div>
     </div>
   );

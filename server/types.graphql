@@ -14,6 +14,7 @@ type User @model {
   #custom fields
   username: String! @isUnique
   createdProjects: [Project!]! @relation(name: "UserProjects")
+  selections: [CardSelection!]! @relation(name: "UserSelectionCards")
 }
 
 type Project @model {
@@ -32,6 +33,7 @@ type Story @model {
   estimation: Int
 
   project: Project @relation(name: "ProjectStory")
+  selections: [CardSelection!]! @relation(name: "StorySelectionCards")
 }
 
 type DeckType @model {
@@ -48,4 +50,12 @@ type Card @model {
   label: String!
   value: Float!
   deckType: DeckType @relation(name: "DeckCards")
+  selections: [CardSelection!]! @relation(name: "CardSelectionCards")
+}
+
+type CardSelection @model {
+  id: ID! @isUnique
+  card: Card @relation(name: "CardSelectionCards")
+  story: Story! @relation(name: "StorySelectionCards")
+  user: User! @relation(name: "UserSelectionCards")
 }

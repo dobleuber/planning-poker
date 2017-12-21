@@ -1,3 +1,18 @@
+input AddToCardSelectionCardsCardInput {
+  selectionsCardSelectionId: ID!
+  cardCardId: ID!
+  clientMutationId: String!
+}
+
+type AddToCardSelectionCardsPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  cardCard: Card
+  selectionsCardSelection: CardSelection
+  cardCardEdge: CardEdge
+  selectionsCardSelectionEdge: CardSelectionEdge
+}
+
 input AddToDeckCardsDeckTypeInput {
   cardsCardId: ID!
   deckTypeDeckTypeId: ID!
@@ -43,6 +58,21 @@ input AddToProjectStoryProjectInput {
   clientMutationId: String!
 }
 
+type AddToStorySelectionCardsPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  storyStory: Story
+  selectionsCardSelection: CardSelection
+  storyStoryEdge: StoryEdge
+  selectionsCardSelectionEdge: CardSelectionEdge
+}
+
+input AddToStorySelectionCardsStoryInput {
+  selectionsCardSelectionId: ID!
+  storyStoryId: ID!
+  clientMutationId: String!
+}
+
 type AddToUserProjectsPayload {
   viewer: Viewer!
   clientMutationId: String!
@@ -58,6 +88,21 @@ input AddToUserProjectsProjectInput {
   clientMutationId: String!
 }
 
+type AddToUserSelectionCardsPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  userUser: User
+  selectionsCardSelection: CardSelection
+  userUserEdge: UserEdge
+  selectionsCardSelectionEdge: CardSelectionEdge
+}
+
+input AddToUserSelectionCardsUserInput {
+  selectionsCardSelectionId: ID!
+  userUserId: ID!
+  clientMutationId: String!
+}
+
 # AuthenticateUserPayload
 type AuthenticateUserPayload {
   id: ID!
@@ -68,6 +113,7 @@ type Card implements Node {
   deckType(filter: DeckTypeFilter): DeckType
   id: ID!
   label: String!
+  selections(filter: CardSelectionFilter, orderBy: CardSelectionOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): CardSelectionConnection
   value: Float!
 }
 
@@ -210,6 +256,9 @@ input CardFilter {
   # All values greater than or equal the given value.
   value_gte: Float
   deckType: DeckTypeFilter
+  selections_every: CardSelectionFilter
+  selections_some: CardSelectionFilter
+  selections_none: CardSelectionFilter
 }
 
 enum CardOrderBy {
@@ -221,11 +270,133 @@ enum CardOrderBy {
   value_DESC
 }
 
+type CardSelection implements Node {
+  card(filter: CardFilter): Card
+  id: ID!
+  story(filter: StoryFilter): Story!
+  user(filter: UserFilter): User!
+}
+
+input CardSelectioncardCard {
+  label: String!
+  value: Float!
+  deckTypeId: ID
+  deckType: CarddeckTypeDeckType
+  selectionsIds: [ID!]
+  selections: [CardselectionsCardSelection!]
+}
+
+# A connection to a list of items.
+type CardSelectionConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [CardSelectionEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+# An edge in a connection.
+type CardSelectionEdge {
+  # The item at the end of the edge.
+  node: CardSelection!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input CardSelectionFilter {
+  # Logical AND on all given filters.
+  AND: [CardSelectionFilter!]
+
+  # Logical OR on all given filters.
+  OR: [CardSelectionFilter!]
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  card: CardFilter
+  story: StoryFilter
+  user: UserFilter
+}
+
+enum CardSelectionOrderBy {
+  id_ASC
+  id_DESC
+}
+
+input CardselectionsCardSelection {
+  storyId: ID
+  story: CardSelectionstoryStory
+  userId: ID
+  user: CardSelectionuserUser
+}
+
+input CardSelectionstoryStory {
+  estimation: Int
+  name: String!
+  url: String
+  projectId: ID
+  project: StoryprojectProject
+  selectionsIds: [ID!]
+  selections: [StoryselectionsCardSelection!]
+}
+
+input CardSelectionuserUser {
+  email: String!
+  password: String!
+  username: String!
+  createdProjectsIds: [ID!]
+  createdProjects: [UsercreatedProjectsProject!]
+  selectionsIds: [ID!]
+  selections: [UserselectionsCardSelection!]
+}
+
 input CreateCard {
   label: String!
   value: Float!
   deckTypeId: ID
   deckType: CarddeckTypeDeckType
+  selectionsIds: [ID!]
+  selections: [CardselectionsCardSelection!]
 }
 
 input CreateCardInput {
@@ -233,6 +404,8 @@ input CreateCardInput {
   value: Float!
   deckTypeId: ID
   deckType: CarddeckTypeDeckType
+  selectionsIds: [ID!]
+  selections: [CardselectionsCardSelection!]
   clientMutationId: String!
 }
 
@@ -242,6 +415,35 @@ type CreateCardPayload {
   card: Card
   edge: CardEdge
   deckType: DeckType
+}
+
+input CreateCardSelection {
+  cardId: ID
+  card: CardSelectioncardCard
+  storyId: ID
+  story: CardSelectionstoryStory
+  userId: ID
+  user: CardSelectionuserUser
+}
+
+input CreateCardSelectionInput {
+  cardId: ID
+  card: CardSelectioncardCard
+  storyId: ID
+  story: CardSelectionstoryStory
+  userId: ID
+  user: CardSelectionuserUser
+  clientMutationId: String!
+}
+
+type CreateCardSelectionPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  cardSelection: CardSelection
+  edge: CardSelectionEdge
+  card: Card
+  story: Story
+  user: User
 }
 
 input CreateDeckType {
@@ -308,6 +510,8 @@ input CreateStory {
   url: String
   projectId: ID
   project: StoryprojectProject
+  selectionsIds: [ID!]
+  selections: [StoryselectionsCardSelection!]
 }
 
 input CreateStoryInput {
@@ -316,6 +520,8 @@ input CreateStoryInput {
   url: String
   projectId: ID
   project: StoryprojectProject
+  selectionsIds: [ID!]
+  selections: [StoryselectionsCardSelection!]
   clientMutationId: String!
 }
 
@@ -333,6 +539,8 @@ input CreateUser {
   username: String!
   createdProjectsIds: [ID!]
   createdProjects: [UsercreatedProjectsProject!]
+  selectionsIds: [ID!]
+  selections: [UserselectionsCardSelection!]
 }
 
 # If authentication was successful the payload contains the user and a token. If unsuccessful this payload is null.
@@ -355,6 +563,8 @@ type DeckType implements Node {
 input DeckTypecardsCard {
   label: String!
   value: Float!
+  selectionsIds: [ID!]
+  selections: [CardselectionsCardSelection!]
 }
 
 # A connection to a list of items.
@@ -544,6 +754,22 @@ type DeleteCardPayload {
   deletedId: ID
 }
 
+input DeleteCardSelectionInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteCardSelectionPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  cardSelection: CardSelection
+  edge: CardSelectionEdge
+  card: Card
+  story: Story
+  user: User
+  deletedId: ID
+}
+
 input DeleteDeckTypeInput {
   id: ID!
   clientMutationId: String!
@@ -606,28 +832,36 @@ type LoggedInUserPayload {
 
 type Mutation {
   createCard(input: CreateCardInput!): CreateCardPayload
+  createCardSelection(input: CreateCardSelectionInput!): CreateCardSelectionPayload
   createDeckType(input: CreateDeckTypeInput!): CreateDeckTypePayload
   createProject(input: CreateProjectInput!): CreateProjectPayload
   createStory(input: CreateStoryInput!): CreateStoryPayload
   updateCard(input: UpdateCardInput!): UpdateCardPayload
+  updateCardSelection(input: UpdateCardSelectionInput!): UpdateCardSelectionPayload
   updateDeckType(input: UpdateDeckTypeInput!): UpdateDeckTypePayload
   updateProject(input: UpdateProjectInput!): UpdateProjectPayload
   updateStory(input: UpdateStoryInput!): UpdateStoryPayload
   updateUser(input: UpdateUserInput!): UpdateUserPayload
   updateOrCreateCard(input: UpdateOrCreateCardInput!): UpdateOrCreateCardPayload
+  updateOrCreateCardSelection(input: UpdateOrCreateCardSelectionInput!): UpdateOrCreateCardSelectionPayload
   updateOrCreateDeckType(input: UpdateOrCreateDeckTypeInput!): UpdateOrCreateDeckTypePayload
   updateOrCreateProject(input: UpdateOrCreateProjectInput!): UpdateOrCreateProjectPayload
   updateOrCreateStory(input: UpdateOrCreateStoryInput!): UpdateOrCreateStoryPayload
   updateOrCreateUser(input: UpdateOrCreateUserInput!): UpdateOrCreateUserPayload
   deleteCard(input: DeleteCardInput!): DeleteCardPayload
+  deleteCardSelection(input: DeleteCardSelectionInput!): DeleteCardSelectionPayload
   deleteDeckType(input: DeleteDeckTypeInput!): DeleteDeckTypePayload
   deleteProject(input: DeleteProjectInput!): DeleteProjectPayload
   deleteStory(input: DeleteStoryInput!): DeleteStoryPayload
   deleteUser(input: DeleteUserInput!): DeleteUserPayload
+  addToCardSelectionCards(input: AddToCardSelectionCardsCardInput!): AddToCardSelectionCardsPayload
   addToDeckCards(input: AddToDeckCardsDeckTypeInput!): AddToDeckCardsPayload
   addToDeckTypeProjects(input: AddToDeckTypeProjectsProjectInput!): AddToDeckTypeProjectsPayload
   addToProjectStory(input: AddToProjectStoryProjectInput!): AddToProjectStoryPayload
+  addToStorySelectionCards(input: AddToStorySelectionCardsStoryInput!): AddToStorySelectionCardsPayload
   addToUserProjects(input: AddToUserProjectsProjectInput!): AddToUserProjectsPayload
+  addToUserSelectionCards(input: AddToUserSelectionCardsUserInput!): AddToUserSelectionCardsPayload
+  removeFromCardSelectionCards(input: RemoveFromCardSelectionCardsCardInput!): RemoveFromCardSelectionCardsPayload
   removeFromDeckCards(input: RemoveFromDeckCardsDeckTypeInput!): RemoveFromDeckCardsPayload
   removeFromDeckTypeProjects(input: RemoveFromDeckTypeProjectsProjectInput!): RemoveFromDeckTypeProjectsPayload
   removeFromProjectStory(input: RemoveFromProjectStoryProjectInput!): RemoveFromProjectStoryPayload
@@ -847,6 +1081,8 @@ input ProjectprojectStory {
   estimation: Int
   name: String!
   url: String
+  selectionsIds: [ID!]
+  selections: [StoryselectionsCardSelection!]
 }
 
 input ProjectuserCreatorUser {
@@ -855,6 +1091,8 @@ input ProjectuserCreatorUser {
   username: String!
   createdProjectsIds: [ID!]
   createdProjects: [UsercreatedProjectsProject!]
+  selectionsIds: [ID!]
+  selections: [UserselectionsCardSelection!]
 }
 
 type Query {
@@ -865,6 +1103,21 @@ type Query {
     # The ID of an object
     id: ID!
   ): Node
+}
+
+input RemoveFromCardSelectionCardsCardInput {
+  selectionsCardSelectionId: ID!
+  cardCardId: ID!
+  clientMutationId: String!
+}
+
+type RemoveFromCardSelectionCardsPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  cardCard: Card
+  selectionsCardSelection: CardSelection
+  cardCardEdge: CardEdge
+  selectionsCardSelectionEdge: CardSelectionEdge
 }
 
 input RemoveFromDeckCardsDeckTypeInput {
@@ -933,6 +1186,8 @@ input SignupUserInput {
   username: String!
   createdProjectsIds: [ID!]
   createdProjects: [UsercreatedProjectsProject!]
+  selectionsIds: [ID!]
+  selections: [UserselectionsCardSelection!]
   clientMutationId: String!
 }
 
@@ -947,6 +1202,7 @@ type Story implements Node {
   id: ID!
   name: String!
   project(filter: ProjectFilter): Project
+  selections(filter: CardSelectionFilter, orderBy: CardSelectionOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): CardSelectionConnection
   url: String
 }
 
@@ -1120,6 +1376,9 @@ input StoryFilter {
   # All values not ending with the given string.
   url_not_ends_with: String
   project: ProjectFilter
+  selections_every: CardSelectionFilter
+  selections_some: CardSelectionFilter
+  selections_none: CardSelectionFilter
 }
 
 enum StoryOrderBy {
@@ -1144,12 +1403,21 @@ input StoryprojectProject {
   project: [ProjectprojectStory!]
 }
 
+input StoryselectionsCardSelection {
+  cardId: ID
+  card: CardSelectioncardCard
+  userId: ID
+  user: CardSelectionuserUser
+}
+
 input UpdateCard {
   id: ID!
   label: String
   value: Float
   deckTypeId: ID
   deckType: CarddeckTypeDeckType
+  selectionsIds: [ID!]
+  selections: [CardselectionsCardSelection!]
 }
 
 input UpdateCardInput {
@@ -1158,6 +1426,8 @@ input UpdateCardInput {
   value: Float
   deckTypeId: ID
   deckType: CarddeckTypeDeckType
+  selectionsIds: [ID!]
+  selections: [CardselectionsCardSelection!]
   clientMutationId: String!
 }
 
@@ -1167,6 +1437,37 @@ type UpdateCardPayload {
   card: Card
   edge: CardEdge
   deckType: DeckType
+}
+
+input UpdateCardSelection {
+  id: ID!
+  cardId: ID
+  card: CardSelectioncardCard
+  storyId: ID
+  story: CardSelectionstoryStory
+  userId: ID
+  user: CardSelectionuserUser
+}
+
+input UpdateCardSelectionInput {
+  id: ID!
+  cardId: ID
+  card: CardSelectioncardCard
+  storyId: ID
+  story: CardSelectionstoryStory
+  userId: ID
+  user: CardSelectionuserUser
+  clientMutationId: String!
+}
+
+type UpdateCardSelectionPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  cardSelection: CardSelection
+  edge: CardSelectionEdge
+  card: Card
+  story: Story
+  user: User
 }
 
 input UpdateDeckType {
@@ -1209,6 +1510,22 @@ type UpdateOrCreateCardPayload {
   card: Card
   edge: CardEdge
   deckType: DeckType
+}
+
+input UpdateOrCreateCardSelectionInput {
+  update: UpdateCardSelection!
+  create: CreateCardSelection!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateCardSelectionPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  cardSelection: CardSelection
+  edge: CardSelectionEdge
+  card: Card
+  story: Story
+  user: User
 }
 
 input UpdateOrCreateDeckTypeInput {
@@ -1307,6 +1624,8 @@ input UpdateStory {
   url: String
   projectId: ID
   project: StoryprojectProject
+  selectionsIds: [ID!]
+  selections: [StoryselectionsCardSelection!]
 }
 
 input UpdateStoryInput {
@@ -1316,6 +1635,8 @@ input UpdateStoryInput {
   url: String
   projectId: ID
   project: StoryprojectProject
+  selectionsIds: [ID!]
+  selections: [StoryselectionsCardSelection!]
   clientMutationId: String!
 }
 
@@ -1334,6 +1655,8 @@ input UpdateUser {
   username: String
   createdProjectsIds: [ID!]
   createdProjects: [UsercreatedProjectsProject!]
+  selectionsIds: [ID!]
+  selections: [UserselectionsCardSelection!]
 }
 
 input UpdateUserInput {
@@ -1343,6 +1666,8 @@ input UpdateUserInput {
   username: String
   createdProjectsIds: [ID!]
   createdProjects: [UsercreatedProjectsProject!]
+  selectionsIds: [ID!]
+  selections: [UserselectionsCardSelection!]
   clientMutationId: String!
 }
 
@@ -1359,6 +1684,7 @@ type User implements Node {
   email: String!
   id: ID!
   password: String!
+  selections(filter: CardSelectionFilter, orderBy: CardSelectionOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): CardSelectionConnection
   updatedAt: DateTime!
   username: String!
 }
@@ -1379,7 +1705,7 @@ input UsercreatedProjectsProject {
   description: String
   name: String!
   deckTypeId: ID
-  # deckType: ProjectdeckTypeDeckType # remove this for 'Maximum call stack size exceeded'
+  deckType: ProjectdeckTypeDeckType
   projectIds: [ID!]
   project: [ProjectprojectStory!]
 }
@@ -1606,6 +1932,9 @@ input UserFilter {
   createdProjects_every: ProjectFilter
   createdProjects_some: ProjectFilter
   createdProjects_none: ProjectFilter
+  selections_every: CardSelectionFilter
+  selections_some: CardSelectionFilter
+  selections_none: CardSelectionFilter
 }
 
 enum UserOrderBy {
@@ -1623,15 +1952,24 @@ enum UserOrderBy {
   username_DESC
 }
 
+input UserselectionsCardSelection {
+  cardId: ID
+  card: CardSelectioncardCard
+  storyId: ID
+  story: CardSelectionstoryStory
+}
+
 # This is the famous Relay viewer object
 type Viewer {
   allCards(filter: CardFilter, orderBy: CardOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): CardConnection!
+  allCardSelections(filter: CardSelectionFilter, orderBy: CardSelectionOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): CardSelectionConnection!
   allDeckTypes(filter: DeckTypeFilter, orderBy: DeckTypeOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): DeckTypeConnection!
   allProjects(filter: ProjectFilter, orderBy: ProjectOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): ProjectConnection!
   allStories(filter: StoryFilter, orderBy: StoryOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): StoryConnection!
   allUsers(filter: UserFilter, orderBy: UserOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   user: User
   Card(id: ID): Card
+  CardSelection(id: ID): CardSelection
   DeckType(id: ID): DeckType
   Project(id: ID): Project
   Story(id: ID): Story

@@ -5,23 +5,20 @@ import {
 import environment from '../createRelayEnvironment';
 
 const mutation = graphql`
-  mutation CreateProjectMutation($input: CreateProjectInput!) {
-    createProject(input: $input) {
-      project {
+  mutation CreateCardSelectionMutation($input: CreateCardSelectionInput!) {
+    createCardSelection(input: $input) {
+      cardSelection {
         id
-        name
-        description
       }
     }
   }
 `;
 
-export default (name, description, userCreatorId, callback) => {
+export default (userId, storyId, callback) => {
   const variables = {
     input: {
-      name,
-      description,
-      userCreatorId,
+      userId,
+      storyId,
       clientMutationId: '',
     },
   };
@@ -31,7 +28,9 @@ export default (name, description, userCreatorId, callback) => {
     {
       mutation,
       variables,
-      onCompleted: res => callback(res),
+      onCompleted: (res, error) => {
+        callback(res, error);
+      },
       onError: err => console.error(err),
     },
   );

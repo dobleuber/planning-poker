@@ -25,7 +25,11 @@ const ProjectList = ({ viewer }) => (
             </div>
             {
               viewer.allProjects.edges.map(({ node }) => (
-                <ProjectItem key={node.__id} project={node} className="row" />
+                <ProjectItem
+                  key={node.__id}
+                  project={node}
+                  className="row"
+                />
               ))
             }
           </div>

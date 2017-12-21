@@ -8,10 +8,20 @@ import {
 
 import './StoryItem.css';
 
-const StoryItem = ({ projectId, story }) => {
+import Security from '../../utils/security';
+
+const StoryItem = ({ projectId, story, estimateStory }) => {
   const {
     id, name, url, estimation,
   } = story;
+
+  const { userId } = Security;
+
+  const params = {
+    storyId: id,
+    userId,
+  };
+
   return (
     <I18n>
       {
@@ -26,7 +36,7 @@ const StoryItem = ({ projectId, story }) => {
               {url && <a href={url} target="story_details">{url}</a>}
             </div>
             <div className="column estimate">
-              { estimation || <Link to={`/project/${projectId}/story/${id}/estimate`} >{t('estimate-story')}</Link> }
+              { estimation || <button onClick={() => estimateStory(params)} >{t('estimate-story')}</button> }
             </div>
           </div>
         )

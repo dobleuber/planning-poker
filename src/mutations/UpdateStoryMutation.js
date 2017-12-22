@@ -9,12 +9,24 @@ const mutation = graphql`
     updateStory(input: $input) {
       story {
         id
+        name
       }
     }
   }
 `;
 
 export default (id, name, url, estimation, projectId) => {
+  const optimisticResponse = {
+    updateStory: {
+      story: {
+        id,
+        name,
+        url,
+        estimation,
+      },
+    },
+  };
+
   const variables = {
     input: {
       id,
@@ -30,6 +42,7 @@ export default (id, name, url, estimation, projectId) => {
     environment,
     {
       mutation,
+      optimisticResponse,
       variables,
       onError: err => console.log(err),
     },

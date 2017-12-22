@@ -10,8 +10,9 @@ const Card = ({
   card,
   estimationId,
   onSelectCard,
-  selected,
+  selectedCard,
 }) => {
+  const selected = selectedCard && selectedCard.id === card.id;
   const selectCard = () => {
     if (selected) {
       return;
@@ -39,5 +40,9 @@ export default createFragmentContainer(Card, graphql`
     id
     label
     value
+  }
+
+  fragment Card_selectedCard on Card {
+    id
   }
 `);

@@ -10,12 +10,6 @@ const mutation = graphql`
       cardSelection {
         id
       }
-      user {
-        id
-      }
-      story {
-        id
-      }
       card {
         id
       }
@@ -24,6 +18,17 @@ const mutation = graphql`
 `;
 
 export default (id, cardId, callback) => {
+  const optimisticResponse = {
+    updateCardSelection: {
+      cardSelection: {
+        id,
+      },
+      card: {
+        id: cardId,
+      },
+    },
+  };
+
   const variables = {
     input: {
       id,
@@ -37,6 +42,7 @@ export default (id, cardId, callback) => {
     {
       mutation,
       variables,
+      optimisticResponse,
       onCompleted: (res, error) => {
         callback(res, error);
       },

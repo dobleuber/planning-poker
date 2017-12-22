@@ -10,8 +10,6 @@ import { Card } from '../';
 
 
 const Estimate = ({ story, estimation, selectCard }) => {
-  const isSelected = fragment => estimation.card && estimation.card.id === fragment.__id;
-
   const { name, url } = story;
   return (
     <div className="estimate">
@@ -24,15 +22,19 @@ const Estimate = ({ story, estimation, selectCard }) => {
         <div className="field">{url}</div>
       </div>
       <div className="row">
+        <div className="label">card</div>
+        <div className="field">{estimation.selectedCard.id}</div>
+      </div>
+      <div className="row">
         <div className="card-container">
           {
             story.project.deckType.cards.edges.map(({ node }) => (
               <Card
                 key={node.__id}
                 card={node}
-                selected={isSelected(node, estimation)}
                 estimationId={estimation.id}
                 onSelectCard={selectCard}
+                selectedCard={estimation.selectedCard}
               />
             ))
           }
@@ -58,6 +60,15 @@ export default createFragmentContainer(Estimate, graphql`
           }
         }
       }
+    }
+  }
+
+  fragment Estimate_estimation on CardSelection {
+    id
+    selectedCard: card {
+      ...Card_selectedCard
+      id
+      label
     }
   }
 `);

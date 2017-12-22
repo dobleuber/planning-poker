@@ -18,12 +18,7 @@ const query = graphql`
     }
 
     estimation: node(id: $estimateId) {
-      ... on CardSelection{
-        id
-        card {
-          id
-        }
-      }
+      ...Estimate_estimation
     }
   }
 `;

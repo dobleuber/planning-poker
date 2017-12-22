@@ -14,7 +14,7 @@ I am using the followings technologies:
 - webpack
 - SASS
 
-I need to learn to build tests for Relay, I actually have some examples, I hope to improve the test coverage soon.
+I need to learn how to build tests for Relay, I actually have some examples, I hope to improve the test coverage soon.
 
 Feel free of navigate in this code, I appreciate a lot any feedbag or suggestions. Thanks in advance.
 

@@ -13,11 +13,11 @@ class StoryDetail extends Component {
   constructor(props) {
     super(props);
     const { story } = props;
-    const { name, url, estimation = '' } = story || {};
+    const { name, url, estimation } = story || {};
     this.state = {
       name,
       url,
-      estimation,
+      estimation: estimation || '',
     };
 
     this.handleChangeValue = this.handleChangeValue.bind(this);

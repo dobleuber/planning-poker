@@ -9,9 +9,9 @@ const mutation = graphql`
     updateCardSelection(input: $input) {
       cardSelection {
         id
-      }
-      card {
-        id
+        card {
+          id
+        }
       }
     }
   }
@@ -22,9 +22,9 @@ export default (id, cardId, callback) => {
     updateCardSelection: {
       cardSelection: {
         id,
-      },
-      card: {
-        id: cardId,
+        card: {
+          id: cardId,
+        },
       },
     },
   };
@@ -43,9 +43,8 @@ export default (id, cardId, callback) => {
       mutation,
       variables,
       optimisticResponse,
-      onCompleted: (res, error) => {
-        callback(res, error);
-      },
+      onCompleted: (res, error) =>
+        callback && callback(res, error),
       onError: err => console.error(err),
     },
   );

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   QueryRenderer,
   graphql,
@@ -9,57 +9,42 @@ import environment from '../../createRelayEnvironment';
 import './EstimatePage.css';
 
 import { Estimate } from '../';
-import updateCardSelectionMutation from '../../mutations/UpdateCardSelectionMutation';
 
 const query = graphql`
-  query EstimatePageQuery($storyId: ID!, $estimateId: ID!) {
-    story: node(id: $storyId) {
-      ...Estimate_story
-    }
-
+  query EstimatePageQuery($estimateId: ID!) {
     estimation: node(id: $estimateId) {
       ...Estimate_estimation
     }
   }
 `;
 
-class EstimatePage extends Component {
-  static selectCard({ id, cardId }) {
-    updateCardSelectionMutation(id, cardId, res => console.log(res));
-  }
+const EstimatePage = ({ match }) => {
+  const { estimateId } = match.params;
+  return (
+    <QueryRenderer
+      environment={environment}
+      query={query}
+      variables={{
+        estimateId,
+      }}
+      render={({ error, props }) => {
+        if (error) {
+          return <div>{error.message}</div>;
+        } else if (props) {
+          return (
+            <div className="estimate-page">
+              <Estimate
+                estimateId={estimateId}
+                estimation={props.estimation}
+              />
+            </div>
+          );
+        }
 
-  render() {
-    const { match } = this.props;
-    const { storyId, estimateId } = match.params;
-    return (
-      <QueryRenderer
-        environment={environment}
-        query={query}
-        variables={{
-          storyId,
-          estimateId,
-        }}
-        render={({ error, props }) => {
-          if (error) {
-            return <div>{error.message}</div>;
-          } else if (props) {
-            return (
-              <div className="estimate-page">
-                <Estimate
-                  estimateId={estimateId}
-                  story={props.story}
-                  estimation={props.estimation}
-                  selectCard={EstimatePage.selectCard}
-                />
-              </div>
-            );
-          }
-
-          return <div>Loading</div>;
-        }}
-      />
-    );
-  }
-}
+        return <div>Loading</div>;
+      }}
+    />
+  );
+};
 
 export default EstimatePage;

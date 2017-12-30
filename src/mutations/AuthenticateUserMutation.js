@@ -26,7 +26,6 @@ export default (email, password, callback) => {
       mutation,
       variables,
       onCompleted: (response) => {
-        console.log(response);
         if (response.authenticateUser) {
           const { id, token } = response.authenticateUser;
           callback(id, token);

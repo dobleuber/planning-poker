@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-i18next';
+import queryString from 'query-string';
 
 import './Login.css';
 
@@ -37,20 +38,22 @@ class Login extends Component {
 
   submitForm(event) {
     event.preventDefault();
+    const parsedQueryString = queryString.parse(this.props.location.search);
     const { username, email, password } = this.state;
+    const redirect = parsedQueryString.redirect || '/';
     if (this.state.login) {
       if (email && password) {
         AuthenticateUserMutation(email, password, (id, token) => {
           Security.setCredentials(id, token);
-          this.props.history.push('/');
           this.props.onLogin();
+          this.props.history.push(redirect);
         });
       }
     } else if (email && password && username) {
       CreateUserMutation(email, password, username, (id, token) => {
         Security.setCredentials(id, token);
-        this.props.history.push('/');
         this.props.onLogin();
+        this.props.history.push(redirect);
       });
     }
   }

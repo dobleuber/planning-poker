@@ -15,6 +15,7 @@ type User @model {
   username: String! @isUnique
   createdProjects: [Project!]! @relation(name: "UserProjects")
   selections: [CardSelection!]! @relation(name: "UserSelectionCards")
+  projectsInvolved: [Project!]! @relation(name: "ProjectCollaborators")
 }
 
 type Project @model {
@@ -24,6 +25,7 @@ type Project @model {
   userCreator: User @relation(name: "UserProjects")
   stories: [Story!]! @relation(name: "ProjectStory")
   deckType: DeckType @relation(name: "DeckTypeProjects")
+  collaborators: [User!]! @relation(name: "ProjectCollaborators")
 }
 
 type Story @model {

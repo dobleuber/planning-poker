@@ -5,7 +5,12 @@ import { I18n } from 'react-i18next';
 
 import './Header.css';
 
-const Header = ({ userId, logout, location }) => {
+const Header = ({
+  userId,
+  logout,
+  location,
+  onInvite,
+}) => {
   const regexProjectId = /project\/(\w+)(\/story)?/;
   const pathname = location.pathname || '';
   const match = pathname.match(regexProjectId);
@@ -13,6 +18,7 @@ const Header = ({ userId, logout, location }) => {
   if (match) {
     [, projectId] = match;
   }
+
   return (
     <I18n>
       {
@@ -30,6 +36,11 @@ const Header = ({ userId, logout, location }) => {
             { projectId &&
               <div className="link">
                 <NavLink to={`/project/${projectId}/story/new`}>{t('newStory')}</NavLink>
+              </div>
+            }
+            { projectId &&
+              <div className="link invite">
+                <button onClick={onInvite}>{t('invite')}</button>
               </div>
             }
             <div className="link login">

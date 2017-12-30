@@ -18,6 +18,7 @@ const StoryItem = ({ projectId, story, estimateStory }) => {
   const { userId } = Security;
 
   const params = {
+    projectId,
     storyId: id,
     userId,
   };

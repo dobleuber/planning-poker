@@ -48,7 +48,6 @@ class StoryDetail extends Component {
   }
 
   render() {
-    console.log(this.props);
     const { goBack } = this.props.history;
     return (
       <I18n>

@@ -26,7 +26,6 @@ export default (email, password, username, callback) => {
     mutation,
     variables,
     onCompleted: (response) => {
-      console.log(response);
       const { id, token } = response.signupUser;
       callback(id, token);
     },

@@ -31,15 +31,29 @@
     &.login {
       margin-left: auto;
       margin-right: 1em;
+    }
 
+    &.invite {
       button {
-        border: none;
-        padding: 0.8em;
-        font-size: 1em;
+        background-color: $color_secondary;
+        color: $color_button_primary;
 
         &:hover {
-          background-color: transparentize($color: $bg_main_primary, $amount: 0.5);
+          background-color: transparentize($color: $color_secondary, $amount: 0.5);
         }
+      }
+    }
+
+    button {
+      border: none;
+      padding: 0.8em;
+      font-size: 1em;
+
+      &:hover {
+        background-color: transparentize($color: $bg_main_primary, $amount: 0.5);
+      }
+      &:focus {
+        outline: none;
       }
     }
   }

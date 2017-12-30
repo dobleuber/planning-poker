@@ -43,6 +43,21 @@ input AddToDeckTypeProjectsProjectInput {
   clientMutationId: String!
 }
 
+type AddToProjectCollaboratorsPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  collaboratorsUser: User
+  projectsInvolvedProject: Project
+  collaboratorsUserEdge: UserEdge
+  projectsInvolvedProjectEdge: ProjectEdge
+}
+
+input AddToProjectCollaboratorsUserInput {
+  projectsInvolvedProjectId: ID!
+  collaboratorsUserId: ID!
+  clientMutationId: String!
+}
+
 type AddToProjectStoryPayload {
   viewer: Viewer!
   clientMutationId: String!
@@ -386,6 +401,8 @@ input CardSelectionuserUser {
   username: String!
   createdProjectsIds: [ID!]
   createdProjects: [UsercreatedProjectsProject!]
+  projectsInvolvedIds: [ID!]
+  projectsInvolved: [UserprojectsInvolvedProject!]
   selectionsIds: [ID!]
   selections: [UserselectionsCardSelection!]
 }
@@ -479,6 +496,8 @@ input CreateProject {
   deckType: ProjectdeckTypeDeckType
   userCreatorId: ID
   userCreator: ProjectuserCreatorUser
+  collaboratorsIds: [ID!]
+  collaborators: [ProjectcollaboratorsUser!]
   projectIds: [ID!]
   project: [ProjectprojectStory!]
 }
@@ -490,6 +509,8 @@ input CreateProjectInput {
   deckType: ProjectdeckTypeDeckType
   userCreatorId: ID
   userCreator: ProjectuserCreatorUser
+  collaboratorsIds: [ID!]
+  collaborators: [ProjectcollaboratorsUser!]
   projectIds: [ID!]
   project: [ProjectprojectStory!]
   clientMutationId: String!
@@ -539,6 +560,8 @@ input CreateUser {
   username: String!
   createdProjectsIds: [ID!]
   createdProjects: [UsercreatedProjectsProject!]
+  projectsInvolvedIds: [ID!]
+  projectsInvolved: [UserprojectsInvolvedProject!]
   selectionsIds: [ID!]
   selections: [UserselectionsCardSelection!]
 }
@@ -736,6 +759,8 @@ input DeckTypeprojectsProject {
   name: String!
   userCreatorId: ID
   userCreator: ProjectuserCreatorUser
+  collaboratorsIds: [ID!]
+  collaborators: [ProjectcollaboratorsUser!]
   projectIds: [ID!]
   project: [ProjectprojectStory!]
 }
@@ -857,6 +882,7 @@ type Mutation {
   addToCardSelectionCards(input: AddToCardSelectionCardsCardInput!): AddToCardSelectionCardsPayload
   addToDeckCards(input: AddToDeckCardsDeckTypeInput!): AddToDeckCardsPayload
   addToDeckTypeProjects(input: AddToDeckTypeProjectsProjectInput!): AddToDeckTypeProjectsPayload
+  addToProjectCollaborators(input: AddToProjectCollaboratorsUserInput!): AddToProjectCollaboratorsPayload
   addToProjectStory(input: AddToProjectStoryProjectInput!): AddToProjectStoryPayload
   addToStorySelectionCards(input: AddToStorySelectionCardsStoryInput!): AddToStorySelectionCardsPayload
   addToUserProjects(input: AddToUserProjectsProjectInput!): AddToUserProjectsPayload
@@ -864,6 +890,7 @@ type Mutation {
   removeFromCardSelectionCards(input: RemoveFromCardSelectionCardsCardInput!): RemoveFromCardSelectionCardsPayload
   removeFromDeckCards(input: RemoveFromDeckCardsDeckTypeInput!): RemoveFromDeckCardsPayload
   removeFromDeckTypeProjects(input: RemoveFromDeckTypeProjectsProjectInput!): RemoveFromDeckTypeProjectsPayload
+  removeFromProjectCollaborators(input: RemoveFromProjectCollaboratorsUserInput!): RemoveFromProjectCollaboratorsPayload
   removeFromProjectStory(input: RemoveFromProjectStoryProjectInput!): RemoveFromProjectStoryPayload
   removeFromUserProjects(input: RemoveFromUserProjectsProjectInput!): RemoveFromUserProjectsPayload
   createUser(input: SignupUserInput!): CreateUserPayload!
@@ -897,12 +924,25 @@ type PageInfo {
 }
 
 type Project implements Node {
+  collaborators(filter: UserFilter, orderBy: UserOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection
   deckType(filter: DeckTypeFilter): DeckType
   description: String
   id: ID!
   name: String!
   project(filter: StoryFilter, orderBy: StoryOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): StoryConnection
   userCreator(filter: UserFilter): User
+}
+
+input ProjectcollaboratorsUser {
+  email: String!
+  password: String!
+  username: String!
+  createdProjectsIds: [ID!]
+  createdProjects: [UsercreatedProjectsProject!]
+  projectsInvolvedIds: [ID!]
+  projectsInvolved: [UserprojectsInvolvedProject!]
+  selectionsIds: [ID!]
+  selections: [UserselectionsCardSelection!]
 }
 
 # A connection to a list of items.
@@ -1061,6 +1101,9 @@ input ProjectFilter {
 
   # All values not ending with the given string.
   name_not_ends_with: String
+  collaborators_every: UserFilter
+  collaborators_some: UserFilter
+  collaborators_none: UserFilter
   deckType: DeckTypeFilter
   project_every: StoryFilter
   project_some: StoryFilter
@@ -1091,6 +1134,8 @@ input ProjectuserCreatorUser {
   username: String!
   createdProjectsIds: [ID!]
   createdProjects: [UsercreatedProjectsProject!]
+  projectsInvolvedIds: [ID!]
+  projectsInvolved: [UserprojectsInvolvedProject!]
   selectionsIds: [ID!]
   selections: [UserselectionsCardSelection!]
 }
@@ -1150,6 +1195,21 @@ input RemoveFromDeckTypeProjectsProjectInput {
   clientMutationId: String!
 }
 
+type RemoveFromProjectCollaboratorsPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  collaboratorsUser: User
+  projectsInvolvedProject: Project
+  collaboratorsUserEdge: UserEdge
+  projectsInvolvedProjectEdge: ProjectEdge
+}
+
+input RemoveFromProjectCollaboratorsUserInput {
+  projectsInvolvedProjectId: ID!
+  collaboratorsUserId: ID!
+  clientMutationId: String!
+}
+
 type RemoveFromProjectStoryPayload {
   viewer: Viewer!
   clientMutationId: String!
@@ -1186,6 +1246,8 @@ input SignupUserInput {
   username: String!
   createdProjectsIds: [ID!]
   createdProjects: [UsercreatedProjectsProject!]
+  projectsInvolvedIds: [ID!]
+  projectsInvolved: [UserprojectsInvolvedProject!]
   selectionsIds: [ID!]
   selections: [UserselectionsCardSelection!]
   clientMutationId: String!
@@ -1399,6 +1461,8 @@ input StoryprojectProject {
   deckType: ProjectdeckTypeDeckType
   userCreatorId: ID
   userCreator: ProjectuserCreatorUser
+  collaboratorsIds: [ID!]
+  collaborators: [ProjectcollaboratorsUser!]
   projectIds: [ID!]
   project: [ProjectprojectStory!]
 }
@@ -1591,6 +1655,8 @@ input UpdateProject {
   deckType: ProjectdeckTypeDeckType
   userCreatorId: ID
   userCreator: ProjectuserCreatorUser
+  collaboratorsIds: [ID!]
+  collaborators: [ProjectcollaboratorsUser!]
   projectIds: [ID!]
   project: [ProjectprojectStory!]
 }
@@ -1603,6 +1669,8 @@ input UpdateProjectInput {
   deckType: ProjectdeckTypeDeckType
   userCreatorId: ID
   userCreator: ProjectuserCreatorUser
+  collaboratorsIds: [ID!]
+  collaborators: [ProjectcollaboratorsUser!]
   projectIds: [ID!]
   project: [ProjectprojectStory!]
   clientMutationId: String!
@@ -1655,6 +1723,8 @@ input UpdateUser {
   username: String
   createdProjectsIds: [ID!]
   createdProjects: [UsercreatedProjectsProject!]
+  projectsInvolvedIds: [ID!]
+  projectsInvolved: [UserprojectsInvolvedProject!]
   selectionsIds: [ID!]
   selections: [UserselectionsCardSelection!]
 }
@@ -1666,6 +1736,8 @@ input UpdateUserInput {
   username: String
   createdProjectsIds: [ID!]
   createdProjects: [UsercreatedProjectsProject!]
+  projectsInvolvedIds: [ID!]
+  projectsInvolved: [UserprojectsInvolvedProject!]
   selectionsIds: [ID!]
   selections: [UserselectionsCardSelection!]
   clientMutationId: String!
@@ -1684,6 +1756,7 @@ type User implements Node {
   email: String!
   id: ID!
   password: String!
+  projectsInvolved(filter: ProjectFilter, orderBy: ProjectOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): ProjectConnection
   selections(filter: CardSelectionFilter, orderBy: CardSelectionOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): CardSelectionConnection
   updatedAt: DateTime!
   username: String!
@@ -1706,6 +1779,8 @@ input UsercreatedProjectsProject {
   name: String!
   deckTypeId: ID
   deckType: ProjectdeckTypeDeckType
+  collaboratorsIds: [ID!]
+  collaborators: [ProjectcollaboratorsUser!]
   projectIds: [ID!]
   project: [ProjectprojectStory!]
 }
@@ -1932,6 +2007,9 @@ input UserFilter {
   createdProjects_every: ProjectFilter
   createdProjects_some: ProjectFilter
   createdProjects_none: ProjectFilter
+  projectsInvolved_every: ProjectFilter
+  projectsInvolved_some: ProjectFilter
+  projectsInvolved_none: ProjectFilter
   selections_every: CardSelectionFilter
   selections_some: CardSelectionFilter
   selections_none: CardSelectionFilter
@@ -1950,6 +2028,19 @@ enum UserOrderBy {
   updatedAt_DESC
   username_ASC
   username_DESC
+}
+
+input UserprojectsInvolvedProject {
+  description: String
+  name: String!
+  deckTypeId: ID
+  deckType: ProjectdeckTypeDeckType
+  userCreatorId: ID
+  userCreator: ProjectuserCreatorUser
+  collaboratorsIds: [ID!]
+  collaborators: [ProjectcollaboratorsUser!]
+  projectIds: [ID!]
+  project: [ProjectprojectStory!]
 }
 
 input UserselectionsCardSelection {

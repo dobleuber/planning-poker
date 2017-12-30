@@ -6,7 +6,7 @@ import {
 
 import './Estimate.css';
 
-import { Card } from '../';
+import { Card, CardSelectionList } from '../';
 
 import updateCardSelectionMutation from '../../mutations/UpdateCardSelectionMutation';
 
@@ -38,6 +38,13 @@ class Estimate extends Component {
         <div className="row">
           <div className="label">url</div>
           <div className="field">{url}</div>
+        </div>
+        <div className="row">
+          <div className="game-container">
+            <CardSelectionList
+              selections={story.selections}
+            />
+          </div>
         </div>
         <div className="row">
           <div className="card-container">
@@ -77,6 +84,10 @@ export default createFragmentContainer(Estimate, graphql`
             }
           }
         }
+      }
+
+      selections {
+        ...CardSelectionList_selections
       }
     }
 

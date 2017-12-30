@@ -33,4 +33,25 @@
       }
     }
   }
+
+  .collaborator-list {
+    display: flex;
+    margin: 0.5em;
+
+    .collaborator-label {
+      font-weight: 600;
+    }
+
+    .collaborator-item {
+      margin: 0 0.2em;
+
+      &:last-child::after {
+        content: ""
+      }
+
+      &::after {
+        content: ","
+      }
+    }
+  }
 }

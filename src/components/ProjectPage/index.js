@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { QueryRenderer, graphql } from 'react-relay';
+
 import environment from '../../createRelayEnvironment';
 
 import './ProjectPage.css';
 
 import { Project } from '../';
 import createCardSelectionMutation from '../../mutations/CreateCardSelectionMutation';
+import addProjectCollaboratorsMutation from '../../mutations/AddProjectCollaboratorsMutation';
 
 const query = graphql`
   query ProjectPageQuery($projectId: ID!) {
@@ -20,15 +22,22 @@ class ProjectPage extends Component {
     super(props);
 
     this.estimateStory = this.estimateStory.bind(this);
+    this.addProjectCollaborator = this.addProjectCollaborator.bind(this);
   }
 
-  estimateStory({ userId, storyId }) {
-    const { match } = this.props;
-    const { projectId } = match.params;
+  estimateStory({ projectId, userId, storyId }) {
     createCardSelectionMutation(userId, storyId, (res) => {
       if (res && res.createCardSelection && res.createCardSelection.cardSelection) {
         const estimateId = res.createCardSelection.cardSelection.id;
         this.props.history.push(`/project/${projectId}/story/${storyId}/estimate/${estimateId}`);
+      }
+    });
+  }
+
+  addProjectCollaborator({ projectId, userId }) {
+    addProjectCollaboratorsMutation(projectId, userId, (res) => {
+      if (res && res.projectsInvolvedProject) {
+        console.log('new used added', this.props.node.id);
       }
     });
   }
@@ -52,6 +61,7 @@ class ProjectPage extends Component {
                 <Project
                   project={props.node}
                   estimateStory={this.estimateStory}
+                  addProjectCollaborator={this.addProjectCollaborator}
                 />
               </div>
               );

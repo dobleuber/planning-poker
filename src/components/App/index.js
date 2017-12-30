@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
+
+import copy from 'copy-to-clipboard';
+
 import { I18n } from 'react-i18next';
 import logo from '../../logo.svg';
 import './App.css';
@@ -16,6 +19,11 @@ import {
 import Security from '../../utils/security';
 
 class App extends Component {
+  static onInvite(event) {
+    copy(document.location);
+    event.preventDefault();
+  }
+
   constructor() {
     super();
 
@@ -25,6 +33,16 @@ class App extends Component {
     this.state = {
       userId: Security.userId,
     };
+  }
+
+  componentDidMount() {
+    const { location } = document;
+    if (!Security.userId &&
+      !location.pathname.match(/login/) &&
+      location.pathname.match(/project/)
+    ) {
+      location.replace(`/login/?redirect=${location.pathname}`);
+    }
   }
 
   onLogin() {
@@ -39,6 +57,7 @@ class App extends Component {
       userId: null,
     });
   }
+
 
   render() {
     const { userId } = this.state;
@@ -56,7 +75,7 @@ class App extends Component {
             )
           }
         </I18n>
-        <Header userId={userId} logout={this.logout} />
+        <Header userId={userId} logout={this.logout} onInvite={App.onInvite} />
         <div className="container">
           <Switch>
             <Route exact path="/" component={ProjectListPage} />

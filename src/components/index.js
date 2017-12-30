@@ -1,5 +1,6 @@
 import App from './App';
 import Card from './Card';
+import CardSelectionList from './CardSelectionList';
 import CreateProject from './CreateProject';
 import Estimate from './Estimate';
 import EstimatePage from './EstimatePage';
@@ -18,6 +19,7 @@ import StoryPage from './StoryPage';
 export {
   App,
   Card,
+  CardSelectionList,
   CreateProject,
   Estimate,
   EstimatePage,

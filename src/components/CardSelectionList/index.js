@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
+import './CardSelectionList.css';
+import { SelectedCard } from '../';
+
 class CardSelectionList extends Component {
   componentDidMount() {
 
@@ -8,14 +11,24 @@ class CardSelectionList extends Component {
 
   render() {
     const { selections } = this.props;
+    const h = 500;
+    const k = 250;
+    const step = (2 * Math.PI) / selections.edges.length;
+    let angle = 0;
     return (
-      <div>
+      <div className="card-selection-list">
         { selections.edges.map(({ node }) => {
+            const x = h + (Math.cos(angle) * h * 0.7);
+            const y = k + (Math.sin(angle) * k * 0.7);
+            angle += step;
             const { card, user } = node;
             return (
-              <div key={node.id} >
-                {user.username} = {card && card.label}
-              </div>
+              <SelectedCard
+                key={node.id}
+                position={{ x, y }}
+                userName={user.username}
+                card={card}
+              />
             );
           })}
       </div>

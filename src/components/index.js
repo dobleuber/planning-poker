@@ -11,6 +11,7 @@ import ProjectListPage from './ProjectListPage';
 import ProjectList from './ProjectList';
 import ProjectItem from './ProjectItem';
 import ProjectPage from './ProjectPage';
+import SelectedCard from './SelectedCard';
 import StoryItem from './StoryItem';
 import StoryDetail from './StoryDetail';
 import StoryList from './StoryList';
@@ -30,6 +31,7 @@ export {
   Project,
   ProjectItem,
   ProjectPage,
+  SelectedCard,
   StoryItem,
   StoryList,
   StoryDetail,

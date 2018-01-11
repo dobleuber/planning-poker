@@ -19,6 +19,7 @@ export default (userId, storyId, callback) => {
     input: {
       userId,
       storyId,
+      isActive: false,
       clientMutationId: '',
     },
   };

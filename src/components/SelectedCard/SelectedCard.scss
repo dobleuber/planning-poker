@@ -1,0 +1,31 @@
+@import 'variables';
+
+.selected-card {
+  align-items: center;
+  background-color: $bg_main_primary;
+  border: 1px solid $border_color_secondary;
+  border-radius: 5px;
+  color: $color_button_secondary;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Bubblegum Sans', cursive;
+  font-size: 1.6em;
+  height: 2.5em;
+  position: absolute;
+  margin: 0.5em;
+  width: 2em;
+
+  transition: background-color 0.5s, color 0.5s, margin-top 0.5s;
+
+  &__label {
+    display: inline-block;
+    margin: auto;
+  }
+
+  &__user {
+    font-size: 0.7em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+}

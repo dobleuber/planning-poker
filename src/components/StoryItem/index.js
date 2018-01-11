@@ -17,10 +17,15 @@ const StoryItem = ({ projectId, story, estimateStory }) => {
 
   const { userId } = Security;
 
+  const cartSelections = story.selections.edges.filter(({ node }) => userId === node.user.id);
+
+  const cardSelectionId = cartSelections.length ? cartSelections[0].node.id : null;
+
   const params = {
     projectId,
     storyId: id,
     userId,
+    cardSelectionId,
   };
 
   return (
@@ -52,5 +57,17 @@ export default createFragmentContainer(StoryItem, graphql`
     name
     url
     estimation
+    selections {
+      edges {
+        node {
+          ... on CardSelection {
+            id
+            user {
+              id
+            }
+          }
+        }
+      }
+    }
   }
 `);

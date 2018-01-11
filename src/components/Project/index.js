@@ -1,4 +1,5 @@
 import React from 'react';
+import { I18n } from 'react-i18next';
 import {
   createFragmentContainer,
   graphql,
@@ -11,25 +12,31 @@ import StoryList from '../StoryList';
 const Project = ({ project, estimateStory, addProjectCollaborator }) => {
   const { id, name, description } = project;
   return (
-    <div className="project">
-      <div className="row">
-        <div className="label">Name</div>
-        <div className="field">{name}</div>
-      </div>
-      <div className="row">
-        <div className="label">Description</div>
-        <div className="field">{description}</div>
-      </div>
-      <div className="row">
-        <StoryList
-          projectId={id}
-          stories={project.project}
-          collaborators={project.collaborators}
-          estimateStory={estimateStory}
-          addProjectCollaborator={addProjectCollaborator}
-        />
-      </div>
-    </div>
+    <I18n>
+      {
+        t => (
+          <div className="project">
+            <div className="row">
+              <div className="label">{t('name')}</div>
+              <div className="field">{name}</div>
+            </div>
+            <div className="row">
+              <div className="label">{t('description')}</div>
+              <div className="field">{description}</div>
+            </div>
+            <div className="row">
+              <StoryList
+                projectId={id}
+                stories={project.project}
+                collaborators={project.collaborators}
+                estimateStory={estimateStory}
+                addProjectCollaborator={addProjectCollaborator}
+              />
+            </div>
+          </div>
+        )
+      }
+    </I18n>
   );
 };
 

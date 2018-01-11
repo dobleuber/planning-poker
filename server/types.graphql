@@ -60,4 +60,5 @@ type CardSelection @model {
   card: Card @relation(name: "CardSelectionCards")
   story: Story! @relation(name: "StorySelectionCards")
   user: User! @relation(name: "UserSelectionCards")
+  isActive: Boolean
 }

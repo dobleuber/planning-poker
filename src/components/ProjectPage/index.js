@@ -6,8 +6,7 @@ import environment from '../../createRelayEnvironment';
 import './ProjectPage.css';
 
 import { Project } from '../';
-import createCardSelectionMutation from '../../mutations/CreateCardSelectionMutation';
-import addProjectCollaboratorsMutation from '../../mutations/AddProjectCollaboratorsMutation';
+import { CreateCardSelectionMutation, AddProjectCollaboratorsMutation } from '../../mutations';
 
 const query = graphql`
   query ProjectPageQuery($projectId: ID!) {
@@ -25,17 +24,26 @@ class ProjectPage extends Component {
     this.addProjectCollaborator = this.addProjectCollaborator.bind(this);
   }
 
-  estimateStory({ projectId, userId, storyId }) {
-    createCardSelectionMutation(userId, storyId, (res) => {
-      if (res && res.createCardSelection && res.createCardSelection.cardSelection) {
-        const estimateId = res.createCardSelection.cardSelection.id;
-        this.props.history.push(`/project/${projectId}/story/${storyId}/estimate/${estimateId}`);
-      }
-    });
+  estimateStory({
+    projectId,
+    userId,
+    storyId,
+    cardSelectionId,
+  }) {
+    if (cardSelectionId) {
+      this.props.history.push(`/project/${projectId}/story/${storyId}/estimate/${cardSelectionId}`);
+    } else {
+      CreateCardSelectionMutation(userId, storyId, (res) => {
+        if (res && res.createCardSelection && res.createCardSelection.cardSelection) {
+          const estimateId = res.createCardSelection.cardSelection.id;
+          this.props.history.push(`/project/${projectId}/story/${storyId}/estimate/${estimateId}`);
+        }
+      });
+    }
   }
 
   addProjectCollaborator({ projectId, userId }) {
-    addProjectCollaboratorsMutation(projectId, userId, (res) => {
+    AddProjectCollaboratorsMutation(projectId, userId, (res) => {
       if (res && res.projectsInvolvedProject) {
         console.log('new used added', this.props.node.id);
       }

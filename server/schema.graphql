@@ -288,6 +288,7 @@ enum CardOrderBy {
 type CardSelection implements Node {
   card(filter: CardFilter): Card
   id: ID!
+  isActive: Boolean
   story(filter: StoryFilter): Story!
   user(filter: UserFilter): User!
 }
@@ -368,6 +369,10 @@ input CardSelectionFilter {
 
   # All values not ending with the given string.
   id_not_ends_with: ID
+  isActive: Boolean
+
+  # All values that are not equal to given value.
+  isActive_not: Boolean
   card: CardFilter
   story: StoryFilter
   user: UserFilter
@@ -376,9 +381,12 @@ input CardSelectionFilter {
 enum CardSelectionOrderBy {
   id_ASC
   id_DESC
+  isActive_ASC
+  isActive_DESC
 }
 
 input CardselectionsCardSelection {
+  isActive: Boolean
   storyId: ID
   story: CardSelectionstoryStory
   userId: ID
@@ -435,6 +443,7 @@ type CreateCardPayload {
 }
 
 input CreateCardSelection {
+  isActive: Boolean
   cardId: ID
   card: CardSelectioncardCard
   storyId: ID
@@ -444,6 +453,7 @@ input CreateCardSelection {
 }
 
 input CreateCardSelectionInput {
+  isActive: Boolean
   cardId: ID
   card: CardSelectioncardCard
   storyId: ID
@@ -1468,6 +1478,7 @@ input StoryprojectProject {
 }
 
 input StoryselectionsCardSelection {
+  isActive: Boolean
   cardId: ID
   card: CardSelectioncardCard
   userId: ID
@@ -1505,6 +1516,7 @@ type UpdateCardPayload {
 
 input UpdateCardSelection {
   id: ID!
+  isActive: Boolean
   cardId: ID
   card: CardSelectioncardCard
   storyId: ID
@@ -1515,6 +1527,7 @@ input UpdateCardSelection {
 
 input UpdateCardSelectionInput {
   id: ID!
+  isActive: Boolean
   cardId: ID
   card: CardSelectioncardCard
   storyId: ID
@@ -2044,6 +2057,7 @@ input UserprojectsInvolvedProject {
 }
 
 input UserselectionsCardSelection {
+  isActive: Boolean
   cardId: ID
   card: CardSelectioncardCard
   storyId: ID

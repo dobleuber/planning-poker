@@ -8,18 +8,30 @@ import './Estimate.css';
 
 import { Card, CardSelectionList } from '../';
 
-import updateCardSelectionMutation from '../../mutations/UpdateCardSelectionMutation';
+import { UpdateCardSelectionMutation, UpdateCardSelectionStatusMutation } from '../../mutations';
 
 
 class Estimate extends Component {
   static selectCard({ estimationId, cardId }) {
-    updateCardSelectionMutation(estimationId, cardId);
+    UpdateCardSelectionMutation(estimationId, cardId);
   }
 
   constructor(props) {
     super(props);
 
     this.state = {};
+  }
+
+  componentDidMount() {
+    const { estimation } = this.props;
+    const { id } = estimation;
+    UpdateCardSelectionStatusMutation(id, true);
+  }
+
+  componentWillUnmount() {
+    const { estimation } = this.props;
+    const { id } = estimation;
+    UpdateCardSelectionStatusMutation(id, false);
   }
 
   render() {

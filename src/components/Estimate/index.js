@@ -12,8 +12,8 @@ import { UpdateCardSelectionMutation, UpdateCardSelectionStatusMutation } from '
 
 
 class Estimate extends Component {
-  static selectCard({ estimationId, cardId }) {
-    UpdateCardSelectionMutation(estimationId, cardId);
+  static selectCard({ estimationId, cardId, selection }) {
+    UpdateCardSelectionMutation(estimationId, cardId, selection);
   }
 
   constructor(props) {
@@ -54,6 +54,7 @@ class Estimate extends Component {
         <div className="row">
           <div className="game-container">
             <CardSelectionList
+              storyId={story.id}
               selections={story.selections}
             />
           </div>
@@ -82,6 +83,7 @@ export default createFragmentContainer(Estimate, graphql`
   fragment Estimate_estimation on CardSelection {
     id
     story {
+      id
       name
       url
       project {

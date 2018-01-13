@@ -17,7 +17,11 @@ const query = graphql`
 
 class ProjectListPage extends Component {
   componentDidMount() {
-    NewStorySubscription();
+    this.subscription = NewStorySubscription();
+  }
+
+  componentWillUnmount() {
+    this.subscription.dispose();
   }
 
   render() {

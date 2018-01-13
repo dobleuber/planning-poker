@@ -61,4 +61,9 @@ type CardSelection @model {
   story: Story! @relation(name: "StorySelectionCards")
   user: User! @relation(name: "UserSelectionCards")
   isActive: Boolean
+  selection: String
+
+  # Optional system fields (remove if not needed):
+  createdAt: DateTime! # read-only (managed by Graphcool)
+  updatedAt: DateTime! # read-only (managed by Graphcool)
 }

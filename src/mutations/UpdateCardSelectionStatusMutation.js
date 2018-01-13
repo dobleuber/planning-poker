@@ -10,6 +10,7 @@ const mutation = graphql`
       cardSelection {
         id
         isActive
+        updatedAt
       }
     }
   }

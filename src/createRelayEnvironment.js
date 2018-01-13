@@ -41,9 +41,13 @@ const setupSubscription = (config, variables, cacheConfig, observer) => {
     { reconnect: true },
   );
 
-  subscriptionClient.subscribe({ query, variables }, (error, result) => {
+  const subscriptionId = subscriptionClient.subscribe({ query, variables }, (error, result) => {
     observer.onNext({ data: result });
   });
+
+  return {
+    dispose: () => subscriptionClient.unsubscribe(subscriptionId),
+  };
 };
 
 const network = Network.create(fetchQuery, setupSubscription);

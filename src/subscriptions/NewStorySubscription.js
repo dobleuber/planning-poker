@@ -26,8 +26,9 @@ export default () => {
       const newStory = createStoryField.getLinkedRecord('node');
       console.log(newStory);
     },
+    onCompleted: () => {},
     onError: error => console.error(error),
   };
 
-  requestSubscription(environment, subcriptionConfig);
+  return requestSubscription(environment, subcriptionConfig);
 };

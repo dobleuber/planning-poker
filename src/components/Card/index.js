@@ -22,6 +22,7 @@ const Card = ({
     const params = {
       estimationId,
       cardId: card.id,
+      selection: card.label,
     };
     onSelectCard(params);
   };

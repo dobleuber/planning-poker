@@ -4,9 +4,15 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import './CardSelectionList.css';
 import { SelectedCard } from '../';
 
+import CardSelectionSubscription from '../../subscriptions/CardSelectionSubscription';
+
 class CardSelectionList extends Component {
   componentDidMount() {
+    this.subscription = CardSelectionSubscription();
+  }
 
+  componentWillUnmount() {
+    this.subscription.dispose();
   }
 
   render() {

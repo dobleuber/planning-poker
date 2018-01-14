@@ -8,7 +8,8 @@ import CardSelectionSubscription from '../../subscriptions/CardSelectionSubscrip
 
 class CardSelectionList extends Component {
   componentDidMount() {
-    this.subscription = CardSelectionSubscription();
+    const { storyId } = this.props;
+    this.subscription = CardSelectionSubscription(storyId);
   }
 
   componentWillUnmount() {
@@ -20,7 +21,7 @@ class CardSelectionList extends Component {
     const h = 500;
     const k = 250;
     const step = (2 * Math.PI) / selections.edges.length;
-    let angle = 0;
+    let angle = (1 / 2) * Math.PI;
     return (
       <div className="card-selection-list">
         { selections.edges.map(({ node }) => {

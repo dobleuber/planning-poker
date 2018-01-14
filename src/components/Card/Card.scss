@@ -7,12 +7,12 @@
   color: $color_button_secondary;
   display: flex;
   font-family: 'Bubblegum Sans', cursive;
-  font-size: 2.5em;
+  font-size: 1.4em;
   height: 2.5em;
   margin: 0.5em;
   width: 2em;
 
-  transition: background-color 0.5s, color 0.5s, margin-top 0.5s;
+  transition: background-color 0.5s, color 0.5s, margin-top 0.5s, opacity 1s, font-size 0.5s;
 
   &__label {
     display: inline-block;
@@ -24,8 +24,9 @@
   }
 
   &.selected {
-    background-color: $bg_button_primary;
-    color: $color_button_primary;
-    margin-top: -0.25em;
+    font-size: 1.6em;
+    margin-top: -4.5em;
+
+    // opacity: 0;
   }
 }

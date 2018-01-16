@@ -12,10 +12,11 @@ const SelectedCard = (props) => {
   const top = position.y - 39;
   const left = position.x - 32;
   const label = card && card.label;
+  const hasSelected = card ? ' selected' : '';
 
   return (
     <div
-      className="selected-card"
+      className={`selected-card${hasSelected}`}
       style={{ top, left, zIndex: index }}
     >
       <div className="selected-card__label">{label}</div>

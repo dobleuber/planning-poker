@@ -10,22 +10,35 @@
   flex-direction: column;
   font-family: 'Bubblegum Sans', cursive;
   font-size: 1.6em;
+  justify-content: center;
   height: 2.5em;
-  position: absolute;
   margin: 0.5em;
+  position: absolute;
   width: 2em;
 
-  transition: background-color 0.5s, color 0.5s, margin-top 0.5s;
+  transition: background-color 0.5s, color 0.5s, top 0.5s, left 0.5s;
 
   &__label {
-    display: inline-block;
+    display: none;
     margin: auto;
   }
 
   &__user {
-    font-size: 0.7em;
+    font-size: 1.2em;
     overflow: hidden;
     text-overflow: ellipsis;
     width: 100%;
+  }
+
+  &.selected {
+    .selected-card {
+      &__label {
+        display: inline-block;
+      }
+
+      &__user {
+        font-size: 0.7em;
+      }
+    }
   }
 }

@@ -43,6 +43,7 @@ export default () => {
     updater: (proxyStore) => {
       const cardSelectionField = proxyStore.getRootField('CardSelection');
       const updateCardSelection = cardSelectionField.getLinkedRecord('node');
+      if (!updateCardSelection) return;
       const cardField = updateCardSelection.getLinkedRecord('card');
       if (cardField) {
         const cardSelectionId = updateCardSelection.getValue('id');

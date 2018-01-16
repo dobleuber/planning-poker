@@ -3,7 +3,8 @@
 .card-selection-list {
   background-color: $bg_secondary;
   border-radius: 0.5em;
-  height: 500px;
+  height: 400px;
   width: 1000px;
   position: relative;
+  z-index: 100;
 }

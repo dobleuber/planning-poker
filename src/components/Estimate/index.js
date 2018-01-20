@@ -4,11 +4,17 @@ import {
   graphql,
 } from 'react-relay';
 
+import Security from '../../utils/security';
+
 import './Estimate.css';
 
 import { Card, CardSelectionList } from '../';
 
-import { UpdateCardSelectionMutation, UpdateCardSelectionStatusMutation } from '../../mutations';
+import {
+  CreateCardSelectionMutation,
+  UpdateCardSelectionMutation,
+  UpdateCardSelectionStatusMutation,
+} from '../../mutations';
 
 
 class Estimate extends Component {
@@ -18,14 +24,37 @@ class Estimate extends Component {
 
   constructor(props) {
     super(props);
+    this.changeUser = false;
 
     this.state = {};
   }
 
   componentDidMount() {
     const { estimation } = this.props;
-    const { id } = estimation;
-    UpdateCardSelectionStatusMutation(id, true);
+    const { userId } = Security;
+    this.changeUser = estimation.user.id !== userId;
+    if (this.changeUser) {
+      const userSelections = estimation.story.userSelections.edges;
+      const userEstimation = userSelections.find(({ node }) => node.user.id === userId);
+      if (userEstimation) {
+        const { pathname } = document.location;
+        const estimatePath = pathname.match(/estimate\/.*/)[0];
+        const newEstimationPath = pathname.replace(estimatePath, `estimate/${userEstimation.node.id}`);
+        this.props.history.replace(newEstimationPath);
+      } else {
+        const storyId = estimation.story.id;
+        const projectId = estimation.story.project.id;
+        CreateCardSelectionMutation(userId, storyId, (res) => {
+          if (res && res.createCardSelection && res.createCardSelection.cardSelection) {
+            const estimateId = res.createCardSelection.cardSelection.id;
+            this.props.history.push(`/project/${projectId}/story/${storyId}/estimate/${estimateId}`);
+          }
+        });
+      }
+    } else {
+      const { id } = estimation;
+      UpdateCardSelectionStatusMutation(id, true);
+    }
   }
 
   componentWillUnmount() {
@@ -87,6 +116,7 @@ export default createFragmentContainer(Estimate, graphql`
       name
       url
       project {
+        id
         deckType {
           id
           name
@@ -94,6 +124,18 @@ export default createFragmentContainer(Estimate, graphql`
             edges {
               node {
                 ...Card_card
+              }
+            }
+          }
+        }
+      }
+      userSelections: selections {
+        edges {
+          node {
+            ... on CardSelection {
+              id
+              user {
+                id
               }
             }
           }
@@ -108,6 +150,10 @@ export default createFragmentContainer(Estimate, graphql`
     card {
       id
       label
+    }
+
+    user {
+      id
     }
   }
 `);

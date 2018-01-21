@@ -5,6 +5,8 @@ import {
   graphql,
 } from 'react-relay';
 
+import Security from '../../utils/security';
+
 import './ProjectItem.css';
 
 const ProjectItem = ({ project }) => (
@@ -13,9 +15,12 @@ const ProjectItem = ({ project }) => (
       <Link to={`/project/${project.id}`}>{project.name}</Link>
     </div>
     <div className="column description">{project.description}</div>
-    <div className="column">
-      <Link to={`/project/${project.id}/story/new`}>New Story</Link>
-    </div>
+    {
+      project.userCreator.id === Security.userId &&
+      <div className="column">
+        <Link to={`/project/${project.id}/story/new`}>New Story</Link>
+      </div>
+    }
   </div>);
 
 export default createFragmentContainer(ProjectItem, graphql`
@@ -23,5 +28,8 @@ export default createFragmentContainer(ProjectItem, graphql`
     id
     name
     description
+    userCreator {
+      id
+    }
   }
 `);

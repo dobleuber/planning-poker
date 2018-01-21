@@ -490,6 +490,7 @@ input CardselectionsCardSelection {
 input CardSelectionstoryStory {
   estimation: Int
   name: String!
+  showEstimation: Boolean
   url: String
   projectId: ID
   project: StoryprojectProject
@@ -634,6 +635,7 @@ type CreateProjectPayload {
 input CreateStory {
   estimation: Int
   name: String!
+  showEstimation: Boolean
   url: String
   projectId: ID
   project: StoryprojectProject
@@ -644,6 +646,7 @@ input CreateStory {
 input CreateStoryInput {
   estimation: Int
   name: String!
+  showEstimation: Boolean
   url: String
   projectId: ID
   project: StoryprojectProject
@@ -1229,6 +1232,7 @@ enum ProjectOrderBy {
 input ProjectprojectStory {
   estimation: Int
   name: String!
+  showEstimation: Boolean
   url: String
   selectionsIds: [ID!]
   selections: [StoryselectionsCardSelection!]
@@ -1371,6 +1375,7 @@ type Story implements Node {
   name: String!
   project(filter: ProjectFilter): Project
   selections(filter: CardSelectionFilter, orderBy: CardSelectionOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): CardSelectionConnection
+  showEstimation: Boolean
   url: String
 }
 
@@ -1503,6 +1508,10 @@ input StoryFilter {
 
   # All values not ending with the given string.
   name_not_ends_with: String
+  showEstimation: Boolean
+
+  # All values that are not equal to given value.
+  showEstimation_not: Boolean
   url: String
 
   # All values that are not equal to given value.
@@ -1556,6 +1565,8 @@ enum StoryOrderBy {
   id_DESC
   name_ASC
   name_DESC
+  showEstimation_ASC
+  showEstimation_DESC
   url_ASC
   url_DESC
 }
@@ -1801,6 +1812,7 @@ input UpdateStory {
   estimation: Int
   id: ID!
   name: String
+  showEstimation: Boolean
   url: String
   projectId: ID
   project: StoryprojectProject
@@ -1812,6 +1824,7 @@ input UpdateStoryInput {
   estimation: Int
   id: ID!
   name: String
+  showEstimation: Boolean
   url: String
   projectId: ID
   project: StoryprojectProject

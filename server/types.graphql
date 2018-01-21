@@ -33,6 +33,7 @@ type Story @model {
   name: String!
   url: String
   estimation: Int
+  showEstimation: Boolean
 
   project: Project @relation(name: "ProjectStory")
   selections: [CardSelection!]! @relation(name: "StorySelectionCards")

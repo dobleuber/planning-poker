@@ -55,14 +55,16 @@ export default () => {
         const storyId = storyField.getValue('id');
         const story = proxyStore.get(storyId);
         const selections = story.getLinkedRecord('selections');
-        const edges = selections.getLinkedRecords('edges');
-        const exists = edges.find((edge) => {
-          const node = edge.getLinkedRecord('node');
-          return node.getValue('id') === updateCardSelectionId;
-        });
-        if (!exists) {
-          const newEdges = [...edges, cardSelectionField];
-          selections.setLinkedRecords(newEdges, 'edges');
+        if (selections) {
+          const edges = selections.getLinkedRecords('edges');
+          const exists = edges.find((edge) => {
+            const node = edge.getLinkedRecord('node');
+            return node.getValue('id') === updateCardSelectionId;
+          });
+          if (!exists) {
+            const newEdges = [...edges, cardSelectionField];
+            selections.setLinkedRecords(newEdges, 'edges');
+          }
         }
       }
       // updateCardSelection.getLinkedRecord('story').getLinkedRecord('selections')

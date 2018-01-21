@@ -6,11 +6,19 @@ import {
 } from 'react-relay';
 
 import './Project.css';
+import Security from '../../utils/security';
 
 import StoryList from '../StoryList';
 
 const Project = ({ project, estimateStory, addProjectCollaborator }) => {
-  const { id, name, description } = project;
+  const {
+    id,
+    name,
+    description,
+    userCreator,
+  } = project;
+  const userCreatorId = userCreator.id;
+  const isOwner = userCreatorId === Security.userId;
   return (
     <I18n>
       {
@@ -25,12 +33,17 @@ const Project = ({ project, estimateStory, addProjectCollaborator }) => {
               <div className="field">{description}</div>
             </div>
             <div className="row">
+              <div className="label">{t('owner')}</div>
+              <div className="field">{userCreator.username}</div>
+            </div>
+            <div className="row">
               <StoryList
-                projectId={id}
-                stories={project.project}
+                addProjectCollaborator={addProjectCollaborator}
                 collaborators={project.collaborators}
                 estimateStory={estimateStory}
-                addProjectCollaborator={addProjectCollaborator}
+                isOwner={isOwner}
+                projectId={id}
+                stories={project.project}
               />
             </div>
           </div>
@@ -50,6 +63,10 @@ export default createFragmentContainer(Project, graphql`
     }
     collaborators {
       ...StoryList_collaborators
+    }
+    userCreator {
+      id
+      username
     }
   }
 `);

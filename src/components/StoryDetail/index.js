@@ -7,7 +7,9 @@ import {
 
 import './StoryDetail.css';
 
-import { CreateStoryMutation, UpdateStoryMutation } from '../../mutations';
+import Security from '../../utils/security';
+
+import { CreateCardSelectionMutation, CreateStoryMutation, UpdateStoryMutation } from '../../mutations';
 
 class StoryDetail extends Component {
   constructor(props) {
@@ -22,6 +24,29 @@ class StoryDetail extends Component {
 
     this.handleChangeValue = this.handleChangeValue.bind(this);
     this.createStory = this.createStory.bind(this);
+  }
+
+  componentDidMount() {
+    const { story } = this.props;
+    const { userId } = Security;
+    if (story && story.project.userCreator.id !== userId) {
+      const selections = story.selections.edges;
+      const userEstimation = selections.find(({ node }) => node.user.id === userId);
+      if (userEstimation) {
+        const { pathname } = document.location;
+        const newEstimationPath = `${pathname}/estimate/${userEstimation.node.id}`;
+        this.props.history.replace(newEstimationPath);
+      } else {
+        const storyId = story.id;
+        const projectId = story.project.id;
+        CreateCardSelectionMutation(userId, storyId, (res) => {
+          if (res && res.createCardSelection && res.createCardSelection.cardSelection) {
+            const estimateId = res.createCardSelection.cardSelection.id;
+            this.props.history.replace(`/project/${projectId}/story/${storyId}/estimate/${estimateId}`);
+          }
+        });
+      }
+    }
   }
 
   handleChangeValue(event) {
@@ -48,12 +73,13 @@ class StoryDetail extends Component {
   }
 
   render() {
+    const { storyId } = this.props;
     const { goBack } = this.props.history;
     return (
       <I18n>
         {
           t => (
-            <div className="estimation-page">
+            <div className="story-detail">
               <h3>{t('story-details')}</h3>
               <form className="estimation-form">
                 <div className="row">
@@ -121,9 +147,12 @@ class StoryDetail extends Component {
                   </button>
                 </div>
               </form>
-              <div className="help">
+              {
+                !storyId &&
+                <div className="help">
                 *{t('save-story-help')}
-              </div>
+                </div>
+              }
             </div>
           )
         }
@@ -138,5 +167,23 @@ export default createFragmentContainer(StoryDetail, graphql`
     name
     estimation
     url
+    project {
+      userCreator {
+        id
+      }
+    }
+
+    selections {
+      edges {
+        node {
+          ... on CardSelection {
+            id
+            user {
+              id
+            }
+          }
+        }
+      }
+    }
   }
 `);

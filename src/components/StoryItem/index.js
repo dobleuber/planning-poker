@@ -10,7 +10,12 @@ import './StoryItem.css';
 
 import Security from '../../utils/security';
 
-const StoryItem = ({ projectId, story, estimateStory }) => {
+const StoryItem = ({
+  projectId,
+  story,
+  estimateStory,
+  isOwner,
+}) => {
   const {
     id, name, url, estimation,
   } = story;
@@ -34,9 +39,12 @@ const StoryItem = ({ projectId, story, estimateStory }) => {
         t => (
           <div className="row story-item">
             <div className="column name">
-              <Link to={`/project/${projectId}/story/${id}`}>
-                {name}
-              </Link>
+              { isOwner ?
+                <Link to={`/project/${projectId}/story/${id}`}>
+                  {name}
+                </Link>
+                : name
+              }
             </div>
             <div className="column url">
               {url && <a href={url} target="story_details">{url}</a>}

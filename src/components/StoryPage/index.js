@@ -6,12 +6,19 @@ import {
 
 import environment from '../../createRelayEnvironment';
 
-import { StoryDetail } from '../';
+import './StoryPage.css';
+
+import { CardSelectionList, StoryDetail } from '../';
 
 const query = graphql`
   query StoryPageQuery($storyId: ID!) {
     node(id: $storyId) {
       ...StoryDetail_story
+      ... on Story {
+        selections {
+          ...CardSelectionList_selections
+        }
+      }
     }
   }
 `;
@@ -30,13 +37,26 @@ const StoryPage = ({ match, history }) => {
             return <div>{error.message}</div>;
           } else if (props) {
             return (
-              <div className="project-page">
-                <StoryDetail
-                  projectId={projectId}
-                  storyId={storyId}
-                  story={props.node}
-                  history={history}
-                />
+              <div className="story-page">
+                <div className="row">
+                  <StoryDetail
+                    projectId={projectId}
+                    storyId={storyId}
+                    story={props.node}
+                    history={history}
+                  />
+                </div>
+                {
+                  props.node &&
+                  <div className="row">
+                    <div className="game-container">
+                      <CardSelectionList
+                        storyId={props.node.id}
+                        selections={props.node.selections}
+                      />
+                    </div>
+                  </div>
+                }
               </div>
             );
           }

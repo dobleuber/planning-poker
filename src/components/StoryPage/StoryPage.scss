@@ -1,0 +1,11 @@
+.story-page {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 2em;
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+}

@@ -17,6 +17,7 @@ const StoryList = ({
   collaborators,
   estimateStory,
   addProjectCollaborator,
+  isOwner,
 }) => {
   const { userId } = Security;
   const hasUser = collaborators.edges.some(({ node }) => node.id === userId);
@@ -46,6 +47,7 @@ const StoryList = ({
                     projectId={projectId}
                     story={node}
                     estimateStory={estimateStory}
+                    isOwner={isOwner}
                   />
                 ))
               }

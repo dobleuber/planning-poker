@@ -47,7 +47,7 @@ class Estimate extends Component {
         CreateCardSelectionMutation(userId, storyId, (res) => {
           if (res && res.createCardSelection && res.createCardSelection.cardSelection) {
             const estimateId = res.createCardSelection.cardSelection.id;
-            this.props.history.push(`/project/${projectId}/story/${storyId}/estimate/${estimateId}`);
+            this.props.history.replace(`/project/${projectId}/story/${storyId}/estimate/${estimateId}`);
           }
         });
       }

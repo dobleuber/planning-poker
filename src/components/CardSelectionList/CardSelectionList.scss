@@ -4,7 +4,30 @@
   background-color: $bg_secondary;
   border-radius: 0.5em;
   height: 400px;
-  width: 1000px;
   position: relative;
+  width: 1000px;
   z-index: 100;
+
+  .estimation-results {
+    align-items: flex-start;
+    border: 1px solid $border_color_secondary;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    left: 458px;
+    padding: 0.5em 1em;
+    position: absolute;
+    top: 110px;
+    visibility: hidden;    
+
+    transition: visibility 0.5s;
+
+    &.showEstimation {
+      visibility: visible;
+    }
+
+    .votes {
+      font-family: 'Bubblegum Sans', cursive;
+    }
+  }
 }

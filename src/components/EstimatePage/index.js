@@ -19,7 +19,7 @@ const query = graphql`
 `;
 
 const EstimatePage = ({ match, history }) => {
-  const { estimateId } = match.params;
+  const { estimateId, projectId } = match.params;
   return (
     <QueryRenderer
       environment={environment}
@@ -36,6 +36,7 @@ const EstimatePage = ({ match, history }) => {
               <Estimate
                 estimateId={estimateId}
                 estimation={props.estimation}
+                projectId={projectId}
                 history={history}
               />
             </div>

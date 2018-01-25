@@ -2,10 +2,6 @@
 
 .selected-card {
   align-items: center;
-  background-color: $bg_main_primary;
-  border: 1px solid $border_color_secondary;
-  border-radius: 5px;
-  color: $color_button_secondary;
   display: flex;
   flex-direction: column;
   font-family: 'Bubblegum Sans', cursive;
@@ -13,29 +9,64 @@
   justify-content: center;
   height: 2.5em;
   margin: 0.5em;
+  perspective: 1000;
   position: absolute;
+  transition: 0.5s, color 0.5s, top 0.5s, left 0.5s;
   width: 2em;
 
-  transition: background-color 0.5s, color 0.5s, top 0.5s, left 0.5s;
-
   &__label {
-    display: none;
     margin: auto;
   }
 
   &__user {
-    font-size: 1.2em;
+    font-size: 0.7em;
     overflow: hidden;
     text-overflow: ellipsis;
     width: 100%;
   }
 
+  &.show-card .flipper {
+    transform: rotateY(180deg);
+  }
+
+  .flipper {
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.5s linear;
+    width: 100%;
+
+    .card-face {
+      align-items: center;
+      backface-visibility: hidden;
+      background-color: $bg_main_primary;
+      border: 1px solid $border_color_secondary;
+      border-radius: 5px;
+      color: $color_button_secondary;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: center;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      &.front {
+        transform: rotateY(180deg);
+      }
+
+      &.back {
+        background-color: $color_secondary;
+        color: $white;
+      }
+    }
+  }
+    
   &.selected {
     .selected-card {
       &__label {
         display: inline-block;
       }
-
+      
       &__user {
         font-size: 0.7em;
       }

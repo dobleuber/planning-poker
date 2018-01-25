@@ -7,6 +7,7 @@ import CreateUserMutation from './CreateUserMutation';
 import UpdateCardSelectionMutation from './UpdateCardSelectionMutation';
 import UpdateCardSelectionStatusMutation from './UpdateCardSelectionStatusMutation';
 import UpdateStoryMutation from './UpdateStoryMutation';
+import UpdateStoryShowEstimationMutation from './UpdateStoryShowEstimationMutation';
 
 export {
   AddProjectCollaboratorsMutation,
@@ -18,4 +19,5 @@ export {
   UpdateCardSelectionMutation,
   UpdateCardSelectionStatusMutation,
   UpdateStoryMutation,
+  UpdateStoryShowEstimationMutation,
 };

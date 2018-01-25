@@ -4,6 +4,8 @@ import {
   graphql,
 } from 'react-relay';
 
+import { I18n } from 'react-i18next';
+
 import Security from '../../utils/security';
 
 import './Estimate.css';
@@ -14,6 +16,7 @@ import {
   CreateCardSelectionMutation,
   UpdateCardSelectionMutation,
   UpdateCardSelectionStatusMutation,
+  UpdateStoryShowEstimationMutation,
 } from '../../mutations';
 
 
@@ -27,6 +30,9 @@ class Estimate extends Component {
     this.changeUser = false;
 
     this.state = {};
+
+    this.createCardSelection = this.createCardSelection.bind(this);
+    this.showEstimate = this.showEstimate.bind(this);
   }
 
   componentDidMount() {
@@ -44,12 +50,7 @@ class Estimate extends Component {
       } else {
         const storyId = estimation.story.id;
         const projectId = estimation.story.project.id;
-        CreateCardSelectionMutation(userId, storyId, (res) => {
-          if (res && res.createCardSelection && res.createCardSelection.cardSelection) {
-            const estimateId = res.createCardSelection.cardSelection.id;
-            this.props.history.replace(`/project/${projectId}/story/${storyId}/estimate/${estimateId}`);
-          }
-        });
+        this.createCardSelection(userId, storyId, projectId);
       }
     } else {
       const { id } = estimation;
@@ -63,47 +64,89 @@ class Estimate extends Component {
     UpdateCardSelectionStatusMutation(id, false);
   }
 
+  createCardSelection(userId, storyId, projectId) {
+    CreateCardSelectionMutation(userId, storyId, (res) => {
+      if (res && res.createCardSelection && res.createCardSelection.cardSelection) {
+        const estimateId = res.createCardSelection.cardSelection.id;
+        this.props.history.replace(`/project/${projectId}/story/${storyId}/estimate/${estimateId}`);
+      }
+    });
+  }
+
+  showEstimate(event) {
+    event.preventDefault();
+    const { story } = this.props.estimation;
+    const { id, showEstimation } = story;
+    UpdateStoryShowEstimationMutation(id, !showEstimation);
+  }
+
   render() {
-    const { estimation } = this.props;
+    const { estimation, projectId } = this.props;
     const { story, card } = estimation;
-    const { name, url } = story;
+    const { name, url, showEstimation } = story;
 
     const selectedCardId = card && card.id;
+    const isOwner = story.project.userCreator.id === Security.userId;
 
     return (
-      <div className="estimate">
-        <div className="row">
-          <div className="label">Name</div>
-          <div className="field">{name}</div>
-        </div>
-        <div className="row">
-          <div className="label">url</div>
-          <div className="field">{url}</div>
-        </div>
-        <div className="row">
-          <div className="game-container">
-            <CardSelectionList
-              storyId={story.id}
-              selections={story.selections}
-            />
-          </div>
-        </div>
-        <div className="row">
-          <div className="card-container">
-            {
-              story.project.deckType.cards.edges.map(({ node }) => (
-                <Card
-                  key={node.__id}
-                  card={node}
-                  estimationId={estimation.id}
-                  onSelectCard={Estimate.selectCard}
-                  selectedCardId={selectedCardId}
-                />
-              ))
-            }
-          </div>
-        </div>
-      </div>
+      <I18n>
+        {
+          t => (
+            <div className="estimate">
+              <div className="row">
+                <div className="col">
+                  <div className="row">
+                    <div className="label">{t('name')}</div>
+                    <div className="field">{name}</div>
+                  </div>
+                  <div className="row">
+                    <div className="label">{t('url')}</div>
+                    <div className="field">{url}</div>
+                  </div>
+                </div>
+                <div className="col show-estimation">
+                  {
+                    isOwner &&
+                    <button
+                      type="button"
+                      className="button secondary"
+                      onClick={this.showEstimate}
+                    >
+                      {t('show-estimate')}
+                    </button>
+                  }
+                </div>
+              </div>
+              <div className="row">
+                <div className="game-container">
+                  <CardSelectionList
+                    projectId={projectId}
+                    storyId={story.id}
+                    selections={story.selections}
+                    showEstimation={showEstimation}
+                    onNewStory={this.createCardSelection}
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="card-container">
+                  {
+                    story.project.deckType.cards.edges.map(({ node }) => (
+                      <Card
+                        key={node.__id}
+                        card={node}
+                        estimationId={estimation.id}
+                        onSelectCard={Estimate.selectCard}
+                        selectedCardId={selectedCardId}
+                      />
+                    ))
+                  }
+                </div>
+              </div>
+            </div>
+          )
+        }
+      </I18n>
     );
   }
 }
@@ -115,6 +158,7 @@ export default createFragmentContainer(Estimate, graphql`
       id
       name
       url
+      showEstimation
       project {
         id
         deckType {
@@ -127,6 +171,9 @@ export default createFragmentContainer(Estimate, graphql`
               }
             }
           }
+        }
+        userCreator {
+          id
         }
       }
       userSelections: selections {

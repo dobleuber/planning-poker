@@ -9,21 +9,33 @@ import './StoryDetail.css';
 
 import Security from '../../utils/security';
 
-import { CreateCardSelectionMutation, CreateStoryMutation, UpdateStoryMutation } from '../../mutations';
+import {
+  CreateCardSelectionMutation,
+  CreateStoryMutation,
+  UpdateStoryMutation,
+  UpdateStoryShowEstimationMutation,
+} from '../../mutations';
 
 class StoryDetail extends Component {
   constructor(props) {
     super(props);
     const { story } = props;
-    const { name, url, estimation } = story || {};
+    const {
+      name = '',
+      url = '',
+      estimation,
+      showEstimation,
+    } = story || {};
     this.state = {
       name,
       url,
       estimation: estimation || '',
+      showEstimation,
     };
 
     this.handleChangeValue = this.handleChangeValue.bind(this);
     this.createStory = this.createStory.bind(this);
+    this.showEstimate = this.showEstimate.bind(this);
   }
 
   componentDidMount() {
@@ -72,9 +84,19 @@ class StoryDetail extends Component {
     }
   }
 
+  showEstimate(event) {
+    event.preventDefault();
+    const { storyId } = this.props;
+    const { showEstimation } = this.state;
+    this.setState({
+      showEstimation: !showEstimation,
+    }, () => UpdateStoryShowEstimationMutation(storyId, !showEstimation));
+  }
+
   render() {
     const { storyId } = this.props;
     const { goBack } = this.props.history;
+    const isNew = storyId === 'new';
     return (
       <I18n>
         {
@@ -145,6 +167,16 @@ class StoryDetail extends Component {
                   >
                     {t('save')}
                   </button>
+                  {
+                    !isNew &&
+                    <button
+                      type="button"
+                      className="button secondary"
+                      onClick={this.showEstimate}
+                    >
+                      {t('show-estimate')}
+                    </button>
+                  }
                 </div>
               </form>
               {
@@ -166,6 +198,7 @@ export default createFragmentContainer(StoryDetail, graphql`
     id
     name
     estimation
+    showEstimation
     url
     project {
       userCreator {

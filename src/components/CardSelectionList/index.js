@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
+import { I18n } from 'react-i18next';
+
+import groupBy from 'lodash.groupby';
+import maxBy from 'lodash.maxby';
+import minBy from 'lodash.minby';
+import values from 'lodash.values';
 
 import './CardSelectionList.css';
 import { SelectedCard } from '../';
 
-import CardSelectionSubscription from '../../subscriptions/CardSelectionSubscription';
+import Security from '../../utils/security';
+
+import { CardSelectionSubscription, NewStorySubscription } from '../../subscriptions';
 
 class CardSelectionList extends Component {
   static setCardPositions(edges) {
@@ -34,35 +42,91 @@ class CardSelectionList extends Component {
     });
   }
 
+  static getEstimationResults(edges) {
+    const results = values(groupBy(edges, ({ node }) => node.card.value));
+    console.log(results);
+    const moreVoted = maxBy(results, group => group.length);
+    const maxValue = maxBy(results, group => group[0].node.card.value);
+    const minValue = minBy(results, group => group[0].node.card.value);
+    const moreVotedCard = moreVoted[0].node.card;
+    const maxVotedCard = maxValue[0].node.card;
+    const minVotedCard = minValue[0].node.card;
+
+    const estimationResult = {
+      moreVoted: {
+        id: moreVotedCard.id,
+        label: moreVotedCard.label,
+        votes: moreVoted.length,
+      },
+      maxValue: {
+        id: maxVotedCard.id,
+        label: maxVotedCard.label,
+      },
+      minValue: {
+        id: minVotedCard.id,
+        label: minVotedCard.label,
+      },
+    };
+    console.log(estimationResult);
+
+    return estimationResult;
+  }
+
   componentDidMount() {
-    const { storyId } = this.props;
-    this.subscription = CardSelectionSubscription(storyId);
+    const { storyId, projectId, onNewStory } = this.props;
+    this.subscriptions = [];
+    this.subscriptions.push(CardSelectionSubscription(storyId));
+    this.subscriptions.push(NewStorySubscription(projectId, (newStoryId) => {
+      onNewStory(Security.userId, newStoryId, projectId);
+    }));
   }
 
   componentWillUnmount() {
-    this.subscription.dispose();
+    this.subscriptions.forEach(sub => sub.dispose());
   }
 
   render() {
-    const { selections } = this.props;
+    const { selections, showEstimation } = this.props;
+    const estimationResults = CardSelectionList.getEstimationResults(selections.edges);
+    const {
+      moreVoted,
+      maxValue,
+      minValue,
+    } = estimationResults;
+    const resultClassName = showEstimation
+      ? 'estimation-results showEstimation'
+      : 'estimation-results';
     return (
-      <div className="card-selection-list">
+      <I18n>
         {
-          CardSelectionList.setCardPositions(selections.edges)
-          .map(({
-            node,
-            card,
-            user,
-            position,
-          }) => (
-            <SelectedCard
-              key={node.id}
-              position={position}
-              userName={user.username}
-              card={card}
-            />))
+          t => (
+            <div className="card-selection-list">
+              {
+                CardSelectionList.setCardPositions(selections.edges)
+                .map(({
+                  node,
+                  card,
+                  user,
+                  position,
+                }) => (
+                  <SelectedCard
+                    key={node.id}
+                    position={position}
+                    userName={user.username}
+                    card={card}
+                    showEstimation={showEstimation}
+                  />))
+              }
+              <div className={resultClassName}>
+                <div className="tile">{t('estimate')}</div>
+                <div className="votes more">{moreVoted.label} {moreVoted.votes} {t('votes')}</div>
+                <div className="votes min">{minValue.label} {t('min')}</div>
+                <div className="votes max">{maxValue.label} {t('max')}</div>
+              </div>
+            </div>
+          )
         }
-      </div>
+      </I18n>
     );
   }
 }

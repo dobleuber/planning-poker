@@ -6,6 +6,30 @@
     display: flex;
     flex-direction: row;
     margin: 0.5em auto;
+    .col {
+      flex-basis: 50%;
+
+      &.show-estimation {
+        display: flex;
+        align-content: center;
+        justify-content: flex-end;
+        .button {
+          background-color: $color_secondary;
+          color: $color_button_primary;
+          font-size: 1.2em;    
+          margin: 0.5em;
+          border-radius: 5px;
+  
+          &:hover {
+            background-color: transparentize($color: $color_secondary, $amount: 0.5);
+          }
+
+          &:focus {
+            outline: none;
+          }
+        }  
+      }
+    }
     
     .label {
       display: flex;

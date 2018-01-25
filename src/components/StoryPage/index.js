@@ -15,6 +15,7 @@ const query = graphql`
     node(id: $storyId) {
       ...StoryDetail_story
       ... on Story {
+        showEstimation
         selections {
           ...CardSelectionList_selections
         }
@@ -36,6 +37,7 @@ const StoryPage = ({ match, history }) => {
           if (error) {
             return <div>{error.message}</div>;
           } else if (props) {
+            const { selections, showEstimation } = props.node;
             return (
               <div className="story-page">
                 <div className="row">
@@ -51,8 +53,10 @@ const StoryPage = ({ match, history }) => {
                   <div className="row">
                     <div className="game-container">
                       <CardSelectionList
-                        storyId={props.node.id}
-                        selections={props.node.selections}
+                        projectId={projectId}
+                        storyId={storyId}
+                        selections={selections}
+                        showEstimation={showEstimation}
                       />
                     </div>
                   </div>

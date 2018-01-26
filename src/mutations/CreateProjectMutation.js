@@ -31,8 +31,8 @@ export default (name, description, userCreatorId, callback) => {
     {
       mutation,
       variables,
-      onCompleted: res => callback(res),
-      onError: err => console.error(err),
+      onCompleted: (res, err) => callback(err, res),
+      onError: err => callback(err),
     },
   );
 };

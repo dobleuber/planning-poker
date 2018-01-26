@@ -12,6 +12,7 @@ class CreateProject extends Component {
     this.state = {
       name: '',
       description: '',
+      loading: false,
     };
 
     this.createProject = this.createProject.bind(this);
@@ -21,8 +22,14 @@ class CreateProject extends Component {
   createProject(event) {
     event.preventDefault();
     const { name, description } = this.state;
+    this.setState({ loading: true });
     if (name) {
-      CreateProjectMutation(name, description, Security.userId, () => this.props.history.push('/'));
+      CreateProjectMutation(name, description, Security.userId, (err, res) => {
+        this.setState({ loading: false });
+        if (res.createProject) {
+          this.props.history.push('/');
+        }
+      });
     }
   }
 
@@ -77,6 +84,7 @@ class CreateProject extends Component {
                 className="button primary"
               >
                 {t('create')}
+                {this.state.loading && <i className="fas fa-cog fa-spin" />}
               </button>
             </form>
           )

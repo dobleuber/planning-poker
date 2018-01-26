@@ -5,12 +5,14 @@ import environment from '../../createRelayEnvironment';
 import { ProjectList } from '../';
 import NewStorySubscription from '../../subscriptions/NewStorySubscription';
 
+import Security from '../../utils/security';
+
 import './ProjectListPage.css';
 
 const query = graphql`
-  query ProjectListPageQuery {
+  query ProjectListPageQuery($filter: ProjectFilter) {
     viewer {
-      ...ProjectList_viewer
+      ...ProjectList_viewer @arguments(filter: $filter)
     }
   }
 `;
@@ -25,10 +27,25 @@ class ProjectListPage extends Component {
   }
 
   render() {
+    const filter = {
+      OR: [
+        {
+          userCreator: {
+            id: Security.userId,
+          },
+        },
+        {
+          collaborators_some: {
+            id: Security.userId,
+          },
+        },
+      ],
+    };
     return (
       <QueryRenderer
         environment={environment}
         query={query}
+        variables={{ filter }}
         render={({ error, props }) => {
             if (error) {
               return <div>{error.message}</div>;

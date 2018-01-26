@@ -48,4 +48,12 @@
       }
     }
   }
+
+  .messages {
+    border: 1px solid $error_color;
+    padding: 1em;
+    margin-top: 0.5em;
+    border-radius: 0.5em;
+    color: $error_color;
+  }
 }

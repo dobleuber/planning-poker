@@ -25,13 +25,15 @@ export default (email, password, callback) => {
     {
       mutation,
       variables,
-      onCompleted: (response) => {
+      onCompleted: (response, err) => {
         if (response.authenticateUser) {
           const { id, token } = response.authenticateUser;
-          callback(id, token);
+          callback(err, id, token);
+        } else {
+          callback(err);
         }
       },
-      onError: err => console.error(err),
+      onError: err => callback(err),
     },
   );
 };

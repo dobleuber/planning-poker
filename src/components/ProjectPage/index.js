@@ -45,7 +45,7 @@ class ProjectPage extends Component {
   addProjectCollaborator({ projectId, userId }) {
     AddProjectCollaboratorsMutation(projectId, userId, (res) => {
       if (res && res.projectsInvolvedProject) {
-        console.log('new used added', this.props.node.id);
+        console.log('new user added', this.props.node.id);
       }
     });
   }

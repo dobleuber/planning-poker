@@ -25,10 +25,14 @@ export default (email, password, username, callback) => {
   commitMutation(environment, {
     mutation,
     variables,
-    onCompleted: (response) => {
-      const { id, token } = response.signupUser;
-      callback(id, token);
+    onCompleted: (response, err) => {
+      if (response.signupUser) {
+        const { id, token } = response.signupUser;
+        callback(null, id, token);
+      } else {
+        callback(err);
+      }
     },
-    onError: err => console.error(err),
+    onError: err => callback(err),
   });
 };

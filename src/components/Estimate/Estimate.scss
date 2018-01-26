@@ -23,11 +23,7 @@
           &:hover {
             background-color: transparentize($color: $color_secondary, $amount: 0.5);
           }
-
-          &:focus {
-            outline: none;
-          }
-        }  
+        }
       }
     }
     

@@ -41,8 +41,10 @@ const ProjectList = ({ viewer }) => (
 
 
 export default createFragmentContainer(ProjectList, graphql`
-fragment ProjectList_viewer on Viewer {
-  allProjects {
+fragment ProjectList_viewer on Viewer @argumentDefinitions(
+  filter: { type: "ProjectFilter"}
+){
+  allProjects (filter: $filter){
     edges {
       node {
         ...ProjectItem_project

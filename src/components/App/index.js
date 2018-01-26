@@ -55,6 +55,8 @@ class App extends Component {
     Security.clearCredentials();
     this.setState({
       userId: null,
+    }, () => {
+      document.location.assign('/login');
     });
   }
 

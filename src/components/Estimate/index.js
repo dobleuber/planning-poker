@@ -13,6 +13,7 @@ import './Estimate.css';
 import { Card, CardSelectionList } from '../';
 
 import {
+  AddProjectCollaboratorsMutation,
   CreateCardSelectionMutation,
   UpdateCardSelectionMutation,
   UpdateCardSelectionStatusMutation,
@@ -39,6 +40,14 @@ class Estimate extends Component {
     const { estimation } = this.props;
     const { userId } = Security;
     this.changeUser = estimation.user.id !== userId;
+    const addNewCollaborator = !estimation.story.project.collaborators.edges
+      .find(({ node }) => node.id === userId);
+
+    if (addNewCollaborator) {
+      const projectId = estimation.story.project.id;
+      AddProjectCollaboratorsMutation(projectId, userId);
+    }
+
     if (this.changeUser) {
       const userSelections = estimation.story.userSelections.edges;
       const userEstimation = userSelections.find(({ node }) => node.user.id === userId);
@@ -174,6 +183,13 @@ export default createFragmentContainer(Estimate, graphql`
         }
         userCreator {
           id
+        }
+        collaborators {
+          edges {
+            node {
+              id
+            }
+          }
         }
       }
       userSelections: selections {

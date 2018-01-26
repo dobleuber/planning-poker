@@ -37,7 +37,7 @@ const StoryPage = ({ match, history }) => {
           if (error) {
             return <div>{error.message}</div>;
           } else if (props) {
-            const { selections, showEstimation } = props.node;
+            const { selections, showEstimation } = props.node || {};
             return (
               <div className="story-page">
                 <div className="row">

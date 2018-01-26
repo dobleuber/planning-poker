@@ -43,8 +43,12 @@ class CardSelectionList extends Component {
   }
 
   static getEstimationResults(edges) {
-    const results = values(groupBy(edges, ({ node }) => node.card.value));
-    console.log(results);
+    const userVotes = edges.filter(({ node }) => !!node.card);
+    const results = values(groupBy(userVotes, ({ node }) => node.card.value));
+    if (results && !results.length) {
+      return {};
+    }
+
     const moreVoted = maxBy(results, group => group.length);
     const maxValue = maxBy(results, group => group[0].node.card.value);
     const minValue = minBy(results, group => group[0].node.card.value);
@@ -96,6 +100,8 @@ class CardSelectionList extends Component {
     const resultClassName = showEstimation
       ? 'estimation-results showEstimation'
       : 'estimation-results';
+
+    const hasResults = showEstimation && selections && selections.edges.length;
     return (
       <I18n>
         {
@@ -117,12 +123,15 @@ class CardSelectionList extends Component {
                     showEstimation={showEstimation}
                   />))
               }
-              <div className={resultClassName}>
-                <div className="tile">{t('estimate')}</div>
-                <div className="votes more">{moreVoted.label} {moreVoted.votes} {t('votes')}</div>
-                <div className="votes min">{minValue.label} {t('min')}</div>
-                <div className="votes max">{maxValue.label} {t('max')}</div>
-              </div>
+              {
+                hasResults &&
+                <div className={resultClassName}>
+                  <div className="tile">{t('estimate')}</div>
+                  <div className="votes more">{moreVoted.label} {moreVoted.votes} {t('votes')}</div>
+                  <div className="votes min">{minValue.label} {t('min')}</div>
+                  <div className="votes max">{maxValue.label} {t('max')}</div>
+                </div>
+              }
             </div>
           )
         }

@@ -7,3 +7,14 @@ body {
   margin: 0;
   padding: 0;
 }
+
+button {
+
+  i.fas {
+    margin-left: 0.5em;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}

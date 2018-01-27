@@ -1,0 +1,8 @@
+type SignupGuestUserPayload {
+  id: ID!
+  token: String!
+}
+
+extend type Mutation {
+  signupGuestUser(username: String!, password: String!) : SignupGuestUserPayload
+}

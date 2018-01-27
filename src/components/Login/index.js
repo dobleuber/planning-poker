@@ -4,9 +4,19 @@ import queryString from 'query-string';
 
 import './Login.css';
 
-import { AuthenticateUserMutation, CreateUserMutation } from '../../mutations';
+import {
+  AuthenticateUserMutation,
+  CreateGuestUserMutation,
+  CreateUserMutation,
+} from '../../mutations';
 
 import Security from '../../utils/security';
+
+const LoginType = {
+  Guest: 1,
+  Login: 2,
+  Signup: 4,
+};
 
 class Login extends Component {
   static saveUserData(id, token) {
@@ -17,7 +27,7 @@ class Login extends Component {
   constructor() {
     super();
     this.state = {
-      login: true,
+      loginType: LoginType.Guest,
       email: '',
       password: '',
       username: '',
@@ -27,6 +37,7 @@ class Login extends Component {
 
     this.handleValueChange = this.handleValueChange.bind(this);
     this.submitForm = this.submitForm.bind(this);
+    this.doLogin = this.doLogin.bind(this);
   }
 
   handleValueChange(event) {
@@ -38,6 +49,21 @@ class Login extends Component {
     });
   }
 
+  doLogin(err, id, token) {
+    const parsedQueryString = queryString.parse(this.props.location.search);
+    const redirect = parsedQueryString.redirect || '/';
+    if (err) {
+      this.setState({
+        message: err[0].functionError,
+        loading: false,
+      });
+    } else {
+      Security.setCredentials(id, token);
+      this.props.onLogin();
+      this.props.history.push(redirect);
+    }
+  }
+
   submitForm(event) {
     event.preventDefault();
     this.setState({
@@ -47,49 +73,76 @@ class Login extends Component {
     const parsedQueryString = queryString.parse(this.props.location.search);
     const { username, email, password } = this.state;
     const redirect = parsedQueryString.redirect || '/';
-    if (this.state.login) {
-      if (email && password) {
-        AuthenticateUserMutation(email, password, (err, id, token) => {
-          if (err) {
-            this.setState({
-              message: err[0].functionError,
-              loading: false,
-            });
-          } else {
-            Security.setCredentials(id, token);
-            this.props.onLogin();
-            this.props.history.push(redirect);
-          }
-        });
-      }
-    } else if (email && password && username) {
-      CreateUserMutation(email, password, username, (err, id, token) => {
-        if (err) {
-          this.setState({
-            message: err[0].functionError,
-            loading: false,
-          });
-        } else {
-          Security.setCredentials(id, token);
-          this.props.onLogin();
-          this.props.history.push(redirect);
+    switch (this.state.loginType) {
+      case LoginType.Guest:
+        if (username) {
+          CreateGuestUserMutation(username, 'temporal', this.doLogin);
         }
-      });
+        break;
+      case LoginType.Login:
+        if (email && password) {
+          AuthenticateUserMutation(email, password, (err, id, token) => {
+            if (err) {
+              this.setState({
+                message: err[0].functionError,
+                loading: false,
+              });
+            } else {
+              Security.setCredentials(id, token);
+              this.props.onLogin();
+              this.props.history.push(redirect);
+            }
+          });
+        }
+        break;
+      case LoginType.Signup:
+        if (email && password && username) {
+          CreateUserMutation(email, password, username, this.doLogin);
+        }
+        break;
+      default:
+        break;
     }
   }
 
   render() {
-    const { login, message, loading } = this.state;
+    const { loginType, message, loading } = this.state;
+    let title;
+    let primaryButtonText;
+    let secondaryButtonText;
+    let nextState;
+    switch (loginType) {
+      case LoginType.Guest:
+        title = 'ask-name';
+        primaryButtonText = 'continue';
+        secondaryButtonText = 'already-user';
+        nextState = LoginType.Login;
+        break;
+      case LoginType.Login:
+        title = 'login';
+        primaryButtonText = 'login';
+        secondaryButtonText = 'need-account';
+        nextState = LoginType.Signup;
+        break;
+      case LoginType.Signup:
+        title = 'sign-up';
+        primaryButtonText = 'create-account';
+        secondaryButtonText = 'already-user';
+        nextState = LoginType.Login;
+        break;
+      default:
+        break;
+    }
     return (
       <I18n>
         {
           t => (
             <form className="login-form" onSubmit={this.submitForm}>
               <h4 className="title">
-                {login ? t('login') : t('sign-up')}
+                {t(title)}
               </h4>
               <div className="form-container">
-                { !login &&
+                { loginType !== LoginType.Login &&
                   <input
                     type="text"
                     name="username"
@@ -98,33 +151,51 @@ class Login extends Component {
                     placeholder={t('your-name')}
                   />
                 }
-                <input
-                  type="text"
-                  name="email"
-                  onChange={this.handleValueChange}
-                  required
-                  placeholder={t('your-email')}
-                />
-                <input
-                  type="password"
-                  name="password"
-                  onChange={this.handleValueChange}
-                  required
-                  placeholder={t('your-password')}
-                />
+                { loginType !== LoginType.Guest &&
+                  <input
+                    type="text"
+                    name="email"
+                    onChange={this.handleValueChange}
+                    required
+                    placeholder={t('your-email')}
+                  />
+                }
+                { loginType !== LoginType.Guest &&
+                  <input
+                    type="password"
+                    name="password"
+                    onChange={this.handleValueChange}
+                    required
+                    placeholder={t('your-password')}
+                  />
+                }
               </div>
               <div className="form-actions">
                 <button className="button primary" type="submit">
-                  { login ? t('login') : t('create-account') }
+                  { t(primaryButtonText) }
                   { loading && <i className="fas fa-cog fa-spin" /> }
                 </button>
                 <button
                   type="button"
                   className="button secondary"
-                  onClick={() => this.setState({ login: !login })}
+                  onClick={() => this.setState({
+                    loginType: nextState,
+                  })}
                 >
-                  {login ? t('need-account') : t('already-user')}
+                  {t(secondaryButtonText)}
                 </button>
+                {
+                  loginType === LoginType.Guest &&
+                  <button
+                    type="button"
+                    className="button secondary"
+                    onClick={() => this.setState({
+                      loginType: LoginType.Signup,
+                    })}
+                  >
+                    {t('want-account')}
+                  </button>
+                }
               </div>
               {
                 message &&

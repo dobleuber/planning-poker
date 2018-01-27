@@ -128,8 +128,8 @@ class CardSelectionList extends Component {
                 <div className={resultClassName}>
                   <div className="tile">{t('estimate')}</div>
                   <div className="votes more">{moreVoted.label} {moreVoted.votes} {t('votes')}</div>
-                  <div className="votes min">{minValue.label} {t('min')}</div>
-                  <div className="votes max">{maxValue.label} {t('max')}</div>
+                  <div className="votes min">{t('min')}: {minValue.label}</div>
+                  <div className="votes max">{t('max')}: {maxValue.label}</div>
                 </div>
               }
             </div>

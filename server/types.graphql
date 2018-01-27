@@ -8,11 +8,11 @@ type User @model {
   createdAt: DateTime! # read-only (managed by Graphcool)
   updatedAt: DateTime! # read-only (managed by Graphcool)
 
-  email: String! @isUnique
+  email: String @isUnique
   password: String!
 
   #custom fields
-  username: String! @isUnique
+  username: String!
   createdProjects: [Project!]! @relation(name: "UserProjects")
   selections: [CardSelection!]! @relation(name: "UserSelectionCards")
   projectsInvolved: [Project!]! @relation(name: "ProjectCollaborators")

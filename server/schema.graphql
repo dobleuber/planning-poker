@@ -499,7 +499,7 @@ input CardSelectionstoryStory {
 }
 
 input CardSelectionuserUser {
-  email: String!
+  email: String
   password: String!
   username: String!
   createdProjectsIds: [ID!]
@@ -664,7 +664,7 @@ type CreateStoryPayload {
 }
 
 input CreateUser {
-  email: String!
+  email: String
   password: String!
   username: String!
   createdProjectsIds: [ID!]
@@ -1009,6 +1009,9 @@ type Mutation {
 
   # signup
   signupUser(email: String!, password: String!, username: String!): SignupUserPayload
+
+  # signupGuest
+  signupGuestUser(username: String!, password: String!): SignupGuestUserPayload
 }
 
 # An object with an ID
@@ -1043,7 +1046,7 @@ type Project implements Node {
 }
 
 input ProjectcollaboratorsUser {
-  email: String!
+  email: String
   password: String!
   username: String!
   createdProjectsIds: [ID!]
@@ -1239,7 +1242,7 @@ input ProjectprojectStory {
 }
 
 input ProjectuserCreatorUser {
-  email: String!
+  email: String
   password: String!
   username: String!
   createdProjectsIds: [ID!]
@@ -1350,8 +1353,14 @@ input RemoveFromUserProjectsProjectInput {
   clientMutationId: String!
 }
 
+# SignupGuestUserPayload
+type SignupGuestUserPayload {
+  id: ID!
+  token: String!
+}
+
 input SignupUserInput {
-  email: String!
+  email: String
   password: String!
   username: String!
   createdProjectsIds: [ID!]
@@ -1878,7 +1887,7 @@ type UpdateUserPayload {
 type User implements Node {
   createdAt: DateTime!
   createdProjects(filter: ProjectFilter, orderBy: ProjectOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): ProjectConnection
-  email: String!
+  email: String
   id: ID!
   password: String!
   projectsInvolved(filter: ProjectFilter, orderBy: ProjectOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): ProjectConnection

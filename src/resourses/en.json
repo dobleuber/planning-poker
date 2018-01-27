@@ -1,7 +1,9 @@
 {
-  "already-user": "Already have an ccount",
+  "already-user": "Already have an account",
   "altLogo": "Scrum Poker App",
+  "ask-name": "What is your name?",
   "back": "Back",
+  "continue": "Continue",
   "create": "Crear",
   "create-account": "Create an Account",
   "description": "Description",
@@ -29,5 +31,6 @@
   "your-email": "Your email",
   "your-name":"Your User Name",
   "your-password": "Your Password",
+  "want-account": "Do you want an account?",
   "welcome": "Welcome to the Scrum Poker"
 }

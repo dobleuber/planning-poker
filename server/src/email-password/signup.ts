@@ -85,7 +85,7 @@ async function createGraphcoolUser(api: GraphQLClient, email: string, password: 
 
   const variables = {
     email,
-    password: password,
+    password,
     username,
   }
 

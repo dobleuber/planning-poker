@@ -19,11 +19,6 @@ const LoginType = {
 };
 
 class Login extends Component {
-  static saveUserData(id, token) {
-    localStorage.setItem('USER_ID', id);
-    localStorage.setItem('USER_Token', token);
-  }
-
   constructor() {
     super();
     this.state = {
@@ -59,6 +54,9 @@ class Login extends Component {
       });
     } else {
       Security.setCredentials(id, token);
+      if (this.state.loginType === LoginType.Guest) {
+        Security.setGuest();
+      }
       this.props.onLogin();
       this.props.history.push(redirect);
     }
@@ -76,7 +74,7 @@ class Login extends Component {
     switch (this.state.loginType) {
       case LoginType.Guest:
         if (username) {
-          CreateGuestUserMutation(username, 'temporal', this.doLogin);
+          CreateGuestUserMutation(username, this.doLogin);
         }
         break;
       case LoginType.Login:

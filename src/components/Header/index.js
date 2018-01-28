@@ -7,6 +7,7 @@ import './Header.css';
 
 const Header = ({
   userId,
+  isGuest,
   logout,
   location,
   onInvite,
@@ -28,7 +29,7 @@ const Header = ({
               Scrum Poker
             </div>
             <div className="link">
-              <NavLink exact to="/">{t('projectList')}</NavLink>
+              {userId && <NavLink exact to="/">{t('projectList')}</NavLink>}
             </div>
             <div className="link">
               {userId && <NavLink exact to="/create">{t('newProject')}</NavLink>}
@@ -43,7 +44,13 @@ const Header = ({
                 <button onClick={onInvite}>{t('invite')}</button>
               </div>
             }
-            <div className="link login">
+            {
+              isGuest &&
+              <div className="link login">
+                <NavLink exact to={`/login/${userId}/setpassword`}>{t('set-password')}</NavLink>
+              </div>
+            }
+            <div className="link">
               {userId ? <button onClick={logout} >{t('logout')}</button> : <NavLink exact to="/login">{t('login')}</NavLink>}
             </div>
           </div>

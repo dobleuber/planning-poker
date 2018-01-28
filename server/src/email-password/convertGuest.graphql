@@ -1,0 +1,8 @@
+type ConvertGuestUserPayload {
+  id: ID!
+  token: String!
+}
+
+extend type Mutation {
+  convertGuestUser(id: ID!, email: String!, password: String!, username: String!) : ConvertGuestUserPayload
+}

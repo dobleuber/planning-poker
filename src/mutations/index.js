@@ -1,5 +1,6 @@
 import AddProjectCollaboratorsMutation from './AddProjectCollaboratorsMutation';
 import AuthenticateUserMutation from './AuthenticateUserMutation';
+import ConvertGuestUserMutation from './ConvertGuestUserMutation';
 import CreateCardSelectionMutation from './CreateCardSelectionMutation';
 import CreateGuestUserMutation from './CreateGuestUserMutation';
 import CreateProjectMutation from './CreateProjectMutation';
@@ -13,6 +14,7 @@ import UpdateStoryShowEstimationMutation from './UpdateStoryShowEstimationMutati
 export {
   AddProjectCollaboratorsMutation,
   AuthenticateUserMutation,
+  ConvertGuestUserMutation,
   CreateCardSelectionMutation,
   CreateGuestUserMutation,
   CreateProjectMutation,

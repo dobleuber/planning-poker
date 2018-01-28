@@ -1,6 +1,6 @@
 const UserID = 'user-id';
 const AuthToken = 'auth-token';
-const UserName = 'user-name';
+const IsGuest = 'is-guest';
 
 class Security {
   static get userId() {
@@ -11,8 +11,8 @@ class Security {
     return localStorage.getItem(AuthToken);
   }
 
-  static get userName() {
-    return localStorage.getItem(UserName);
+  static get isGuest() {
+    return !!localStorage.getItem(IsGuest);
   }
 
   static setCredentials(id, token) {
@@ -20,8 +20,12 @@ class Security {
     localStorage.setItem(AuthToken, token);
   }
 
-  static set userName(userName) {
-    localStorage.setItem(UserName, userName);
+  static setGuest() {
+    localStorage.setItem(IsGuest, true);
+  }
+
+  static removeGuest() {
+    localStorage.removeItem(IsGuest);
   }
 
   static clearCredentials() {

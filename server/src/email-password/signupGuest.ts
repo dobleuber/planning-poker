@@ -7,7 +7,6 @@ interface User {
 }
 
 interface EventData {
-  password: string
   username: string
 }
 
@@ -20,16 +19,17 @@ export default async (event: FunctionEvent<EventData>) => {
     const graphcool = fromEvent(event);
     const api = graphcool.api('simple/v1')
 
-    const { username, password } = event.data;
+    const { username } = event.data
+    const password = 'temporal'
 
     const salt = bcrypt.genSaltSync(SALT_ROUNDS);
     const hash = await bcrypt.hash(password, SALT_ROUNDS)
 
     const userId = await createGuestUser(api, username, hash);
 
-    const token = await graphcool.generateNodeToken(userId, 'User');
+    const token = await graphcool.generateNodeToken(userId, 'User')
 
-    return { data: {id: userId, token } };
+    return { data: {id: userId, token } }
   } catch (e) {
     console.log(e)
     return { error: 'An unexpected error occurred during user guest creation.' }

@@ -6,18 +6,17 @@ import {
 import environment from '../createRelayEnvironment';
 
 const mutation = graphql`
-  mutation CreateGuestUserMutation($username: String!, $password: String!) {
-    signupGuestUser(username: $username, password: $password) {
+  mutation CreateGuestUserMutation($username: String!) {
+    signupGuestUser(username: $username) {
       id
       token
     }
   }
 `;
 
-export default (username, password, callback) => {
+export default (username, callback) => {
   const variables = {
     username,
-    password,
     clientMutationId: '',
   };
 

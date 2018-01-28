@@ -510,6 +510,12 @@ input CardSelectionuserUser {
   selections: [UserselectionsCardSelection!]
 }
 
+# ConvertGuestUserPayload
+type ConvertGuestUserPayload {
+  id: ID!
+  token: String!
+}
+
 input CreateCard {
   label: String!
   value: Float!
@@ -1007,11 +1013,14 @@ type Mutation {
   # authenticate
   authenticateUser(email: String!, password: String!): AuthenticateUserPayload
 
+  # convertGuest
+  convertGuestUser(id: ID!, email: String!, password: String!, username: String!): ConvertGuestUserPayload
+
   # signup
   signupUser(email: String!, password: String!, username: String!): SignupUserPayload
 
   # signupGuest
-  signupGuestUser(username: String!, password: String!): SignupGuestUserPayload
+  signupGuestUser(username: String!): SignupGuestUserPayload
 }
 
 # An object with an ID
@@ -2200,7 +2209,7 @@ type Viewer {
   DeckType(id: ID): DeckType
   Project(id: ID): Project
   Story(id: ID): Story
-  User(email: String, id: ID, username: String): User
+  User(email: String, id: ID): User
 
   # loggedInUser
   loggedInUser: LoggedInUserPayload

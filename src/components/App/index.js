@@ -7,6 +7,7 @@ import { I18n } from 'react-i18next';
 import logo from '../../logo.svg';
 import './App.css';
 import {
+  ConvertGuest,
   CreateProject,
   EstimatePage,
   Header,
@@ -32,6 +33,7 @@ class App extends Component {
 
     this.state = {
       userId: Security.userId,
+      isGuest: Security.isGuest,
     };
   }
 
@@ -48,6 +50,7 @@ class App extends Component {
   onLogin() {
     this.setState({
       userId: Security.userId,
+      isGuest: Security.isGuest,
     });
   }
 
@@ -55,6 +58,7 @@ class App extends Component {
     Security.clearCredentials();
     this.setState({
       userId: null,
+      isGuest: Security.isGuest,
     }, () => {
       document.location.assign('/login');
     });
@@ -62,7 +66,7 @@ class App extends Component {
 
 
   render() {
-    const { userId } = this.state;
+    const { userId, isGuest } = this.state;
     return (
       <div className="App">
         <I18n>
@@ -77,7 +81,7 @@ class App extends Component {
             )
           }
         </I18n>
-        <Header userId={userId} logout={this.logout} onInvite={App.onInvite} />
+        <Header userId={userId} isGuest={isGuest} logout={this.logout} onInvite={App.onInvite} />
         <div className="container">
           <Switch>
             <Route exact path="/" component={ProjectListPage} />
@@ -85,6 +89,11 @@ class App extends Component {
               exact
               path="/login"
               component={props => (<Login onLogin={this.onLogin} {...props} />)}
+            />
+            <Route
+              exact
+              path="/login/:userId/setpassword"
+              component={props => (<ConvertGuest onLogin={this.onLogin} {...props} />)}
             />
             <Route exact path="/create" component={CreateProject} />
             <Route exact path="/project/:projectId" component={ProjectPage} />

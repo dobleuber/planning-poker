@@ -1,0 +1,7 @@
+type ClearStoryVotesPayload {
+  allCardSelections: [ID!]!
+}
+
+extend type Mutation {
+  clearStoryVotes(storyId: ID!): ClearStoryVotesPayload
+}

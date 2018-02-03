@@ -124,7 +124,7 @@ class CardSelectionList extends Component {
                   />))
               }
               {
-                hasResults &&
+                hasResults && moreVoted &&
                 <div className={resultClassName}>
                   <div className="tile">{t('estimate')}</div>
                   <div className="votes more">{moreVoted.label} {moreVoted.votes} {t('votes')}</div>

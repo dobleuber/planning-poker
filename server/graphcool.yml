@@ -52,6 +52,12 @@ functions:
     handler:
       code: src/email-password/convertGuest.ts
 
+  clearStoryVotes:
+    type: resolver
+    schema: src/customResolvers/clearStoryVotes.graphql
+    handler:
+      code: src/customResolvers/clearStoryVotes.ts
+
 # Model/Relation permissions are used to limit the API access
 # To take the burden of thinking about those while development, we
 # preconfigured the wildcard ("*") permission that allows everything

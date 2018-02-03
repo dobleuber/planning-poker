@@ -510,6 +510,11 @@ input CardSelectionuserUser {
   selections: [UserselectionsCardSelection!]
 }
 
+# ClearStoryVotesPayload
+type ClearStoryVotesPayload {
+  allCardSelections: [ID!]!
+}
+
 # ConvertGuestUserPayload
 type ConvertGuestUserPayload {
   id: ID!
@@ -1012,6 +1017,9 @@ type Mutation {
 
   # authenticate
   authenticateUser(email: String!, password: String!): AuthenticateUserPayload
+
+  # clearStoryVotes
+  clearStoryVotes(storyId: ID!): ClearStoryVotesPayload
 
   # convertGuest
   convertGuestUser(id: ID!, email: String!, password: String!, username: String!): ConvertGuestUserPayload

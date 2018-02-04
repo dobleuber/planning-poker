@@ -10,6 +10,7 @@ import './StoryDetail.css';
 import Security from '../../utils/security';
 
 import {
+  ClearStoryVotesMutation,
   CreateCardSelectionMutation,
   CreateStoryMutation,
   UpdateStoryMutation,
@@ -36,6 +37,7 @@ class StoryDetail extends Component {
     this.handleChangeValue = this.handleChangeValue.bind(this);
     this.createStory = this.createStory.bind(this);
     this.showEstimate = this.showEstimate.bind(this);
+    this.clearVotes = this.clearVotes.bind(this);
   }
 
   componentDidMount() {
@@ -82,6 +84,18 @@ class StoryDetail extends Component {
           this.props.history.replace(`/project/${projectId}/story/${res.createStory.story.id}`));
       }
     }
+  }
+
+  clearVotes() {
+    const { storyId } = this.props;
+
+    ClearStoryVotesMutation(storyId, (err, res) => {
+      if (err) {
+        console.error(err);
+      } else if (res) {
+        console.log(res);
+      }
+    });
   }
 
   showEstimate(event) {
@@ -175,6 +189,16 @@ class StoryDetail extends Component {
                       onClick={this.showEstimate}
                     >
                       {t('show-estimate')}
+                    </button>
+                  }
+                  {
+                    !isNew &&
+                    <button
+                      type="button"
+                      className="button secondary"
+                      onClick={this.clearVotes}
+                    >
+                      {t('clear-votes')}
                     </button>
                   }
                 </div>

@@ -50,7 +50,7 @@ const Header = ({
                 <NavLink exact to={`/login/${userId}/setpassword`}>{t('set-password')}</NavLink>
               </div>
             }
-            <div className="link">
+            <div className="link login">
               {userId ? <button onClick={logout} >{t('logout')}</button> : <NavLink exact to="/login">{t('login')}</NavLink>}
             </div>
           </div>

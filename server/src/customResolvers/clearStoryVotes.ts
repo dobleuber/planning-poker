@@ -53,7 +53,7 @@ export default async (event: FunctionEvent<EventData>) => {
 
     const result = await api.request<[CardSelection]>(fullMutation);
     const returnValue = cardSelections.allCardSelections.map((res) => res.id);
-    return {data: {allCardSelections: returnValue}};
+    return {data: {cardSelectionIds: returnValue}};
   } catch (e) {
     console.log(e);
     return { error: 'An unexpected error ocurred during mutation'};

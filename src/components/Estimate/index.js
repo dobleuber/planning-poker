@@ -14,6 +14,7 @@ import { Card, CardSelectionList } from '../';
 
 import {
   AddProjectCollaboratorsMutation,
+  ClearStoryVotesMutation,
   CreateCardSelectionMutation,
   UpdateCardSelectionMutation,
   UpdateCardSelectionStatusMutation,
@@ -34,6 +35,7 @@ class Estimate extends Component {
 
     this.createCardSelection = this.createCardSelection.bind(this);
     this.showEstimate = this.showEstimate.bind(this);
+    this.clearVotes = this.clearVotes.bind(this);
   }
 
   componentDidMount() {
@@ -71,6 +73,18 @@ class Estimate extends Component {
     const { estimation } = this.props;
     const { id } = estimation;
     UpdateCardSelectionStatusMutation(id, false);
+  }
+
+  clearVotes() {
+    const { story } = this.props.estimation;
+    const { id } = story;
+    ClearStoryVotesMutation(id, (err, res) => {
+      if (err) {
+        console.error(err);
+      } else if (res) {
+        console.log(res);
+      }
+    });
   }
 
   createCardSelection(userId, storyId, projectId) {
@@ -122,6 +136,18 @@ class Estimate extends Component {
                       onClick={this.showEstimate}
                     >
                       {t('show-estimate')}
+                    </button>
+                  }
+                </div>
+                <div className="col show-estimation">
+                  {
+                    isOwner &&
+                    <button
+                      type="button"
+                      className="button secondary"
+                      onClick={this.clearVotes}
+                    >
+                      {t('clear-votes')}
                     </button>
                   }
                 </div>

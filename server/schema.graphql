@@ -512,7 +512,7 @@ input CardSelectionuserUser {
 
 # ClearStoryVotesPayload
 type ClearStoryVotesPayload {
-  allCardSelections: [ID!]!
+  cardSelectionIds: [ID!]!
 }
 
 # ConvertGuestUserPayload

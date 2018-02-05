@@ -23,7 +23,7 @@ const Header = ({
   return (
     <I18n>
       {
-        t => (
+        (t, { i18n }) => (
           <div className="header">
             <div className="title">
               Scrum Poker
@@ -44,6 +44,15 @@ const Header = ({
                 <button onClick={onInvite}>{t('invite')}</button>
               </div>
             }
+            <div className="link dropdown right">
+              <div className="selected">
+                {i18n.language && i18n.language.toUpperCase()}
+              </div>
+              <div className="dropdown-content">
+                <button onClick={() => i18n.language !== 'en' && i18n.changeLanguage('en')}>EN</button>
+                <button onClick={() => i18n.language !== 'es' && i18n.changeLanguage('es')}>ES</button>
+              </div>
+            </div>
             {
               isGuest &&
               <div className="link login">

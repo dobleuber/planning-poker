@@ -3,7 +3,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import { reactI18nextModule } from 'react-i18next';
 
 const defaultLanguage = 'en';
-
+const currentLanguages = ['en', 'es'];
 i18n
   .use(LanguageDetector)
   .use(reactI18nextModule) // if not using I18nextProvider
@@ -23,7 +23,8 @@ i18n
     },
   });
 
-// eslint-disable-next-line
-i18n.addResourceBundle(defaultLanguage, 'translation', require(`./resourses/${defaultLanguage}`));
 
+currentLanguages.forEach(item =>
+  // eslint-disable-next-line
+  i18n.addResourceBundle(item, 'translation', require(`./resourses/${item}`)));
 export default i18n;

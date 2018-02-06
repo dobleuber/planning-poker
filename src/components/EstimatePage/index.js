@@ -15,6 +15,10 @@ const query = graphql`
     estimation: node(id: $estimateId) {
       ...Estimate_estimation
     }
+
+    specialCards: viewer {
+      ...Estimate_specialCards
+    }
   }
 `;
 
@@ -36,6 +40,7 @@ const EstimatePage = ({ match, history }) => {
               <Estimate
                 estimateId={estimateId}
                 estimation={props.estimation}
+                specialCards={props.specialCards}
                 projectId={projectId}
                 history={history}
               />

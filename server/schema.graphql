@@ -127,6 +127,7 @@ type AuthenticateUserPayload {
 type Card implements Node {
   deckType(filter: DeckTypeFilter): DeckType
   id: ID!
+  isIcon: Boolean
   label: String!
   selections(filter: CardSelectionFilter, orderBy: CardSelectionOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): CardSelectionConnection
   value: Float!
@@ -208,6 +209,10 @@ input CardFilter {
 
   # All values not ending with the given string.
   id_not_ends_with: ID
+  isIcon: Boolean
+
+  # All values that are not equal to given value.
+  isIcon_not: Boolean
   label: String
 
   # All values that are not equal to given value.
@@ -279,6 +284,8 @@ input CardFilter {
 enum CardOrderBy {
   id_ASC
   id_DESC
+  isIcon_ASC
+  isIcon_DESC
   label_ASC
   label_DESC
   value_ASC
@@ -297,6 +304,7 @@ type CardSelection implements Node {
 }
 
 input CardSelectioncardCard {
+  isIcon: Boolean
   label: String!
   value: Float!
   deckTypeId: ID
@@ -522,6 +530,7 @@ type ConvertGuestUserPayload {
 }
 
 input CreateCard {
+  isIcon: Boolean
   label: String!
   value: Float!
   deckTypeId: ID
@@ -531,6 +540,7 @@ input CreateCard {
 }
 
 input CreateCardInput {
+  isIcon: Boolean
   label: String!
   value: Float!
   deckTypeId: ID
@@ -704,6 +714,7 @@ type DeckType implements Node {
 }
 
 input DeckTypecardsCard {
+  isIcon: Boolean
   label: String!
   value: Float!
   selectionsIds: [ID!]
@@ -1621,6 +1632,7 @@ input StoryselectionsCardSelection {
 
 input UpdateCard {
   id: ID!
+  isIcon: Boolean
   label: String
   value: Float
   deckTypeId: ID
@@ -1631,6 +1643,7 @@ input UpdateCard {
 
 input UpdateCardInput {
   id: ID!
+  isIcon: Boolean
   label: String
   value: Float
   deckTypeId: ID

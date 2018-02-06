@@ -52,6 +52,7 @@ type Card @model {
   id: ID! @isUnique
   label: String!
   value: Float!
+  isIcon: Boolean
   deckType: DeckType @relation(name: "DeckCards")
   selections: [CardSelection!]! @relation(name: "CardSelectionCards")
 }

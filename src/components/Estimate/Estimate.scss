@@ -42,11 +42,13 @@
     .card-container {
       background-color: $bg_secondary;
       border-radius: 0.5em;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
       padding: 2em;
-      width: 100%;
+      .deck-cards, .special-cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+      }
     }
 
     .game-container {

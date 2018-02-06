@@ -104,7 +104,7 @@ class Estimate extends Component {
   }
 
   render() {
-    const { estimation, projectId } = this.props;
+    const { estimation, projectId, specialCards } = this.props;
     const { story, card } = estimation;
     const { name, url, showEstimation } = story;
 
@@ -165,17 +165,33 @@ class Estimate extends Component {
               </div>
               <div className="row">
                 <div className="card-container">
-                  {
-                    story.project.deckType.cards.edges.map(({ node }) => (
-                      <Card
-                        key={node.__id}
-                        card={node}
-                        estimationId={estimation.id}
-                        onSelectCard={Estimate.selectCard}
-                        selectedCardId={selectedCardId}
-                      />
-                    ))
-                  }
+                  <div className="deck-cards">
+                    {
+                      story.project.deckType.cards.edges.map(({ node }) => (
+                        <Card
+                          key={node.__id}
+                          card={node}
+                          estimationId={estimation.id}
+                          onSelectCard={Estimate.selectCard}
+                          selectedCardId={selectedCardId}
+                        />
+                      ))
+                    }
+                  </div>
+                  <div className="special-cards">
+                    {
+                      specialCards.allCards.edges.map(({ node }) => (
+                        <Card
+                          key={node.__id}
+                          card={node}
+                          estimationId={estimation.id}
+                          onSelectCard={Estimate.selectCard}
+                          selectedCardId={selectedCardId}
+                          isIcon="true"
+                        />
+                      ))
+                    }
+                  </div>
                 </div>
               </div>
             </div>
@@ -187,6 +203,16 @@ class Estimate extends Component {
 }
 
 export default createFragmentContainer(Estimate, graphql`
+  fragment Estimate_specialCards on Viewer {
+    allCards (filter: { deckType: null }) {
+      edges {
+        node {
+          ...Card_card
+        }
+      }
+    }
+  }
+
   fragment Estimate_estimation on CardSelection {
     id
     story {

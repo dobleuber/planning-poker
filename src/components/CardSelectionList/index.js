@@ -150,6 +150,7 @@ export default createFragmentContainer(CardSelectionList, graphql`
             id
             label
             value
+            isIcon
           }
 
           user {

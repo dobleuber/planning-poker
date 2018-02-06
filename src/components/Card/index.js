@@ -27,11 +27,11 @@ const Card = ({
     onSelectCard(params);
   };
 
-  const { label } = card;
+  const { label, isIcon } = card;
   const cardClass = selected ? 'card selected' : 'card';
   return (
     <button className={cardClass} onClick={selectCard}>
-      <div className="card__label">{label}</div>
+      {isIcon ? <i className={`fas fa-${label}`} /> : <div className="card__label">{label}</div> }
     </button>
   );
 };
@@ -42,5 +42,6 @@ export default createFragmentContainer(Card, graphql`
     id
     label
     value
+    isIcon
   }
 `);

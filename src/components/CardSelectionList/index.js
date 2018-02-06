@@ -43,7 +43,7 @@ class CardSelectionList extends Component {
   }
 
   static getEstimationResults(edges) {
-    const userVotes = edges.filter(({ node }) => !!node.card);
+    const userVotes = edges.filter(({ node }) => !!node.card && node.card.value > -1);
     const results = values(groupBy(userVotes, ({ node }) => node.card.value));
     if (results && !results.length) {
       return {};
@@ -127,7 +127,9 @@ class CardSelectionList extends Component {
                 hasResults && moreVoted &&
                 <div className={resultClassName}>
                   <div className="tile">{t('estimate')}</div>
-                  <div className="votes more">{moreVoted.label} {moreVoted.votes} {t('votes')}</div>
+                  <div className="votes more">
+                    {moreVoted.label} {moreVoted.votes} {t('votes')}
+                  </div>
                   <div className="votes min">{t('min')}: {minValue.label}</div>
                   <div className="votes max">{t('max')}: {maxValue.label}</div>
                 </div>

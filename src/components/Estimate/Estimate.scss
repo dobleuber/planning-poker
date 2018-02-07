@@ -43,6 +43,7 @@
       background-color: $bg_secondary;
       border-radius: 0.5em;
       padding: 2em;
+      width: 100%;
       .deck-cards, .special-cards {
         display: flex;
         flex-wrap: wrap;

@@ -64,7 +64,8 @@
     "test": "node scripts/test.js --env=jsdom",
     "relay": "relay-compiler --src ./src --schema ./server/schema.graphql",
     "relay-temp": "./node_modules/.bin/relay-compiler-temp/bin/relay-compiler --src ./src --schema ./server/schema.graphql",
-    "relay-schema": "get-graphql-schema https://api.graph.cool/relay/v1/cjau9r6in15k80101rlm6gdwd > ./server/schema.graphql"
+    "relay-schema": "get-graphql-schema https://api.graph.cool/relay/v1/cjau9r6in15k80101rlm6gdwd > ./server/schema.graphql",
+    "surge-deploy": "surge -p build -d aboard-poker.surge.sh"
   },
   "devDependencies": {
     "babel-plugin-relay": "^1.4.1",

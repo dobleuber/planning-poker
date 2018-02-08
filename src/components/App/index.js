@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import copy from 'copy-to-clipboard';
+import { ToastContainer, toast } from 'react-toastify';
 
 import { I18n } from 'react-i18next';
+import i18next from 'i18next';
 import logo from '../../logo.svg';
 import './App.css';
 import {
@@ -22,6 +24,12 @@ import Security from '../../utils/security';
 class App extends Component {
   static onInvite(event) {
     copy(document.location);
+    toast(
+      i18next.t('invite-confirm'),
+      {
+        position: toast.POSITION.BOTTOM_CENTER,
+      },
+    );
     event.preventDefault();
   }
 
@@ -105,6 +113,7 @@ class App extends Component {
             />
           </Switch>
         </div>
+        <ToastContainer />
       </div>
     );
   }

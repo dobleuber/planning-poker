@@ -174,6 +174,7 @@ class Estimate extends Component {
                           estimationId={estimation.id}
                           onSelectCard={Estimate.selectCard}
                           selectedCardId={selectedCardId}
+                          showEstimation={showEstimation}
                         />
                       ))
                     }

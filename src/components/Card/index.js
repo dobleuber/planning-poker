@@ -11,11 +11,12 @@ const Card = ({
   estimationId,
   onSelectCard,
   selectedCardId,
+  showEstimation,
 }) => {
   const selected = selectedCardId === card.id;
   const selectCard = (event) => {
     event.preventDefault();
-    if (selected) {
+    if (selected || showEstimation) {
       return;
     }
 

@@ -17,6 +17,7 @@ const cardSelectionSubcription = graphql`
           id
           label
           value
+          isIcon
         }
         story {
           id

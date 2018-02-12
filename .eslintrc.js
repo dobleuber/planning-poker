@@ -13,5 +13,6 @@ module.exports = {
             "components": [ "Link" ],
             "specialLink": [ "to" ]
           }],
+          "eslint.packageManager": "yarn",
     },
 };

@@ -107,12 +107,12 @@ Builds the css, I am using SASS
 
 Builds and watches the scss files. TODO include this task in webpack.
 
-### `npm run relay] `
+### `npm run relay`
 ### `npm run relay-temp`
 
 Build the relay generated files. Actually I'm using `relay-temp` because this [bug of relay](https://github.com/facebook/relay/issues/1740). If you want build these files please follow these steps [PR #2142](https://github.com/facebook/relay/pull/2142#issuecomment-345327113)
 
 ### `npm run relay-schema`
 
-Generates the schema file: Beware right now you must to backup the subscription section. I can't find how to generate the subscriptions so, I am creating manually.
+Generates the schema file: Beware right now you must to backup the subscription section. I can't find how to generate the subscriptions so, I am creating them manually.
 

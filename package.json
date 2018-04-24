@@ -25,6 +25,7 @@
     "i18next-browser-languagedetector": "^2.1.0",
     "jest": "20.0.4",
     "jest-enzyme": "^4.0.1",
+    "lodash.flatten": "^4.4.0",
     "lodash.groupby": "^4.6.0",
     "lodash.maxby": "^4.6.0",
     "lodash.minby": "^4.6.0",
@@ -60,8 +61,10 @@
   "scripts": {
     "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
+    "start-js": "node scripts/start.js",
+    "build-js": "node scripts/build.js",
+    "start": "npm-run-all -p watch-css start-js",
+    "build": "npm-run-all build-css build-js",
     "test": "node scripts/test.js --env=jsdom",
     "relay": "relay-compiler --src ./src --schema ./server/schema.graphql",
     "relay-temp": "./node_modules/.bin/relay-compiler-temp/bin/relay-compiler --src ./src --schema ./server/schema.graphql",
@@ -79,6 +82,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.5.1",
     "eslint-plugin-relay": "^0.0.19",
+    "npm-run-all": "^4.1.2",
     "relay-compiler": "^1.4.1"
   },
   "babel": {

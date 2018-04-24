@@ -41,12 +41,16 @@ const setupSubscription = (config, variables, cacheConfig, observer) => {
     { reconnect: true },
   );
 
-  const subscriptionId = subscriptionClient.subscribe({ query, variables }, (error, result) => {
-    observer.onNext({ data: result });
-  });
+  const myObserver = {
+    next: observer.onNext,
+    error: observer.onError,
+    complete: observer.onCompleted,
+  };
+
+  const { unsubscribe } = subscriptionClient.request({ query, variables }).subscribe(myObserver);
 
   return {
-    dispose: () => subscriptionClient.unsubscribe(subscriptionId),
+    dispose: unsubscribe,
   };
 };
 

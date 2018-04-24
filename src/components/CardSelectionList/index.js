@@ -4,8 +4,8 @@ import { I18n } from 'react-i18next';
 
 import groupBy from 'lodash.groupby';
 import maxBy from 'lodash.maxby';
-import minBy from 'lodash.minby';
 import values from 'lodash.values';
+import flatten from 'lodash.flatten';
 
 import './CardSelectionList.css';
 import { SelectedCard } from '../';
@@ -15,23 +15,37 @@ import Security from '../../utils/security';
 import { CardSelectionSubscription, NewStorySubscription } from '../../subscriptions';
 
 class CardSelectionList extends Component {
-  static setCardPositions(edges) {
-    const k = 500;
-    const h = 150;
-    const step = (2 * Math.PI) / edges.length;
-    let angle = (1 / 2) * Math.PI;
-    let initialTop;
+  static setCardPositions(edges, showEstimation) {
+    let initialTop = 250;
+
+    const userVotes = edges.filter(({ node }) => !!node.card && node.card.value > -1);
+
+    const groupedVotes = values(groupBy(userVotes, ({ node }) => node.card.value))
+      .sort((current, next) => current[0].value > next[0].value);
+
+    const deltaX = 1000 / groupedVotes.length;
+
+    const positionedVotes = flatten(groupedVotes.map((cardGroup, groupIndex) =>
+      cardGroup.map((card, cardIndex) => {
+        const { id } = card.node;
+        const x = (deltaX * groupIndex) + 110;
+        const y = 150 - (25 * cardIndex * +showEstimation);
+        return { id, x, y };
+      })))
+      .reduce((acc, item) => {
+        acc[item.id] = item;
+        return acc;
+      }, {});
 
     return edges.map(({ node }, index) => {
-      const { card, user } = node;
-      let x = k + (Math.cos(angle) * k * 0.7);
-      let y = h + (Math.sin(angle) * h * 0.7);
+      const { id, card, user } = node;
+      const posVote = positionedVotes[id] || {};
+      let { x, y } = posVote;
       initialTop = initialTop || y;
-      y = card ? y : initialTop + 80;
-      x = card ? x : (index + 1) * 90;
-      angle += step;
+      y = card ? y : initialTop + 60;
+      x = card && showEstimation ? x : (index + 1) * 80;
       return {
-        node,
+        id,
         card,
         user,
         position: {
@@ -50,11 +64,7 @@ class CardSelectionList extends Component {
     }
 
     const moreVoted = maxBy(results, group => group.length);
-    const maxValue = maxBy(results, group => group[0].node.card.value);
-    const minValue = minBy(results, group => group[0].node.card.value);
     const moreVotedCard = moreVoted[0].node.card;
-    const maxVotedCard = maxValue[0].node.card;
-    const minVotedCard = minValue[0].node.card;
 
     const estimationResult = {
       moreVoted: {
@@ -62,16 +72,7 @@ class CardSelectionList extends Component {
         label: moreVotedCard.label,
         votes: moreVoted.length,
       },
-      maxValue: {
-        id: maxVotedCard.id,
-        label: maxVotedCard.label,
-      },
-      minValue: {
-        id: minVotedCard.id,
-        label: minVotedCard.label,
-      },
     };
-    console.log(estimationResult);
 
     return estimationResult;
   }
@@ -92,11 +93,7 @@ class CardSelectionList extends Component {
   render() {
     const { selections, showEstimation } = this.props;
     const estimationResults = CardSelectionList.getEstimationResults(selections.edges);
-    const {
-      moreVoted,
-      maxValue,
-      minValue,
-    } = estimationResults;
+    const { moreVoted } = estimationResults;
     const resultClassName = showEstimation
       ? 'estimation-results showEstimation'
       : 'estimation-results';
@@ -108,15 +105,15 @@ class CardSelectionList extends Component {
           t => (
             <div className="card-selection-list">
               {
-                CardSelectionList.setCardPositions(selections.edges)
+                CardSelectionList.setCardPositions(selections.edges, showEstimation)
                 .map(({
-                  node,
+                  id,
                   card,
                   user,
                   position,
                 }) => (
                   <SelectedCard
-                    key={node.id}
+                    key={id}
                     position={position}
                     userName={user.username}
                     card={card}
@@ -130,8 +127,6 @@ class CardSelectionList extends Component {
                   <div className="votes more">
                     {moreVoted.label}: {moreVoted.votes} {t('votes')}
                   </div>
-                  <div className="votes min">{t('min')}: {minValue.label}</div>
-                  <div className="votes max">{t('max')}: {maxValue.label}</div>
                 </div>
               }
             </div>

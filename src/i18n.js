@@ -26,5 +26,5 @@ i18n
 
 currentLanguages.forEach(item =>
   // eslint-disable-next-line
-  i18n.addResourceBundle(item, 'translation', require(`./resourses/${item}`)));
+  i18n.addResourceBundle(item, 'translation', require(`./resources/${item}`)));
 export default i18n;
